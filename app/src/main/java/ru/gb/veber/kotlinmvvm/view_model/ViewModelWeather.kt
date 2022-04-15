@@ -27,13 +27,14 @@ class ViewModelWeather
                     2->
                     {
                         liveDataToObserver.postValue(AppState.Loading)
-                        sleep(5000)
+                        sleep(2000)
                         liveDataToObserver.postValue(AppState.Success(repo.getWeatherFromLocalStorage()))
+
                     }
                     3->
                     {
                         liveDataToObserver.postValue(AppState.Loading)
-                        sleep(2000)
+                        sleep(5000)
                         liveDataToObserver.postValue(AppState.Success(repo.getWeatherFromLocalStorage()))
                     }
                 }
