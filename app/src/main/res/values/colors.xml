@@ -13,4 +13,5 @@
     <color name="new_color_4">#FB0B0B</color>
     <color name="new_color_5">#DD2C00</color>
     <color name="drawer_text_color">#338a3e</color>
+    <color name="back_main">#eeeeee</color>
 </resources>

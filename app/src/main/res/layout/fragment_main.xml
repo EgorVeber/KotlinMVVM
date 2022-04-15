@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#eeeeee">
+    android:background="@color/back_main">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -13,41 +13,28 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_view_day"
-            style="@style/card_style_base"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/card_style_base">
 
             <LinearLayout
                 android:id="@+id/liner_day"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="visible">
+                style="@style/liner_layout_default">
 
                 <TextView
                     android:id="@+id/city_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textColor="@color/black"
-                    android:textSize="48sp" />
+                    style="@style/city_text_style" />
 
                 <TextView
                     android:id="@+id/data_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
-                    android:textSize="18sp" />
+                    style="@style/date_text_style" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/liner_layout_default"
                     android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_base"
                         android:orientation="horizontal">
 
                         <androidx.appcompat.widget.AppCompatImageView
@@ -55,41 +42,24 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom"
-                            android:layout_marginLeft="20dp"
                             android:src="@drawable/sun264" />
 
                         <TextView
                             android:id="@+id/weather_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="52sp"
-                            android:textStyle="italic" />
+                            style="@style/weather_text_style" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical">
+                        style="@style/liner_layout_default"
+                        android:layout_marginTop="@dimen/margin_info">
 
                         <TextView
                             android:id="@+id/condition_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:gravity="right"
-                            android:paddingRight="10dp"
-                            android:textSize="18sp" />
+                            style="@style/info_text_style" />
 
                         <TextView
                             android:id="@+id/feelsLike_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:gravity="right"
-                            android:paddingRight="10dp"
-                            android:textSize="18sp" />
+                            style="@style/info_text_style" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -97,79 +67,56 @@
                     android:id="@+id/list_hour"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp" />
+                    android:layout_marginTop="@dimen/margin_base" />
             </LinearLayout>
 
             <ProgressBar
                 android:id="@+id/progress_bar_day"
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:indeterminateTint="@color/new_color_5"
-                android:visibility="gone" />
+                style="@style/progressBar_style" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_view_week"
-            style="@style/card_style_base"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/card_style_base">
 
             <LinearLayout
                 android:id="@+id/liner_week"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="visible">
+                style="@style/liner_layout_default">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/list_week"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="@dimen/margin_base"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
             </LinearLayout>
 
             <ProgressBar
                 android:id="@+id/progress_bar_week"
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:indeterminateTint="@color/new_color_5"
-                android:visibility="gone" />
+                style="@style/progressBar_style" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_view_description"
-            style="@style/card_style_base"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/card_style_base">
 
             <LinearLayout
                 android:id="@+id/liner_description"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:visibility="gone">
+                style="@style/liner_layout_default"
+                android:layout_height="match_parent">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="25sp"
-                    android:textColor="@color/black"
                     android:gravity="center"
-                    android:text="@string/descriptions" />
+                    android:text="Что нибудь добавить, дополнительное "
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_info" />
             </LinearLayout>
 
             <ProgressBar
                 android:id="@+id/progress_bar_description"
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:indeterminateTint="@color/new_color_5" />
+                style="@style/progressBar_style" />
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
