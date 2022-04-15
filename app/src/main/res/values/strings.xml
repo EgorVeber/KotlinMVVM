@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Яндекс API</string>
     <string name="time_format">"E, dd MMMM H:m"</string>
+    <string name="time_hour_format">"H:m"</string>
+    <string name="feelsLike">Ощущается как </string>
+    <string name="descriptions">Descriptions</string>
+    <string name="navigation_drawer_open">open</string>
+    <string name="navigation_drawer_close">close</string>
 </resources>

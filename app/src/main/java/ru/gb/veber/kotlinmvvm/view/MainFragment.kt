@@ -2,25 +2,29 @@ package ru.gb.veber.kotlinmvvm.view
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentMainBinding
 import ru.gb.veber.kotlinmvvm.model.Weather
 import ru.gb.veber.kotlinmvvm.view_model.AppState
 import ru.gb.veber.kotlinmvvm.view_model.ViewModelWeather
-import java.lang.Thread.sleep
+import ru.gb.veber.kotlinmvvm.weatherData
+import java.text.SimpleDateFormat
 
 class MainFragment:Fragment(){
 
     private var _binding:FragmentMainBinding? = null
     private val binding get() =_binding!!
     private lateinit var viewModel:ViewModelWeather
+
+    var adapterHour = AdapterHour()
+    var adapterWeek = AdapterWeek()
     companion object
     {
         fun newInstance()=MainFragment()
@@ -31,12 +35,23 @@ class MainFragment:Fragment(){
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setHasOptionsMenu(true)
+
+        var recyclerDay = view.findViewById<RecyclerView>(R.id.list_hour)
+        recyclerDay.adapter=adapterHour
+        val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        recyclerDay.layoutManager=layoutManager
+
+        var recyclerWeek = view.findViewById<RecyclerView>(R.id.list_week)
+        recyclerWeek.adapter=adapterWeek
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel =ViewModelProvider(this).get(ViewModelWeather::class.java)
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it)})
         viewModel.getWeather()
+
     }
     private fun renderData(appState: AppState)
     {
@@ -77,10 +92,18 @@ class MainFragment:Fragment(){
     }
     private fun setData(weatherData:Weather)
     {
-//        binding.cityName.text=weatherData.city.cityName
-//        binding.cityCoordinates.text= String.format(getString(R.string.city_coordinates),weatherData.city.lat.toString(),weatherData.city.lon.toString())
-//        binding.temperatureValue.text=weatherData.temperature.toString()
-//        binding.feelsLikeValue.text = weatherData.feelsLike.toString()
+        adapterHour.setWeather(ru.gb.veber.kotlinmvvm.weatherData)
+        adapterWeek.setWeather(ru.gb.veber.kotlinmvvm.weatherWeek)
+        binding.cityName.text= weatherData.city.cityName
+        binding.dataText.text= SimpleDateFormat(getString(R.string.time_format)).format(weatherData.time)
+        binding.weatherIcon.background=resources.getDrawable(R.drawable.sun264)
+        binding.weatherText.text= weatherData.temperature.toString()
+        binding.conditionText.text=weatherData.condition
+        binding.feelsLikeText.text=resources.getString(R.string.feelsLike)+" "+weatherData.feelsLike.toString()
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId==R.id.menu_item_update) viewModel.getWeather()
+        return super.onOptionsItemSelected(item)
     }
     override fun onDestroyView() {
         super.onDestroyView()
