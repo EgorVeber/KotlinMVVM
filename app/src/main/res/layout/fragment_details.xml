@@ -72,9 +72,6 @@
                     android:layout_marginTop="@dimen/margin_base" />
             </LinearLayout>
 
-            <ProgressBar
-                android:id="@+id/progress_bar_day"
-                style="@style/progressBar_style" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -93,9 +90,6 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
             </LinearLayout>
 
-            <ProgressBar
-                android:id="@+id/progress_bar_week"
-                style="@style/progressBar_style" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -116,9 +110,6 @@
                     android:textSize="@dimen/text_size_info" />
             </LinearLayout>
 
-            <ProgressBar
-                android:id="@+id/progress_bar_description"
-                style="@style/progressBar_style" />
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

@@ -1,9 +1,8 @@
 package ru.gb.veber.kotlinmvvm.view.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -31,16 +30,24 @@ class CitysFragment : Fragment(), OnCityClickListener {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setHasOptionsMenu(true)
         binding.mainFragmentRecyclerView.adapter = adapter
+
         adapter.setOnCityClickListener(this)
         binding.mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
 
         viewModel = ViewModelProvider(this).get(ViewModelWeather::class.java)
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
-
-
         viewModel.getWeatherFromLocalSourceRus()
+    }
+    override fun onCityClick(weather: Weather) {
+        val fragmentManager = activity?.supportFragmentManager
+        if (fragmentManager != null) {
+            val bundle = Bundle()
+            bundle.putParcelable(DetailsFragment.KEY_WEATHER,weather)
+            fragmentManager.beginTransaction().add(R.id.fragment_container,DetailsFragment.newInstance(bundle)).
+            addToBackStack("").commitAllowingStateLoss()
+        }
     }
     private fun renderData(appState: AppState?) {
         when (appState) {
@@ -48,16 +55,11 @@ class CitysFragment : Fragment(), OnCityClickListener {
                 binding.mainFragmentLoadingLayout.visibility = View.GONE
                 adapter.setWeather(appState.weatherList)
             }
-            is AppState.Loading -> {
-                binding.mainFragmentLoadingLayout.visibility = View.VISIBLE
-            }
+            is AppState.Loading -> binding.mainFragmentLoadingLayout.visibility = View.VISIBLE
+
             is AppState.Error -> {
                 binding.mainFragmentLoadingLayout.visibility = View.GONE
-                Snackbar
-                    .make(
-                        binding.mainFragmentFAB, getString(R.string.error),
-                        Snackbar.LENGTH_INDEFINITE
-                    )
+                Snackbar.make(binding.mainFragmentFAB, getString(R.string.error), Snackbar.LENGTH_INDEFINITE)
                     .setAction(getString(R.string.reload)) {
                         viewModel.getWeatherFromLocalSourceRus()
                     }
@@ -65,24 +67,18 @@ class CitysFragment : Fragment(), OnCityClickListener {
             }
         }
     }
-
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId==R.id.menu_item_update) changeWeatherDataSet()
+        return super.onOptionsItemSelected(item)
+    }
     private fun changeWeatherDataSet() {
         if (isDataSetRus) {
             viewModel.getWeatherFromLocalSourceWorld()
-            binding.mainFragmentFAB.setImageResource(R.drawable.ic_launcher_background)
+            binding.mainFragmentFAB.setImageResource(R.drawable.ic_earth)
         } else {
             viewModel.getWeatherFromLocalSourceRus()
-            binding.mainFragmentFAB.setImageResource(R.drawable.clouds3)
+            binding.mainFragmentFAB.setImageResource(R.drawable.ic_russia)
         }
         isDataSetRus = !isDataSetRus
-    }
-    override fun onCityClick(weather: Weather) {
-        val fragmentManager = activity?.supportFragmentManager
-        if (fragmentManager != null) {
-            val bundle = Bundle()
-            bundle.putParcelable(DetailsFragment.BUNDLE_EXTRA,weather)
-            fragmentManager.beginTransaction().replace(R.id.fragment_container,DetailsFragment.newInstance(bundle)).
-            addToBackStack("").commitAllowingStateLoss()
-        }
     }
 }

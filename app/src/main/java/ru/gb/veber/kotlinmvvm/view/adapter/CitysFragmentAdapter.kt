@@ -31,17 +31,18 @@ class CitysFragmentAdapter() :RecyclerView.Adapter<CitysFragmentHolder>(){
         return weatherData.size
     }
 }
+interface OnCityClickListener {
+    fun onCityClick(weather: Weather)
+}
 class CitysFragmentHolder(view: View, cityClick: OnCityClickListener):RecyclerView.ViewHolder(view)
 {
     private  var cityClick:OnCityClickListener = cityClick
     fun bind(weather: Weather)
     {
         itemView.findViewById<TextView>(R.id.mainFragmentRecyclerItemTextView).text = weather.city.cityName
+        itemView.findViewById<TextView>(R.id.mainFragmentRecyclerItemWeather).text = weather.temperature.toString()
         itemView.setOnClickListener {
             cityClick.onCityClick(weather)
         }
     }
-}
-interface OnCityClickListener {
-    fun onCityClick(weather: Weather)
 }

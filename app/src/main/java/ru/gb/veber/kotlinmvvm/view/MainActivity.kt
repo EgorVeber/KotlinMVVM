@@ -2,10 +2,8 @@ package ru.gb.veber.kotlinmvvm.view
 
 import android.os.Bundle
 import android.view.Menu
-import android.widget.Toolbar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.drawerlayout.widget.DrawerLayout
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.ActivityMainBinding
 import ru.gb.veber.kotlinmvvm.view.fragment.CitysFragment
@@ -31,6 +29,12 @@ class MainActivity : AppCompatActivity() {
             R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
+
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        supportActionBar!!.subtitle = resources.getString(R.string.list_citys)
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)

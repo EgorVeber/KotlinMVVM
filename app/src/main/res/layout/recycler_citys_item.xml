@@ -4,21 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/itemContainer"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="?selectableItemBackground"
     android:clickable="true"
-    android:focusable="true"
-    android:layout_height="wrap_content">
+    android:focusable="true">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/mainFragmentRecyclerItemTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:padding="@dimen/recycler_item_padding"
-        android:textSize="@dimen/recycler_item_text_size"
+        style="@style/recycler_citys_text_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Москва" />
+
+    <TextView
+        android:id="@+id/mainFragmentRecyclerItemWeather"
+        style="@style/recycler_citys_text_view"
+        app:layout_constraintBaseline_toBaselineOf="@+id/mainFragmentRecyclerItemTextView"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <View
         android:layout_width="match_parent"
