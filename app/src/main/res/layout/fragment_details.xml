@@ -21,6 +21,8 @@
 
                 <TextView
                     android:id="@+id/city_name"
+                    android:lines="1"
+                    android:scrollHorizontally="true"
                     style="@style/city_text_style" />
 
                 <TextView

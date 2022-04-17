@@ -1,15 +1,12 @@
-package ru.gb.veber.kotlinmvvm.view
+package ru.gb.veber.kotlinmvvm.view.adapter
 
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.widget.PopupMenu
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.model.Weather
 import java.text.SimpleDateFormat
-import java.util.*
 
 class AdapterHour:RecyclerView.Adapter<HolderHour>(){
 
