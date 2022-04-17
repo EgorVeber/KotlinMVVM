@@ -1,7 +1,6 @@
 package ru.gb.veber.kotlinmvvm.model
 
 import java.util.*
-
 data class City(val cityName:String="Москва", val lat:Double=55.0, val lon:Double=55.0)
 data class Weather(
     val city:City=City(), val temperature:Int= 10,val feelsLike:Int= 9,
