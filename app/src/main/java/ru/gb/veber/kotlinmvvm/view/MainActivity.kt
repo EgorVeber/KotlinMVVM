@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         initToolbar()
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction().
-            replace(R.id.fragment_container, CitysFragment.newInstance()).commit()
+            replace(R.id.fragment_container, CitysFragment()).commit()
         }
     }
     fun initToolbar()

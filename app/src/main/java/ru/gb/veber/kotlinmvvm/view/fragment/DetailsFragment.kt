@@ -1,6 +1,7 @@
 package ru.gb.veber.kotlinmvvm.view.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -46,6 +47,7 @@ class DetailsFragment:Fragment(){
 
         val weatherData = arguments?.getParcelable<Weather>(BUNDLE_EXTRA)
 
+        Log.d("TAG", weatherData.toString())
         if (weatherData != null) {
             binding.cityName.text= weatherData.city.cityName
             binding.dataText.text= SimpleDateFormat(getString(R.string.time_format)).format(weatherData.time)
@@ -62,13 +64,6 @@ class DetailsFragment:Fragment(){
 //
 //        var recyclerWeek = view.findViewById<RecyclerView>(R.id.list_week)
 //        recyclerWeek.adapter=adapterWeek
-    }
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-      //  viewModel =ViewModelProvider(this).get(ViewModelWeather::class.java)
-     //   viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it)})
-    //    viewModel.getWeather()
-
     }
     private fun renderData(appState: AppState)
     {

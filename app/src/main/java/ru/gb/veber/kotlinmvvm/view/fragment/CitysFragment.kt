@@ -12,54 +12,36 @@ import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentCitysBinding
 import ru.gb.veber.kotlinmvvm.model.Weather
 import ru.gb.veber.kotlinmvvm.view.adapter.CitysFragmentAdapter
+import ru.gb.veber.kotlinmvvm.view.adapter.OnCityClickListener
 import ru.gb.veber.kotlinmvvm.view_model.AppState
 import ru.gb.veber.kotlinmvvm.view_model.ViewModelWeather
 
-class CitysFragment : Fragment() {
+class CitysFragment : Fragment(), OnCityClickListener {
 
     private var _binding: FragmentCitysBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel:ViewModelWeather
 
-    private val adapter = CitysFragmentAdapter(object: OnItemViewClickListener {
-        override fun onItemViewClick(weather: Weather) {
-            val manager = activity?.supportFragmentManager
-            if(manager!=null)
-            {
-                val bundle = Bundle()
-                bundle.putParcelable(DetailsFragment.BUNDLE_EXTRA,weather)
-                manager.beginTransaction().replace(R.id.fragment_container,DetailsFragment.newInstance(bundle)).
-                addToBackStack("").commitAllowingStateLoss()
-            }
-        }
-    })
+    private lateinit var viewModel: ViewModelWeather
+    private val adapter = CitysFragmentAdapter()
+    private var isDataSetRus: Boolean = true
 
-    private var isDataSetRus:Boolean = true
-    companion object {
-        fun newInstance() =
-            CitysFragment()
-    }
-    interface OnItemViewClickListener {
-        fun onItemViewClick(weather: Weather)
-    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentCitysBinding.inflate(inflater, container, false)
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.mainFragmentRecyclerView.adapter = adapter
-
+        adapter.setOnCityClickListener(this)
         binding.mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
 
         viewModel = ViewModelProvider(this).get(ViewModelWeather::class.java)
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
 
+
         viewModel.getWeatherFromLocalSourceRus()
     }
-
     private fun renderData(appState: AppState?) {
         when (appState) {
             is AppState.Success -> {
@@ -72,14 +54,18 @@ class CitysFragment : Fragment() {
             is AppState.Error -> {
                 binding.mainFragmentLoadingLayout.visibility = View.GONE
                 Snackbar
-                    .make(binding.mainFragmentFAB, getString(R.string.error),
-                        Snackbar.LENGTH_INDEFINITE)
+                    .make(
+                        binding.mainFragmentFAB, getString(R.string.error),
+                        Snackbar.LENGTH_INDEFINITE
+                    )
                     .setAction(getString(R.string.reload)) {
-                        viewModel.getWeatherFromLocalSourceRus() }
+                        viewModel.getWeatherFromLocalSourceRus()
+                    }
                     .show()
             }
         }
     }
+
     private fun changeWeatherDataSet() {
         if (isDataSetRus) {
             viewModel.getWeatherFromLocalSourceWorld()
@@ -90,8 +76,13 @@ class CitysFragment : Fragment() {
         }
         isDataSetRus = !isDataSetRus
     }
-    override fun onDestroy() {
-        adapter.removeListener()
-        super.onDestroy()
+    override fun onCityClick(weather: Weather) {
+        val fragmentManager = activity?.supportFragmentManager
+        if (fragmentManager != null) {
+            val bundle = Bundle()
+            bundle.putParcelable(DetailsFragment.BUNDLE_EXTRA,weather)
+            fragmentManager.beginTransaction().replace(R.id.fragment_container,DetailsFragment.newInstance(bundle)).
+            addToBackStack("").commitAllowingStateLoss()
+        }
     }
 }
