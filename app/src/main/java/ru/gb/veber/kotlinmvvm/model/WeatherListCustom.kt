@@ -30,6 +30,10 @@ import ru.gb.veber.kotlinmvvm.model.Weather
     Weather(City(),12),
 )
 var weatherWeek: List<Weather> = listOf(
+
+
+
+
    Weather(City(), forecastDate = "Понедельник", tempMin = 10, tempMax = 15),
    Weather(City(), forecastDate = "Вторник", tempMin = 11, tempMax = 17),
    Weather(City(), forecastDate = "Среда", tempMin = 23, tempMax = 13),
