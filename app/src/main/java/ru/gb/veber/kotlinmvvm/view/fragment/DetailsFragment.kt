@@ -29,11 +29,7 @@ class DetailsFragment : Fragment() {
 
     companion object {
         const val KEY_WEATHER = "KEY_WEATHER"
-        fun newInstance(bundle: Bundle): DetailsFragment {
-            return DetailsFragment().apply {
-                arguments = bundle
-            }
-        }
+        fun newInstance(bundle: Bundle) = DetailsFragment().apply { arguments = bundle }
     }
 
     override fun onCreateView(
