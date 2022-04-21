@@ -51,27 +51,27 @@ class DetailsFragment : Fragment() {
         (requireActivity() as AppCompatActivity).supportActionBar!!.subtitle =
             resources.getString(R.string.city)
 
-        val layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        var recyclerDay = view.findViewById<RecyclerView>(R.id.list_hour)
-        var recyclerWeek = view.findViewById<RecyclerView>(R.id.list_week)
+        val recyclerDay = view.findViewById<RecyclerView>(R.id.list_hour)
+        val recyclerWeek = view.findViewById<RecyclerView>(R.id.list_week)
 
         recyclerDay.adapter = adapterHour
-        recyclerDay.layoutManager = layoutManager
+        recyclerDay.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recyclerWeek.adapter = adapterWeek
 
 
-        val weatherData = arguments?.getParcelable<Weather>(KEY_WEATHER)
-        if (weatherData != null) {
-            binding.cityName.text = weatherData.city.cityName
-            binding.dataText.text = weatherData.time.format()
-            binding.weatherIcon.background = resources.getDrawable(R.drawable.sun264)
-            binding.weatherText.text = weatherData.temperature.toString()
-            binding.conditionText.text = weatherData.condition
-            binding.feelsLikeText.text =
-                resources.getString(R.string.feelsLike) + " " + weatherData.feelsLike.toString()
-            adapterHour.setWeather(weatherData.forecastList[0].hours)
-            adapterWeek.setWeather(weatherData.forecastList)
+        arguments?.getParcelable<Weather>(KEY_WEATHER)?.let { weather ->
+            binding.apply {
+                cityName.text = weather.city.cityName
+                dataText.text = weather.time.format()
+                weatherIcon.background = resources.getDrawable(R.drawable.sun264)
+                weatherText.text = weather.temperature.toString()
+                conditionText.text = weather.condition
+                feelsLikeText.text =
+                    resources.getString(R.string.feelsLike) + " " + weather.feelsLike.toString()
+                adapterHour.setWeather(weather.forecastList[0].hours)
+                adapterWeek.setWeather(weather.forecastList)
+            }
         }
     }
 

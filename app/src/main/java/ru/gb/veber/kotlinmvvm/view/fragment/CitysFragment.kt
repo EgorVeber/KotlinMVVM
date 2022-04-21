@@ -10,6 +10,7 @@ import com.google.android.material.snackbar.Snackbar
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentCitysBinding
 import ru.gb.veber.kotlinmvvm.model.Weather
+import ru.gb.veber.kotlinmvvm.model.showSnackBar
 import ru.gb.veber.kotlinmvvm.view.adapter.CitysFragmentAdapter
 import ru.gb.veber.kotlinmvvm.view.adapter.OnCityClickListener
 import ru.gb.veber.kotlinmvvm.view_model.AppState
@@ -20,14 +21,21 @@ class CitysFragment : Fragment(), OnCityClickListener {
     private var _binding: FragmentCitysBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: ViewModelWeather
+    private val viewModel: ViewModelWeather by lazy {
+        ViewModelProvider(this).get(ViewModelWeather::class.java)
+    }
     private val adapter = CitysFragmentAdapter()
     private var isDataSetRus: Boolean = true
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _binding = FragmentCitysBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
@@ -36,49 +44,49 @@ class CitysFragment : Fragment(), OnCityClickListener {
         adapter.setOnCityClickListener(this)
         binding.mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
 
-        viewModel = ViewModelProvider(this).get(ViewModelWeather::class.java)
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
         viewModel.getWeatherFromLocalSourceRus()
     }
+
     override fun onCityClick(weather: Weather) {
-        val fragmentManager = activity?.supportFragmentManager
-        if (fragmentManager != null) {
-            val bundle = Bundle()
-            bundle.putParcelable(DetailsFragment.KEY_WEATHER,weather)
-            fragmentManager.beginTransaction().add(R.id.fragment_container,DetailsFragment.newInstance(bundle)).
-            addToBackStack("").commitAllowingStateLoss()
+
+        activity?.supportFragmentManager?.let {
+            it.beginTransaction()
+                .add(R.id.fragment_container, DetailsFragment.newInstance(Bundle().apply {
+                    putParcelable(DetailsFragment.KEY_WEATHER, weather)
+                })).addToBackStack("").commitAllowingStateLoss()
         }
     }
+
     private fun renderData(appState: AppState?) {
         when (appState) {
             is AppState.Success -> {
                 binding.mainFragmentLoadingLayout.visibility = View.GONE
                 adapter.setWeather(appState.weatherList)
+                binding.mainFragmentRecyclerView.showSnackBar("Успех","Не надо",{
+                viewModel.getWeatherFromLocalSourceRus()
+                },Snackbar.LENGTH_LONG)
             }
             is AppState.Loading -> binding.mainFragmentLoadingLayout.visibility = View.VISIBLE
-
-            is AppState.Error -> {
-                binding.mainFragmentLoadingLayout.visibility = View.GONE
-                Snackbar.make(binding.mainFragmentFAB, getString(R.string.error), Snackbar.LENGTH_INDEFINITE)
-                    .setAction(getString(R.string.reload)) {
-                        viewModel.getWeatherFromLocalSourceRus()
-                    }
-                    .show()
-            }
+            is AppState.Error -> binding.mainFragmentLoadingLayout.visibility = View.GONE
         }
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId==R.id.menu_item_update) changeWeatherDataSet()
+        if (item.itemId == R.id.menu_item_update) changeWeatherDataSet()
         return super.onOptionsItemSelected(item)
     }
-    private fun changeWeatherDataSet() {
-        if (isDataSetRus) {
-            viewModel.getWeatherFromLocalSourceWorld()
-            binding.mainFragmentFAB.setImageResource(R.drawable.ic_earth)
-        } else {
-            viewModel.getWeatherFromLocalSourceRus()
-            binding.mainFragmentFAB.setImageResource(R.drawable.ic_russia)
-        }
-        isDataSetRus = !isDataSetRus
-    }
+
+    private fun changeWeatherDataSet() =
+        viewModel.apply {
+            binding.apply {
+                if (isDataSetRus) {
+                    getWeatherFromLocalSourceWorld()
+                    mainFragmentFAB.setImageResource(R.drawable.ic_earth)
+                } else {
+                    getWeatherFromLocalSourceRus()
+                    mainFragmentFAB.setImageResource(R.drawable.ic_russia)
+                }
+            }
+        }.also { isDataSetRus = !isDataSetRus }
 }
