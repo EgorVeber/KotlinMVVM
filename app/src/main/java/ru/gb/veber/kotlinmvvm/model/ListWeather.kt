@@ -1,6 +1,11 @@
 package ru.gb.veber.kotlinmvvm.model
 
+import java.text.SimpleDateFormat
 import java.util.*
+
+
+const val DATE_TIME_FORMAT = "E, dd MMMM H:m"
+fun Date.format(): String = SimpleDateFormat(DATE_TIME_FORMAT, Locale.getDefault()).format(this)
 
 fun getTemp(): Int {
     return Random().nextInt(20) - 5
