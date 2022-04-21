@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="card_style_base">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_margin">@dimen/margin_card_view</item>
+        <item name="cardCornerRadius">@dimen/radius_card_view</item>
+    </style>
+    <style name="toolbar_style" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:theme">@style/search_icon_text_color</item>
+        <item name="android:background">#f9d71c</item>
+        <item name="menu">@menu/menu_main</item>
+        <item name="title">@string/app_name</item>
+        <item name="titleTextColor">@color/black</item>
+    </style>
+    <style name="search_icon_text_color">
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="colorControlNormal">@color/black</item>
+        <item name="colorControlHighlight">@color/black</item>
+        <item name="android:textColorHint">@color/black</item>
+    </style>
+    <style name="navigation_view_style" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">start</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="itemIconTint">@color/drawer_text_color</item>
+        <item name="itemTextColor">@color/drawer_text_color</item>
+    </style>
+    <style name="progressBar_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:indeterminateTint">@color/new_color_5</item>
+    </style>
+    <style name="liner_layout_default">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:visibility">visible</item>
+    </style>
+    <style name="city_text_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_size_city</item>
+    </style>
+    <style name="date_text_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/margin_base</item>
+        <item name="android:layout_marginTop">@dimen/margin_base</item>
+        <item name="android:textSize">@dimen/text_size_info</item>
+    </style>
+    <style name="weather_text_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textSize">@dimen/text_size_weather</item>
+    </style>
+    <style name="info_text_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">right</item>
+        <item name="android:paddingRight">@dimen/margin_info</item>
+        <item name="android:textSize">@dimen/text_size_info</item>
+    </style>
+    <style name="recycler_item_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textSize">@dimen/text_size_info</item>
+    </style>
+    <style name="recycler_week_item_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_size_info2</item>
+    </style>
+</resources>
