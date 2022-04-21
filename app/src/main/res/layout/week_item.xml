@@ -11,10 +11,10 @@
         android:layout_weight="5" />
 
     <TextView
-        android:id="@+id/weather_week_day"
+        android:id="@+id/weather_week_max"
         style="@style/recycler_week_item_style" />
 
     <TextView
-        android:id="@+id/weather_week_night"
+        android:id="@+id/weather_week_min"
         style="@style/recycler_week_item_style" />
 </LinearLayout>
