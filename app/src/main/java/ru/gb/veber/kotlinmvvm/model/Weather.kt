@@ -19,4 +19,4 @@ data class City(val cityName: String = "Москва", val lat: Double = 55.0, v
 data class Forecasts(val date: Date = Date(), val temp_min: Int =10, val temp_max: Int= 15, val hours: List<Hours> = listOf()) : Parcelable
 
 @Parcelize
-data class Hours(val hour: Int=Date().hours, val temp: Int=10) : Parcelable
+data class Hours(val hour: Date =Date(), val temp: Int=10) : Parcelable

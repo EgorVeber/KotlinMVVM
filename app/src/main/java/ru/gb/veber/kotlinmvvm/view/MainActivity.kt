@@ -24,7 +24,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        supportActionBar!!.subtitle = resources.getString(R.string.list_citys)
+        supportActionBar?.let {
+            it.subtitle = resources.getString(R.string.list_citys)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
