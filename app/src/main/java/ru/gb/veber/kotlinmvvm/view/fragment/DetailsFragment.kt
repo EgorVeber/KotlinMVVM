@@ -48,17 +48,16 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-        (requireActivity() as AppCompatActivity).supportActionBar!!.subtitle =
-            resources.getString(R.string.city)
+        (requireActivity() as AppCompatActivity).supportActionBar?.let { SAB ->
+            SAB.subtitle = resources.getString(R.string.city)
+        }
 
-        val recyclerDay = view.findViewById<RecyclerView>(R.id.list_hour)
-        val recyclerWeek = view.findViewById<RecyclerView>(R.id.list_week)
-
-        recyclerDay.adapter = adapterHour
-        recyclerDay.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        recyclerWeek.adapter = adapterWeek
-
+        view.apply {
+            findViewById<RecyclerView>(R.id.list_hour).adapter = adapterHour
+            findViewById<RecyclerView>(R.id.list_week).adapter = adapterWeek
+            findViewById<RecyclerView>(R.id.list_hour).layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        }
 
         arguments?.getParcelable<Weather>(KEY_WEATHER)?.let { weather ->
             binding.apply {
