@@ -13,6 +13,8 @@
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:theme">@style/search_icon_text_color</item>
         <item name="android:background">#f9d71c</item>
+        <item name="subtitle">@string/list_citys</item>
+        <item name="subtitleTextColor">@color/black</item>
         <item name="menu">@menu/menu_main</item>
         <item name="title">@string/app_name</item>
         <item name="titleTextColor">@color/black</item>
@@ -82,5 +84,12 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/text_size_info2</item>
+    </style>
+    <style name="recycler_citys_text_view">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/recycler_item_text_size</item>
+        <item name="android:padding">@dimen/recycler_item_padding</item>
     </style>
 </resources>
