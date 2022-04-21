@@ -12,7 +12,7 @@ import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentDetailsBinding
 import ru.gb.veber.kotlinmvvm.model.Hours
 import ru.gb.veber.kotlinmvvm.model.Weather
-import ru.gb.veber.kotlinmvvm.model.format
+import ru.gb.veber.kotlinmvvm.model.formatDate
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterHour
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterWeek
 import ru.gb.veber.kotlinmvvm.view_model.AppState
@@ -63,7 +63,7 @@ class DetailsFragment : Fragment() {
         arguments?.getParcelable<Weather>(KEY_WEATHER)?.let { weather ->
             binding.apply {
                 cityName.text = weather.city.cityName
-                dataText.text = weather.time.format()
+                dataText.text = weather.time.formatDate()
                 weatherIcon.background = resources.getDrawable(R.drawable.sun264)
                 weatherText.text = weather.temperature.toString()
                 conditionText.text = weather.condition

@@ -10,6 +10,7 @@ import com.google.android.material.snackbar.Snackbar
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentCitysBinding
 import ru.gb.veber.kotlinmvvm.model.Weather
+import ru.gb.veber.kotlinmvvm.model.hide
 import ru.gb.veber.kotlinmvvm.model.showSnackBar
 import ru.gb.veber.kotlinmvvm.view.adapter.CitysFragmentAdapter
 import ru.gb.veber.kotlinmvvm.view.adapter.OnCityClickListener
@@ -61,17 +62,17 @@ class CitysFragment : Fragment(), OnCityClickListener {
     private fun renderData(appState: AppState?) {
         when (appState) {
             is AppState.Success -> {
-                binding.mainFragmentLoadingLayout.visibility = View.GONE
+                binding.mainFragmentLoadingLayout.hide()
                 adapter.setWeather(appState.weatherList)
-                binding.mainFragmentRecyclerView.showSnackBar("Успех","Не надо",{
-                viewModel.getWeatherFromLocalSourceRus()
-                },Snackbar.LENGTH_LONG)
             }
             is AppState.Loading -> binding.mainFragmentLoadingLayout.visibility = View.VISIBLE
             is AppState.Error -> binding.mainFragmentLoadingLayout.visibility = View.GONE
         }
+        binding.mainFragmentLoadingLayout.showSnackBar(
+            R.string.error,
+            R.string.reload,
+            { viewModel.getWeatherFromLocalSourceRus() })
     }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_item_update) changeWeatherDataSet()
         return super.onOptionsItemSelected(item)

@@ -1,6 +1,6 @@
 package ru.gb.veber.kotlinmvvm.view.adapter
 
-import android.provider.Settings.Global.getString
+
 import android.view.*
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +22,7 @@ class AdapterWeek:RecyclerView.Adapter<HolderWeek>(){
     override fun onBindViewHolder(holder: HolderWeek, position: Int) = holder.bind(forecastsData[position])
     override fun getItemCount() = forecastsData.size
 }
+
 class HolderWeek(itemView: View) : RecyclerView.ViewHolder(itemView){
     private var forecasts = Forecasts()
     private val weekDay: TextView = itemView.findViewById(R.id.week_day)
