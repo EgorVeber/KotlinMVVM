@@ -30,10 +30,9 @@ class DetailsFragment : Fragment() {
     companion object {
         const val KEY_WEATHER = "KEY_WEATHER"
         fun newInstance(bundle: Bundle): DetailsFragment {
-            var fragment = DetailsFragment().apply {
+            return DetailsFragment().apply {
                 arguments = bundle
             }
-            return fragment
         }
     }
 
