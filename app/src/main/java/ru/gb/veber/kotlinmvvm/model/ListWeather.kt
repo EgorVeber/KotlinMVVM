@@ -35,44 +35,44 @@ fun getRussianCities(): List<Weather> {
         Weather(City("Уфа", 54.7387621, 55.972055400000045), getTemp(), getTemp(), forecastList = getForecastsList())
     )
 }
-fun getHoursList():List<Hours>
+fun getHoursList():List<HoursCustom>
 {
     return listOf(
-        Hours(Date(),Random().nextInt(10)-5),
-        Hours(Date(),Random().nextInt(10)-5),
-        Hours(Date(),Random().nextInt(10)-5),
-        Hours(Date(),Random().nextInt(10)-5),
-        Hours(Date(),Random().nextInt(10)-5),
-        Hours(Date(),Random().nextInt(10)-5),
-        Hours(Date(),Random().nextInt(10)-5),
-        Hours(Date(),Random().nextInt(10)-5),
-        Hours(Date(),Random().nextInt(10)-5),
-        Hours(Date(),Random().nextInt(10)-5),
-        Hours(Date(),Random().nextInt(10)-5),
-        Hours(Date(),Random().nextInt(10)-5),
-        Hours(Date(),Random().nextInt(10)-5),
-        Hours(Date(),Random().nextInt(10)-5),
-        Hours(Date(),Random().nextInt(10)-5),
-        Hours(Date(),Random().nextInt(10)-5),
-        Hours(Date(),Random().nextInt(10)-5),
-        Hours(Date(),Random().nextInt(10)-5),
-        Hours(Date(),Random().nextInt(10)-5),
-        Hours(Date(),Random().nextInt(10)-5),
-        Hours(Date(),Random().nextInt(10)-5),
-        Hours(Date(),Random().nextInt(10)-5),
-        Hours(Date(),Random().nextInt(10)-5),
-        Hours(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
+        HoursCustom(Date(),Random().nextInt(10)-5),
     )
 }
-fun getForecastsList():List<Forecasts>
+fun getForecastsList():List<ForecastsCustom>
 {
     return listOf(
-        Forecasts(Date(),Random().nextInt(20)-10,Random().nextInt(20)-5, getHoursList()),
-        Forecasts(Date(),Random().nextInt(20)-10,Random().nextInt(20)-5, getHoursList()),
-        Forecasts(Date(),Random().nextInt(20)-10,Random().nextInt(20)-5, getHoursList()),
-        Forecasts(Date(),Random().nextInt(20)-10,Random().nextInt(20)-5, getHoursList()),
-        Forecasts(Date(),Random().nextInt(20)-10,Random().nextInt(20)-5, getHoursList()),
-        Forecasts(Date(),Random().nextInt(20)-10,Random().nextInt(20)-5, getHoursList()),
-        Forecasts(Date(),Random().nextInt(20)-10,Random().nextInt(20)-5, getHoursList())
+        ForecastsCustom(Date(),Random().nextInt(20)-10,Random().nextInt(20)-5, getHoursList()),
+        ForecastsCustom(Date(),Random().nextInt(20)-10,Random().nextInt(20)-5, getHoursList()),
+        ForecastsCustom(Date(),Random().nextInt(20)-10,Random().nextInt(20)-5, getHoursList()),
+        ForecastsCustom(Date(),Random().nextInt(20)-10,Random().nextInt(20)-5, getHoursList()),
+        ForecastsCustom(Date(),Random().nextInt(20)-10,Random().nextInt(20)-5, getHoursList()),
+        ForecastsCustom(Date(),Random().nextInt(20)-10,Random().nextInt(20)-5, getHoursList()),
+        ForecastsCustom(Date(),Random().nextInt(20)-10,Random().nextInt(20)-5, getHoursList())
     )
 }

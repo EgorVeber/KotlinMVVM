@@ -1,5 +1,6 @@
 package ru.gb.veber.kotlinmvvm.view.adapter
 import android.view.*
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.gb.veber.kotlinmvvm.R
@@ -29,7 +30,8 @@ class HolderHour(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(hours: Hours) {
         with(itemView)
         {
-            findViewById<TextView>(R.id.hour_time).text = hours.hour.formatHour()
+            findViewById<TextView>(R.id.hour_time).text = hours.hour+":00"
+            //findViewById<ImageView>(R.id.hour_icon).background=resources.getDrawable(R.drawable.clouds1)
             findViewById<TextView>(R.id.hour_weather).text = hours.temp.toString()
         }
     }

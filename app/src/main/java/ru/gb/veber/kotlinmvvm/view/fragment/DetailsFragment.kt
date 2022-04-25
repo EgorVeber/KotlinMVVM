@@ -9,19 +9,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentDetailsBinding
-import ru.gb.veber.kotlinmvvm.model.Hours
 import ru.gb.veber.kotlinmvvm.model.Weather
 import ru.gb.veber.kotlinmvvm.model.WeatherDTO
 import ru.gb.veber.kotlinmvvm.model.formatDate
 import ru.gb.veber.kotlinmvvm.view.WeatherLoader
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterHour
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterWeek
-import ru.gb.veber.kotlinmvvm.view_model.AppState
-import ru.gb.veber.kotlinmvvm.view_model.ViewModelWeather
-import java.text.SimpleDateFormat
 import java.util.*
 
 class DetailsFragment : Fragment() {
@@ -63,8 +58,8 @@ class DetailsFragment : Fragment() {
 
         weatherBundle = arguments?.getParcelable<Weather>(KEY_WEATHER) ?: Weather()
         Log.d("TAG", "$weatherBundle")
-//        val loader = WeatherLoader(onLoadListener, weatherBundle.city.lat, weatherBundle.city.lon)
-//        loader.loadWeather()
+        val loader = WeatherLoader(onLoadListener, weatherBundle.city.lat, weatherBundle.city.lon)
+        loader.loadWeather()
     }
 
     private val onLoadListener: WeatherLoader.WeatherLoaderListener =
@@ -78,6 +73,7 @@ class DetailsFragment : Fragment() {
         }
 
     private fun displayWeather(weatherDTO: WeatherDTO) {
+
         with(binding)
         {
             weatherDTO.fact.apply {
@@ -88,7 +84,8 @@ class DetailsFragment : Fragment() {
                 dataText.text = Date().formatDate().toString()
             }
         }
-        Log.d("TAG", "displayWeather() called with: weatherDTO = $weatherDTO")
+        adapterHour.setWeather(weatherDTO.forecasts[0].hours)
+        Log.d("TAG", "displayWeather() called with: weatherDTO = ${weatherDTO.forecasts[0].parts}")
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
