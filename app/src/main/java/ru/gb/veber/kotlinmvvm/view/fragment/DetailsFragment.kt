@@ -13,6 +13,7 @@ import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentDetailsBinding
 import ru.gb.veber.kotlinmvvm.model.Weather
 import ru.gb.veber.kotlinmvvm.model.WeatherDTO
+import ru.gb.veber.kotlinmvvm.model.addDegree
 import ru.gb.veber.kotlinmvvm.model.formatDate
 import ru.gb.veber.kotlinmvvm.view.WeatherLoader
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterHour
@@ -48,7 +49,8 @@ class DetailsFragment : Fragment() {
         (requireActivity() as AppCompatActivity).supportActionBar?.let { SAB ->
             SAB.subtitle = resources.getString(R.string.city)
         }
-
+        binding.mainView.visibility = View.GONE
+        binding.loadingLayout.visibility = View.VISIBLE
         view.apply {
             findViewById<RecyclerView>(R.id.list_hour).adapter = adapterHour
             findViewById<RecyclerView>(R.id.list_week).adapter = adapterWeek
@@ -57,7 +59,6 @@ class DetailsFragment : Fragment() {
         }
 
         weatherBundle = arguments?.getParcelable<Weather>(KEY_WEATHER) ?: Weather()
-        Log.d("TAG", "$weatherBundle")
         val loader = WeatherLoader(onLoadListener, weatherBundle.city.lat, weatherBundle.city.lon)
         loader.loadWeather()
     }
@@ -73,19 +74,20 @@ class DetailsFragment : Fragment() {
         }
 
     private fun displayWeather(weatherDTO: WeatherDTO) {
-
         with(binding)
         {
+            mainView.visibility = View.VISIBLE
+            loadingLayout.visibility = View.GONE
             weatherDTO.fact.apply {
                 cityName.text = weatherBundle.city.cityName
-                feelsLikeText.text = feels_like.toString()
+                feelsLikeText.text = feels_like.toString().addDegree()
                 conditionText.text = condition
-                weatherText.text = temp.toString()
-                dataText.text = Date().formatDate().toString()
+                weatherText.text = temp.toString().addDegree()
+                dataText.text = Date().formatDate()
             }
         }
         adapterHour.setWeather(weatherDTO.forecasts[0].hours)
-        Log.d("TAG", "displayWeather() called with: weatherDTO = ${weatherDTO.forecasts[0].parts}")
+        adapterWeek.setWeather(weatherDTO.forecasts)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
