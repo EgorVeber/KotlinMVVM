@@ -21,13 +21,15 @@
 
                 <TextView
                     android:id="@+id/city_name"
+                    style="@style/city_text_style"
                     android:lines="1"
                     android:scrollHorizontally="true"
-                    style="@style/city_text_style" />
+                    tools:text="City" />
 
                 <TextView
                     android:id="@+id/data_text"
-                    style="@style/date_text_style" />
+                    style="@style/date_text_style"
+                    tools:text="Sun, 17 April 22:13" />
 
                 <LinearLayout
                     style="@style/liner_layout_default"
@@ -48,21 +50,47 @@
 
                         <TextView
                             android:id="@+id/weather_text"
-                            style="@style/weather_text_style" />
+                            style="@style/weather_text_style"
+                            tools:text="15" />
                     </LinearLayout>
 
-                    <LinearLayout
-                        style="@style/liner_layout_default"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_marginTop="@dimen/margin_info">
 
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintHorizontal_bias="0.9"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:textSize="18sp"
+                            app:layout_constraintEnd_toEndOf="parent"
                             android:id="@+id/condition_text"
-                            style="@style/info_text_style" />
+                            tools:text = "clear"
+                          />
 
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:textSize="18sp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintEnd_toEndOf="@+id/condition_text"
+                            app:layout_constraintTop_toBottomOf="@+id/condition_text"
                             android:id="@+id/feelsLike_text"
-                            style="@style/info_text_style" />
-                    </LinearLayout>
+                            tools:text = "12"
+                             />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:textSize="18sp"
+                            android:layout_marginRight="5dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintEnd_toStartOf="@+id/feelsLike_text"
+                            android:id="@+id/feelsLike_info"
+                            app:layout_constraintTop_toTopOf="@id/feelsLike_text"
+                            android:text="@string/feelsLikeText"
+                            />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView

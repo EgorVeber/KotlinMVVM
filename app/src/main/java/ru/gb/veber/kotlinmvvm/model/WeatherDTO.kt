@@ -1,7 +1,8 @@
 package ru.gb.veber.kotlinmvvm.model
 
 data class WeatherDTO(
-    val fact: FactDTO
+    val fact: FactDTO,
+    val now_dt: String
 )
 
 data class FactDTO(

@@ -63,8 +63,8 @@ class DetailsFragment : Fragment() {
 
         weatherBundle = arguments?.getParcelable<Weather>(KEY_WEATHER) ?: Weather()
         Log.d("TAG", "$weatherBundle")
-        val loader = WeatherLoader(onLoadListener, weatherBundle.city.lat, weatherBundle.city.lon)
-        loader.loadWeather()
+//        val loader = WeatherLoader(onLoadListener, weatherBundle.city.lat, weatherBundle.city.lon)
+//        loader.loadWeather()
     }
 
     private val onLoadListener: WeatherLoader.WeatherLoaderListener =
@@ -85,6 +85,7 @@ class DetailsFragment : Fragment() {
                 feelsLikeText.text = feels_like.toString()
                 conditionText.text = condition
                 weatherText.text = temp.toString()
+                dataText.text = Date().formatDate().toString()
             }
         }
         Log.d("TAG", "displayWeather() called with: weatherDTO = $weatherDTO")
