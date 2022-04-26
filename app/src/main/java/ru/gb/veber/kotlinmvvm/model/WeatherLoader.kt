@@ -1,4 +1,4 @@
-package ru.gb.veber.kotlinmvvm.view
+package ru.gb.veber.kotlinmvvm.model
 
 import android.os.Build
 import android.os.Handler
@@ -56,7 +56,9 @@ class WeatherLoader(
                 } catch (e: Exception) {
                     Log.e("", "Fail URI", e)
                     e.printStackTrace()
-                    listener.onFailed(e)
+                    handler.post {
+                        listener.onFailed(e)
+                    }
                 } finally {
                     urlConnection.disconnect()
                 }

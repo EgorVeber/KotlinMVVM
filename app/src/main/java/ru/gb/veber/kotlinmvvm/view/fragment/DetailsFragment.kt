@@ -2,20 +2,16 @@ package ru.gb.veber.kotlinmvvm.view.fragment
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentDetailsBinding
-import ru.gb.veber.kotlinmvvm.model.Weather
-import ru.gb.veber.kotlinmvvm.model.WeatherDTO
-import ru.gb.veber.kotlinmvvm.model.addDegree
-import ru.gb.veber.kotlinmvvm.model.formatDate
-import ru.gb.veber.kotlinmvvm.view.WeatherLoader
+import ru.gb.veber.kotlinmvvm.model.*
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterHour
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterWeek
 import java.util.*
@@ -49,8 +45,10 @@ class DetailsFragment : Fragment() {
         (requireActivity() as AppCompatActivity).supportActionBar?.let { SAB ->
             SAB.subtitle = resources.getString(R.string.city)
         }
+
         binding.mainView.visibility = View.GONE
         binding.loadingLayout.visibility = View.VISIBLE
+
         view.apply {
             findViewById<RecyclerView>(R.id.list_hour).adapter = adapterHour
             findViewById<RecyclerView>(R.id.list_week).adapter = adapterWeek
@@ -67,9 +65,11 @@ class DetailsFragment : Fragment() {
         object : WeatherLoader.WeatherLoaderListener {
             override fun onLoaded(weatherDTO: WeatherDTO) {
                 displayWeather(weatherDTO)
+                view?.showSnackBar(R.string.feelsLikeText, R.string.feelsLikeText, {})
             }
 
             override fun onFailed(throwable: Throwable) {
+
             }
         }
 
@@ -78,7 +78,7 @@ class DetailsFragment : Fragment() {
         {
             mainView.visibility = View.VISIBLE
             loadingLayout.visibility = View.GONE
-            weatherDTO.fact.apply {
+            weatherDTO.fact?.apply {
                 cityName.text = weatherBundle.city.cityName
                 feelsLikeText.text = feels_like.toString().addDegree()
                 conditionText.text = condition

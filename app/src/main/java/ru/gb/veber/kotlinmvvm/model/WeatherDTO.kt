@@ -1,8 +1,8 @@
 package ru.gb.veber.kotlinmvvm.model
 
 data class WeatherDTO(
-    val fact: FactDTO,
-    val now_dt: String,
+    val fact: FactDTO? = null,
+    val now_dt: String? = null,
     val forecasts: ArrayList<Forecasts> = arrayListOf(),
 )
 
@@ -33,7 +33,6 @@ data class Parts(
     var day: Day,
 )
 
-
 data class Day(
     val temp_min: Int,
     val temp_max: Int
@@ -50,8 +49,6 @@ data class Morning(
 )
 
 data class Evening(
-
     val temp_min: Int,
     val temp_max: Int
-
 )
