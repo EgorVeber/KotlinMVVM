@@ -15,6 +15,7 @@ import ru.gb.veber.kotlinmvvm.view.adapter.CitysFragmentAdapter
 import ru.gb.veber.kotlinmvvm.view.adapter.OnCityClickListener
 import ru.gb.veber.kotlinmvvm.view_model.AppState
 import ru.gb.veber.kotlinmvvm.view_model.ViewModelWeather
+import ru.gb.veber.kotlinmvvm.view_model.ViewModelWeatherServer
 
 class CitysFragment : Fragment(), OnCityClickListener {
 
@@ -39,15 +40,17 @@ class CitysFragment : Fragment(), OnCityClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
+        adapter.setOnCityClickListener(this)
+
         viewModel.apply {
             getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
             getWeatherFromLocalSourceRus()
         }
+
         binding.apply {
             mainFragmentRecyclerView.adapter = adapter
             mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
         }
-        adapter.setOnCityClickListener(this)
     }
 
     override fun onCityClick(weather: Weather) {

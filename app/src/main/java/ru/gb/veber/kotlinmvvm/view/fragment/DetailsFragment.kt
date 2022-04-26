@@ -29,7 +29,6 @@ class DetailsFragment : Fragment() {
         ViewModelProvider(this).get(ViewModelWeatherServer::class.java)
     }
 
-
     companion object {
         const val KEY_WEATHER = "KEY_WEATHER"
         fun newInstance(bundle: Bundle) = DetailsFragment().apply { arguments = bundle }
@@ -54,6 +53,7 @@ class DetailsFragment : Fragment() {
 
         binding.mainView.visibility = View.GONE
         binding.loadingLayout.visibility = View.VISIBLE
+        weatherBundle = arguments?.getParcelable<Weather>(KEY_WEATHER) ?: Weather()
 
         view.apply {
             findViewById<RecyclerView>(R.id.list_hour).adapter = adapterHour
@@ -63,12 +63,9 @@ class DetailsFragment : Fragment() {
         }
 
         viewModel.apply {
-            getLiveData().observe(
-                viewLifecycleOwner,
-                androidx.lifecycle.Observer { displayWeather(it) })
+            getLiveData().observe(viewLifecycleOwner) { displayWeather(it) }
+            getServerWeather(weatherBundle.city.lat, weatherBundle.city.lon)
         }
-        weatherBundle = arguments?.getParcelable<Weather>(KEY_WEATHER) ?: Weather()
-        viewModel.getServerWeather(weatherBundle.city.lat,weatherBundle.city.lon)
     }
 
     private fun displayWeather(weatherDTO: WeatherDTO) {

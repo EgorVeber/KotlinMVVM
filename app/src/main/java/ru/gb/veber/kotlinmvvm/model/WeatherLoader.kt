@@ -3,6 +3,7 @@ package ru.gb.veber.kotlinmvvm.model
 import android.os.Build
 import android.os.Handler
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
@@ -11,6 +12,7 @@ import ru.gb.veber.kotlinmvvm.model.WeatherDTO
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.lang.Exception
+import java.lang.Thread.sleep
 import java.net.MalformedURLException
 import java.net.URL
 import java.util.stream.Collectors
@@ -22,11 +24,6 @@ class WeatherLoader(
     private val lon: Double
 ) {
 
-    interface WeatherLoaderListener {
-        fun onLoaded(weatherDTO: WeatherDTO)
-        fun onFailed(throwable: Throwable)
-    }
-
     @RequiresApi(Build.VERSION_CODES.N)
     fun loadWeather() =
         try {
@@ -35,7 +32,6 @@ class WeatherLoader(
 
             Thread {
                 lateinit var urlConnection: HttpsURLConnection
-
                 try {
                     urlConnection = (uri.openConnection() as HttpsURLConnection).apply {
                         requestMethod = "GET"
@@ -49,6 +45,7 @@ class WeatherLoader(
 
                     val weatherDTO: WeatherDTO = Gson().fromJson(response, WeatherDTO::class.java)
 
+                    sleep(2000)
 
                     handler.post {
                         listener.postValue(weatherDTO)
