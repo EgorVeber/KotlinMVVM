@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Handler
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import ru.gb.veber.kotlinmvvm.BuildConfig
 import ru.gb.veber.kotlinmvvm.model.WeatherDTO
@@ -16,7 +17,7 @@ import java.util.stream.Collectors
 import javax.net.ssl.HttpsURLConnection
 
 class WeatherLoader(
-    private val listener: WeatherLoaderListener,
+    private val listener: MutableLiveData<WeatherDTO>,
     private val lat: Double,
     private val lon: Double
 ) {
@@ -50,15 +51,12 @@ class WeatherLoader(
 
 
                     handler.post {
-                        listener.onLoaded(weatherDTO)
+                        listener.postValue(weatherDTO)
                     }
 
                 } catch (e: Exception) {
                     Log.e("", "Fail URI", e)
                     e.printStackTrace()
-                    handler.post {
-                        listener.onFailed(e)
-                    }
                 } finally {
                     urlConnection.disconnect()
                 }

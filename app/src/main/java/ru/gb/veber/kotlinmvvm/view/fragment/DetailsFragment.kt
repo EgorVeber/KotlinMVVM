@@ -6,14 +6,15 @@ import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentDetailsBinding
 import ru.gb.veber.kotlinmvvm.model.*
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterHour
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterWeek
+import ru.gb.veber.kotlinmvvm.view_model.ViewModelWeatherServer
 import java.util.*
 
 class DetailsFragment : Fragment() {
@@ -23,6 +24,11 @@ class DetailsFragment : Fragment() {
     private val adapterHour = AdapterHour()
     private val adapterWeek = AdapterWeek()
     private lateinit var weatherBundle: Weather
+
+    private val viewModel: ViewModelWeatherServer by lazy {
+        ViewModelProvider(this).get(ViewModelWeatherServer::class.java)
+    }
+
 
     companion object {
         const val KEY_WEATHER = "KEY_WEATHER"
@@ -56,22 +62,14 @@ class DetailsFragment : Fragment() {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
 
-        weatherBundle = arguments?.getParcelable<Weather>(KEY_WEATHER) ?: Weather()
-        val loader = WeatherLoader(onLoadListener, weatherBundle.city.lat, weatherBundle.city.lon)
-        loader.loadWeather()
-    }
-
-    private val onLoadListener: WeatherLoader.WeatherLoaderListener =
-        object : WeatherLoader.WeatherLoaderListener {
-            override fun onLoaded(weatherDTO: WeatherDTO) {
-                displayWeather(weatherDTO)
-                view?.showSnackBar(R.string.feelsLikeText, R.string.feelsLikeText, {})
-            }
-
-            override fun onFailed(throwable: Throwable) {
-
-            }
+        viewModel.apply {
+            getLiveData().observe(
+                viewLifecycleOwner,
+                androidx.lifecycle.Observer { displayWeather(it) })
         }
+        weatherBundle = arguments?.getParcelable<Weather>(KEY_WEATHER) ?: Weather()
+        viewModel.getServerWeather(weatherBundle.city.lat,weatherBundle.city.lon)
+    }
 
     private fun displayWeather(weatherDTO: WeatherDTO) {
         with(binding)
