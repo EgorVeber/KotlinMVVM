@@ -14,6 +14,7 @@ import ru.gb.veber.kotlinmvvm.databinding.FragmentDetailsBinding
 import ru.gb.veber.kotlinmvvm.model.*
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterHour
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterWeek
+import ru.gb.veber.kotlinmvvm.view_model.SelectState
 import ru.gb.veber.kotlinmvvm.view_model.ViewModelWeatherServer
 import java.util.*
 
@@ -51,8 +52,7 @@ class DetailsFragment : Fragment() {
             SAB.subtitle = resources.getString(R.string.city)
         }
 
-        binding.mainView.visibility = View.GONE
-        binding.loadingLayout.visibility = View.VISIBLE
+
         weatherBundle = arguments?.getParcelable<Weather>(KEY_WEATHER) ?: Weather()
 
         view.apply {
@@ -68,21 +68,41 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    private fun displayWeather(weatherDTO: WeatherDTO) {
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun displayWeather(selectState: SelectState) {
         with(binding)
         {
-            mainView.visibility = View.VISIBLE
-            loadingLayout.visibility = View.GONE
-            weatherDTO.fact?.apply {
-                cityName.text = weatherBundle.city.cityName
-                feelsLikeText.text = feels_like.toString().addDegree()
-                conditionText.text = condition
-                weatherText.text = temp.toString().addDegree()
-                dataText.text = Date().formatDate()
+            when (selectState) {
+                is SelectState.Loading -> {
+                    mainView.hide()
+                    loadingLayout.show()
+                }
+                is SelectState.Success -> {
+                    mainView.show()
+                    loadingLayout.hide()
+                    selectState.weatherDTO.fact?.apply {
+                        cityName.text = weatherBundle.city.cityName
+                        feelsLikeText.text = feels_like.toString().addDegree()
+                        conditionText.text = condition
+                        weatherText.text = temp.toString().addDegree()
+                        dataText.text = Date().formatDate()
+                    }
+                    adapterHour.setWeather(selectState.weatherDTO.forecasts[0].hours)
+                    adapterWeek.setWeather(selectState.weatherDTO.forecasts)
+                }
+                is SelectState.Error -> {
+                    mainView.showSnackBarError(
+                        selectState.message,
+                        resources.getString(R.string.reload),
+                        {
+                            viewModel.getServerWeather(
+                                weatherBundle.city.lat,
+                                weatherBundle.city.lon
+                            )
+                        })
+                }
             }
         }
-        adapterHour.setWeather(weatherDTO.forecasts[0].hours)
-        adapterWeek.setWeather(weatherDTO.forecasts)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

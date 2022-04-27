@@ -10,12 +10,11 @@ import ru.gb.veber.kotlinmvvm.databinding.FragmentCitysBinding
 import ru.gb.veber.kotlinmvvm.model.Weather
 import ru.gb.veber.kotlinmvvm.model.hide
 import ru.gb.veber.kotlinmvvm.model.show
-import ru.gb.veber.kotlinmvvm.model.showSnackBar
+import ru.gb.veber.kotlinmvvm.model.showSnackBarResources
 import ru.gb.veber.kotlinmvvm.view.adapter.CitysFragmentAdapter
 import ru.gb.veber.kotlinmvvm.view.adapter.OnCityClickListener
 import ru.gb.veber.kotlinmvvm.view_model.AppState
 import ru.gb.veber.kotlinmvvm.view_model.ViewModelWeather
-import ru.gb.veber.kotlinmvvm.view_model.ViewModelWeatherServer
 
 class CitysFragment : Fragment(), OnCityClickListener {
 
@@ -73,7 +72,7 @@ class CitysFragment : Fragment(), OnCityClickListener {
                 is AppState.Loading -> mainFragmentLoadingLayout.show()
                 is AppState.Error -> {
                     mainFragmentLoadingLayout.hide()
-                    mainFragmentRecyclerView.showSnackBar(
+                    mainFragmentRecyclerView.showSnackBarResources(
                         R.string.error,
                         R.string.reload,
                         { viewModel.getWeatherFromLocalSourceRus() })

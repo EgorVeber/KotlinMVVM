@@ -21,7 +21,7 @@ fun String.addDegree(): String = this + "\u00B0"
 
 fun getSlash(min: Int, max: Int) = min.toString().addDegree() + "/" + max.toString().addDegree()
 
-fun View.showSnackBar(
+fun View.showSnackBarResources(
     text: Int,
     actionText: Int,
     action: (View) -> Unit,
@@ -29,6 +29,15 @@ fun View.showSnackBar(
 ) {
     Snackbar.make(this, resources.getString(text), length)
         .setAction(resources.getString(actionText), action).show()
+}
+fun View.showSnackBarError(
+    text: String,
+    actionText: String,
+    action: (View) -> Unit,
+    length: Int = Snackbar.LENGTH_INDEFINITE
+) {
+    Snackbar.make(this, text, length)
+        .setAction(actionText, action).show()
 }
 
 fun View.hide(): View {

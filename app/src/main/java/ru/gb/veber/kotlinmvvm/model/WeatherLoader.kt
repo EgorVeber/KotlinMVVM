@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import ru.gb.veber.kotlinmvvm.BuildConfig
 import ru.gb.veber.kotlinmvvm.model.WeatherDTO
+import ru.gb.veber.kotlinmvvm.view_model.SelectState
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.lang.Exception
@@ -19,7 +20,7 @@ import java.util.stream.Collectors
 import javax.net.ssl.HttpsURLConnection
 
 class WeatherLoader(
-    private val listener: MutableLiveData<WeatherDTO>,
+    private val listener: MutableLiveData<SelectState>,
     private val lat: Double,
     private val lon: Double
 ) {
@@ -45,21 +46,19 @@ class WeatherLoader(
 
                     val weatherDTO: WeatherDTO = Gson().fromJson(response, WeatherDTO::class.java)
 
-                    sleep(2000)
-
                     handler.post {
-                        listener.postValue(weatherDTO)
+                        listener.postValue(SelectState.Success(weatherDTO))
                     }
 
                 } catch (e: Exception) {
-                    Log.e("", "Fail URI", e)
+                    listener.postValue(SelectState.Error(Throwable(), e.message.toString()))
                     e.printStackTrace()
                 } finally {
                     urlConnection.disconnect()
                 }
             }.start()
         } catch (e: MalformedURLException) {
-            Log.e("", "Fail URI", e)
+            listener.postValue(SelectState.Error(Throwable(), e.message.toString()))
             e.printStackTrace()
         }
 
