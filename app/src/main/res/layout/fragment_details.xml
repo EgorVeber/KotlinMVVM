@@ -6,110 +6,153 @@
     android:layout_height="match_parent"
     android:background="@color/back_main">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view_day"
-            style="@style/card_style_base">
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/mainView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/liner_day"
-                style="@style/liner_layout_default">
-
-                <TextView
-                    android:id="@+id/city_name"
-                    android:lines="1"
-                    android:scrollHorizontally="true"
-                    style="@style/city_text_style" />
-
-                <TextView
-                    android:id="@+id/data_text"
-                    style="@style/date_text_style" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view_day"
+                style="@style/card_style_base">
 
                 <LinearLayout
-                    style="@style/liner_layout_default"
-                    android:orientation="horizontal">
+                    android:id="@+id/liner_day"
+                    style="@style/liner_layout_default">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_base"
-                        android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/city_name"
+                        style="@style/city_text_style"
+                        android:lines="1"
+                        android:scrollHorizontally="true"
+                        tools:text="City" />
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/weather_icon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom"
-                            android:src="@drawable/sun264" />
-
-                        <TextView
-                            android:id="@+id/weather_text"
-                            style="@style/weather_text_style" />
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/data_text"
+                        style="@style/date_text_style"
+                        tools:text="Sun, 17 April 22:13" />
 
                     <LinearLayout
                         style="@style/liner_layout_default"
-                        android:layout_marginTop="@dimen/margin_info">
+                        android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/condition_text"
-                            style="@style/info_text_style" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_base"
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/feelsLike_text"
-                            style="@style/info_text_style" />
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/weather_icon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:src="@drawable/sun264" />
+
+                            <TextView
+                                android:id="@+id/weather_text"
+                                style="@style/weather_text_style"
+                                tools:text="15" />
+                        </LinearLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/margin_info">
+
+                            <TextView
+                                android:id="@+id/condition_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="18sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.9"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:text="clear" />
+
+                            <TextView
+                                android:id="@+id/feelsLike_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="18sp"
+                                app:layout_constraintEnd_toEndOf="@+id/condition_text"
+                                app:layout_constraintTop_toBottomOf="@+id/condition_text"
+                                tools:text="12" />
+
+                            <TextView
+                                android:id="@+id/feelsLike_info"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:text="@string/feelsLikeText"
+                                android:textSize="18sp"
+                                app:layout_constraintEnd_toStartOf="@+id/feelsLike_text"
+                                app:layout_constraintTop_toTopOf="@id/feelsLike_text" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
                     </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/list_hour"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_base" />
                 </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/list_hour"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_base" />
-            </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-        </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view_week"
+                style="@style/card_style_base">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view_week"
-            style="@style/card_style_base">
+                <LinearLayout
+                    android:id="@+id/liner_week"
+                    style="@style/liner_layout_default">
 
-            <LinearLayout
-                android:id="@+id/liner_week"
-                style="@style/liner_layout_default">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/list_week"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:layout_marginTop="@dimen/margin_base"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/list_week"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_base"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-            </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-        </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view_description"
+                style="@style/card_style_base">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view_description"
-            style="@style/card_style_base">
+                <LinearLayout
+                    android:id="@+id/liner_description"
+                    style="@style/liner_layout_default"
+                    android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/liner_description"
-                style="@style/liner_layout_default"
-                android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Что нибудь добавить, дополнительное "
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_info" />
+                </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="Что нибудь добавить, дополнительное "
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_info" />
-            </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
-    </LinearLayout>
+        <FrameLayout
+            android:id="@+id/loadingLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/loadingBackground"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ProgressBar style="@style/progressBar_style" />
+        </FrameLayout>
+    </FrameLayout>
 </androidx.core.widget.NestedScrollView>
