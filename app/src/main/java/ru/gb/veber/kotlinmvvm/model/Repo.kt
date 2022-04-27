@@ -3,10 +3,11 @@ package ru.gb.veber.kotlinmvvm.model
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
+import ru.gb.veber.kotlinmvvm.view_model.SelectState
 
 interface Repo {
     fun getWeatherFromServer(
-        liveDataToObserver: MutableLiveData<WeatherDTO>,
+        liveDataToObserver: MutableLiveData<SelectState>,
         lat: Double,
         lon: Double
     )
@@ -18,7 +19,7 @@ interface Repo {
 class RepoImpl : Repo {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun getWeatherFromServer(
-        liveDataToObserver: MutableLiveData<WeatherDTO>,
+        liveDataToObserver: MutableLiveData<SelectState>,
         lat: Double,
         lon: Double
     ) {
