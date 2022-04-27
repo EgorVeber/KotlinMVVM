@@ -81,12 +81,11 @@ class SelectService(name: String = "DetailsService") : IntentService(name) {
         if (fact == null) {
             onEmptyResponse()
         } else {
-
-            var intentWeatherDTO = Intent(BROADCAST_OBSERVER).apply {
-                putExtra(KEY_WEATHER_DTO, weatherDTO)
-                putExtra(DETAILS_LOAD_RESULT_EXTRA, DETAILS_RESPONSE_SUCCESS_EXTRA)
+            Intent(BROADCAST_OBSERVER).also {
+                it.putExtra(KEY_WEATHER_DTO, weatherDTO)
+                it.putExtra(DETAILS_LOAD_RESULT_EXTRA, DETAILS_RESPONSE_SUCCESS_EXTRA)
+                LocalBroadcastManager.getInstance(this).sendBroadcast(it)
             }
-            LocalBroadcastManager.getInstance(this).sendBroadcast(intentWeatherDTO)
         }
     }
 

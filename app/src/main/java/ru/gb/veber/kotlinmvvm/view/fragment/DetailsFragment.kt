@@ -189,9 +189,8 @@ class DetailsFragment : Fragment() {
                 DETAILS_REQUEST_ERROR_MESSAGE_EXTRA -> TODO(PROCESS_ERROR)
                 DETAILS_URL_MALFORMED_EXTRA -> TODO(PROCESS_ERROR)
                 DETAILS_RESPONSE_SUCCESS_EXTRA -> {
-                    var weather = intent.getParcelableExtra<WeatherDTO>(KEY_WEATHER_DTO)
-                    weather?.let {
-                        displayWeather(SelectState.Success(weather))
+                    intent.getParcelableExtra<WeatherDTO>(KEY_WEATHER_DTO)?.let {
+                        displayWeather(SelectState.Success(it))
                     } ?: run {
                         binding.mainFrame.showSnackBarError("EMPTY weather", "", {})
                     }
