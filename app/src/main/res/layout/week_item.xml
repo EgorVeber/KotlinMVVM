@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/sun2"
-                app:layout_constraintEnd_toStartOf="@+id/night_temperature"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/night"
                 />
 
@@ -50,12 +50,13 @@
                 android:id="@+id/night_temperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
                 android:text="12/15"
-                android:layout_marginRight="20dp"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@+id/night_icon"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/night_icon"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
