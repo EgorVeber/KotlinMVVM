@@ -1,22 +1,46 @@
 package ru.gb.veber.kotlinmvvm.view.fragment
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentDetailsBinding
 import ru.gb.veber.kotlinmvvm.model.*
+import ru.gb.veber.kotlinmvvm.view.LATITUDE_EXTRA
+import ru.gb.veber.kotlinmvvm.view.LONGITUDE_EXTRA
+import ru.gb.veber.kotlinmvvm.view.SelectService
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterHour
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterWeek
 import ru.gb.veber.kotlinmvvm.view_model.SelectState
 import ru.gb.veber.kotlinmvvm.view_model.ViewModelWeatherServer
 import java.util.*
+
+const val BROADCAST_OBSERVER = "BROADCAST_OBSERVER"
+const val KEY_WEATHER_DTO = "KEY_WEATHER_DTO"
+const val DETAILS_LOAD_RESULT_EXTRA = "LOAD RESULT"
+const val DETAILS_INTENT_EMPTY_EXTRA = "INTENT IS EMPTY"
+const val DETAILS_DATA_EMPTY_EXTRA = "DATA IS EMPTY"
+const val DETAILS_RESPONSE_EMPTY_EXTRA = "RESPONSE IS EMPTY"
+const val DETAILS_REQUEST_ERROR_EXTRA = "REQUEST ERROR"
+const val DETAILS_REQUEST_ERROR_MESSAGE_EXTRA = "REQUEST ERROR MESSAGE"
+const val DETAILS_URL_MALFORMED_EXTRA = "URL MALFORMED"
+const val DETAILS_RESPONSE_SUCCESS_EXTRA = "RESPONSE SUCCESS"
+private const val TEMP_INVALID = -100
+private const val FEELS_LIKE_INVALID = -100
+private const val PROCESS_ERROR = "Обработка ошибки"
 
 class DetailsFragment : Fragment() {
 
@@ -52,7 +76,6 @@ class DetailsFragment : Fragment() {
             SAB.subtitle = resources.getString(R.string.city)
         }
 
-
         weatherBundle = arguments?.getParcelable<Weather>(KEY_WEATHER) ?: Weather()
 
         view.apply {
@@ -62,10 +85,11 @@ class DetailsFragment : Fragment() {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
 
-        viewModel.apply {
-            getLiveData().observe(viewLifecycleOwner) { displayWeather(it) }
-            getServerWeather(weatherBundle.city.lat, weatherBundle.city.lon)
-        }
+//        viewModel.apply {
+//            getLiveData().observe(viewLifecycleOwner) { displayWeather(it) }
+//            getServerWeather(weatherBundle.city.lat, weatherBundle.city.lon)
+//        }
+        getWeather()
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -116,5 +140,63 @@ class DetailsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        context?.let {
+            LocalBroadcastManager.getInstance(it)
+                .registerReceiver(
+                    loadResultsReceiver,
+                    IntentFilter(BROADCAST_OBSERVER)
+                )
+        }
+    }
+
+    override fun onDestroy() {
+        context?.let {
+            LocalBroadcastManager.getInstance(it).unregisterReceiver(loadResultsReceiver)
+        }
+        super.onDestroy()
+    }
+
+    private fun getWeather() {
+        binding.mainView.visibility = View.GONE
+        binding.loadingLayout.visibility = View.VISIBLE
+        context?.let {
+            it.startService(Intent(it, SelectService::class.java).apply {
+                putExtra(
+                    LATITUDE_EXTRA,
+                    weatherBundle.city.lat
+                )
+                putExtra(
+                    LONGITUDE_EXTRA,
+                    weatherBundle.city.lon
+                )
+            })
+        }
+    }
+
+    private val loadResultsReceiver: BroadcastReceiver = object :
+        BroadcastReceiver() {
+        @RequiresApi(Build.VERSION_CODES.N)
+        override fun onReceive(context: Context, intent: Intent) {
+            when (intent.getStringExtra(DETAILS_LOAD_RESULT_EXTRA)) {
+                DETAILS_INTENT_EMPTY_EXTRA -> TODO(PROCESS_ERROR)
+                DETAILS_DATA_EMPTY_EXTRA -> TODO(PROCESS_ERROR)
+                DETAILS_RESPONSE_EMPTY_EXTRA -> TODO(PROCESS_ERROR)
+                DETAILS_REQUEST_ERROR_EXTRA -> TODO(PROCESS_ERROR)
+                DETAILS_REQUEST_ERROR_MESSAGE_EXTRA -> TODO(PROCESS_ERROR)
+                DETAILS_URL_MALFORMED_EXTRA -> TODO(PROCESS_ERROR)
+                DETAILS_RESPONSE_SUCCESS_EXTRA -> {
+                    var weather = intent.getParcelableExtra<WeatherDTO>(KEY_WEATHER_DTO)
+                    weather?.let {
+                        displayWeather(SelectState.Success(weather))
+                    } ?: run {
+                        binding.mainFrame.showSnackBarError("EMPTY weather", "", {})
+                    }
+                }
+            }
+        }
     }
 }
