@@ -91,6 +91,8 @@ class DetailsFragment : Fragment() {
                     adapterWeek.setWeather(selectState.weatherDTO.forecasts)
                 }
                 is SelectState.Error -> {
+                    mainFrame.hide()
+                    loadingLayout.show()
                     mainView.showSnackBarError(
                         selectState.message,
                         resources.getString(R.string.reload),
