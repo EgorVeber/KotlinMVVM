@@ -29,16 +29,24 @@ class LoadResultsReceiver(private val listener: LoadReceiver?) : BroadcastReceiv
                 listener?.let { listener ->
                     listener.apply {
                         when (it.getStringExtra(DETAILS_LOAD_RESULT_EXTRA)) {
-                            DETAILS_INTENT_EMPTY_EXTRA -> displayLoadReceiverError(DETAILS_INTENT_EMPTY_EXTRA)
-                            DETAILS_DATA_EMPTY_EXTRA -> displayLoadReceiverError(DETAILS_DATA_EMPTY_EXTRA)
+                            DETAILS_INTENT_EMPTY_EXTRA -> displayLoadReceiverError(
+                                DETAILS_INTENT_EMPTY_EXTRA
+                            )
+                            DETAILS_DATA_EMPTY_EXTRA -> displayLoadReceiverError(
+                                DETAILS_DATA_EMPTY_EXTRA
+                            )
                             DETAILS_RESPONSE_EMPTY_EXTRA -> displayLoadReceiverError(
                                 DETAILS_RESPONSE_EMPTY_EXTRA
                             )
-                            DETAILS_REQUEST_ERROR_EXTRA -> displayLoadReceiverError(DETAILS_REQUEST_ERROR_EXTRA)
+                            DETAILS_REQUEST_ERROR_EXTRA -> displayLoadReceiverError(
+                                DETAILS_REQUEST_ERROR_EXTRA
+                            )
                             DETAILS_REQUEST_ERROR_MESSAGE_EXTRA -> displayLoadReceiverError(
                                 DETAILS_REQUEST_ERROR_MESSAGE_EXTRA
                             )
-                            DETAILS_URL_MALFORMED_EXTRA -> displayLoadReceiverError(DETAILS_URL_MALFORMED_EXTRA)
+                            DETAILS_URL_MALFORMED_EXTRA -> displayLoadReceiverError(
+                                DETAILS_URL_MALFORMED_EXTRA
+                            )
                             DETAILS_RESPONSE_SUCCESS_EXTRA -> {
                                 it.getParcelableExtra<WeatherDTO>(KEY_WEATHER_DTO)?.let { weather ->
                                     displayLoadReceiverWeather(weather)
