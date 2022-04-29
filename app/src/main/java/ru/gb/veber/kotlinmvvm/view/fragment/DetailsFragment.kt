@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -182,9 +183,8 @@ class DetailsFragment : Fragment() {
         BroadcastReceiver() {
         @RequiresApi(Build.VERSION_CODES.N)
         override fun onReceive(context: Context, intent: Intent) {
-            if (intent.action.toString().equals(CONNECTIVITY_ACTION)) {
-                binding.mainView.showSnackBarError(intent.action.toString(), "", {})
-
+            if (intent.action.toString() == CONNECTIVITY_ACTION) {
+                Toast.makeText(requireContext(), "Message", Toast.LENGTH_LONG).show()
             }
             with(binding.mainFrame)
             {
