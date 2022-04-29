@@ -59,9 +59,7 @@ class DetailsFragment : Fragment(), showWeather {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentDetailsBinding.inflate(inflater, container, false)
         return binding.root
@@ -75,7 +73,7 @@ class DetailsFragment : Fragment(), showWeather {
             SAB.subtitle = resources.getString(R.string.city)
         }
 
-        weatherBundle = arguments?.getParcelable<Weather>(KEY_WEATHER) ?: Weather()
+        weatherBundle = arguments?.getParcelable(KEY_WEATHER) ?: Weather()
 
         view.apply {
             findViewById<RecyclerView>(R.id.list_hour).adapter = adapterHour
@@ -84,76 +82,6 @@ class DetailsFragment : Fragment(), showWeather {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
         startService()
-//        viewModel.apply {
-//            getLiveData().observe(viewLifecycleOwner) { displayWeather(it) }
-//            getServerWeather(weatherBundle.city.lat, weatherBundle.city.lon)
-//        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.N)
-    override fun displayWeather(weatherDTO: WeatherDTO) {
-        displayWeatherLoc(SelectState.Success(weatherDTO))
-    }
-
-    override fun displayError(string: String) {
-        binding.mainView.showSnackBarError(string, "", {})
-    }
-
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun displayWeatherLoc(selectState: SelectState) {
-        with(binding)
-        {
-            when (selectState) {
-                is SelectState.Loading -> {
-                    mainView.hide()
-                    loadingLayout.show()
-                }
-                is SelectState.Success -> {
-                    mainView.show()
-                    loadingLayout.hide()
-                    selectState.weatherDTO.fact?.apply {
-                        cityName.text = weatherBundle.city.cityName
-                        feelsLikeText.text = feels_like.toString().addDegree()
-                        conditionText.text = condition
-                        weatherText.text = temp.toString().addDegree()
-                        dataText.text = Date().formatDate()
-                    }
-                    adapterHour.setWeather(selectState.weatherDTO.forecasts[0].hours)
-                    adapterWeek.setWeather(selectState.weatherDTO.forecasts)
-                }
-                is SelectState.Error -> {
-                    mainFrame.hide()
-                    loadingLayout.show()
-                    mainView.showSnackBarError(
-                        selectState.message,
-                        resources.getString(R.string.reload),
-                        {
-                            viewModel.getServerWeather(
-                                weatherBundle.city.lat,
-                                weatherBundle.city.lon
-                            )
-                        })
-                }
-            }
-        }
-    }
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        context?.let {
-            LocalBroadcastManager.getInstance(it).registerReceiver(
-                loadResultsReceiver,
-                IntentFilter(BROADCAST_OBSERVER)
-            )
-        }
-    }
-
-    override fun onDestroy() {
-        context?.let {
-            LocalBroadcastManager.getInstance(it).unregisterReceiver(loadResultsReceiver)
-        }
-        super.onDestroy()
     }
 
     private fun startService() {
@@ -171,6 +99,48 @@ class DetailsFragment : Fragment(), showWeather {
                 )
             })
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun displayWeather(weatherDTO: WeatherDTO) {
+        with(binding)
+        {
+            mainView.show()
+            loadingLayout.hide()
+            weatherDTO.fact?.apply {
+                cityName.text = weatherBundle.city.cityName
+                feelsLikeText.text = feels_like.toString().addDegree()
+                conditionText.text = condition
+                weatherText.text = temp.toString().addDegree()
+                dataText.text = Date().formatDate()
+            }
+            adapterHour.setWeather(weatherDTO.forecasts[0].hours)
+            adapterWeek.setWeather(weatherDTO.forecasts)
+        }
+    }
+
+    override fun displayError(string: String) {
+        binding.apply {
+            mainView.showSnackBarError(string, "", {})
+            mainView.hide()
+            loadingLayout.hide()
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        context?.let {
+            LocalBroadcastManager.getInstance(it).registerReceiver(
+                loadResultsReceiver, IntentFilter(BROADCAST_OBSERVER)
+            )
+        }
+    }
+
+    override fun onDestroy() {
+        context?.let {
+            LocalBroadcastManager.getInstance(it).unregisterReceiver(loadResultsReceiver)
+        }
+        super.onDestroy()
     }
 
     override fun onDestroyView() {
