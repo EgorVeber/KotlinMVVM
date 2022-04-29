@@ -3,7 +3,6 @@ package ru.gb.veber.kotlinmvvm.view
 import android.app.IntentService
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.gson.Gson

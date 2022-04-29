@@ -1,20 +1,13 @@
 package ru.gb.veber.kotlinmvvm.view.fragment
 
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.net.ConnectivityManager
-import android.net.ConnectivityManager.CONNECTIVITY_ACTION
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,22 +17,12 @@ import ru.gb.veber.kotlinmvvm.model.*
 import ru.gb.veber.kotlinmvvm.view.*
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterHour
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterWeek
-import ru.gb.veber.kotlinmvvm.view_model.SelectState
-import ru.gb.veber.kotlinmvvm.view_model.ViewModelWeatherServer
 import java.util.*
 
 const val BROADCAST_OBSERVER = "BROADCAST_OBSERVER"
 const val KEY_WEATHER_DTO = "KEY_WEATHER_DTO"
-const val DETAILS_LOAD_RESULT_EXTRA = "LOAD RESULT"
-const val DETAILS_INTENT_EMPTY_EXTRA = "INTENT IS EMPTY"
-const val DETAILS_DATA_EMPTY_EXTRA = "DATA IS EMPTY"
-const val DETAILS_RESPONSE_EMPTY_EXTRA = "RESPONSE IS EMPTY"
-const val DETAILS_REQUEST_ERROR_EXTRA = "REQUEST ERROR"
-const val DETAILS_REQUEST_ERROR_MESSAGE_EXTRA = "REQUEST ERROR MESSAGE"
-const val DETAILS_URL_MALFORMED_EXTRA = "URL MALFORMED"
-const val DETAILS_RESPONSE_SUCCESS_EXTRA = "RESPONSE SUCCESS"
 
-class DetailsFragment : Fragment(), showWeather {
+class DetailsFragment : Fragment(), LoadReceiver {
 
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
@@ -98,7 +81,7 @@ class DetailsFragment : Fragment(), showWeather {
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    override fun displayWeather(weatherDTO: WeatherDTO) {
+    override fun displayLoadReceiverWeather(weatherDTO: WeatherDTO) {
         with(binding)
         {
             mainView.show()
@@ -115,7 +98,7 @@ class DetailsFragment : Fragment(), showWeather {
         }
     }
 
-    override fun displayError(string: String) {
+    override fun displayLoadReceiverError(string: String) {
         binding.apply {
             mainView.showSnackBarError(
                 string,
