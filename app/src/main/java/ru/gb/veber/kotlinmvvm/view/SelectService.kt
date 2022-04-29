@@ -23,7 +23,7 @@ private const val REQUEST_GET = "GET"
 private const val REQUEST_TIMEOUT = 10000
 private const val REQUEST_API_KEY = "X-Yandex-API-Key"
 
-class SelectService(name: String = "DetailsService") : IntentService(name) {
+class SelectService(name: String = "SelectService") : IntentService(name) {
 
     private val broadcastIntent = Intent(BROADCAST_OBSERVER)
 

@@ -49,10 +49,6 @@ class DetailsFragment : Fragment(), showWeather {
 
     private val loadResultsReceiver = LoadResultsReceiver(this)
 
-    private val viewModel: ViewModelWeatherServer by lazy {
-        ViewModelProvider(this).get(ViewModelWeatherServer::class.java)
-    }
-
     companion object {
         const val KEY_WEATHER = "KEY_WEATHER"
         fun newInstance(bundle: Bundle) = DetailsFragment().apply { arguments = bundle }
@@ -121,7 +117,10 @@ class DetailsFragment : Fragment(), showWeather {
 
     override fun displayError(string: String) {
         binding.apply {
-            mainView.showSnackBarError(string, "", {})
+            mainView.showSnackBarError(
+                string,
+                resources.getString(R.string.reload),
+                { startService() })
             mainView.hide()
             loadingLayout.hide()
         }

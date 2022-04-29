@@ -17,44 +17,40 @@ class LoadResultsReceiver(private val listener: showWeather?) : BroadcastReceive
 
     override fun onReceive(context: Context?, intent: Intent?) {
         intent?.let {
-            if (it.action.toString().equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
-                showToast(context)
-            }
-            listener?.let { listener ->
-                listener.apply {
-                    when (it.getStringExtra(DETAILS_LOAD_RESULT_EXTRA)) {
-                        DETAILS_INTENT_EMPTY_EXTRA -> displayError(DETAILS_INTENT_EMPTY_EXTRA)
-                        DETAILS_DATA_EMPTY_EXTRA -> displayError(DETAILS_DATA_EMPTY_EXTRA)
-                        DETAILS_RESPONSE_EMPTY_EXTRA -> displayError(
-                            DETAILS_RESPONSE_EMPTY_EXTRA
-                        )
-                        DETAILS_REQUEST_ERROR_EXTRA -> displayError(DETAILS_REQUEST_ERROR_EXTRA)
-                        DETAILS_REQUEST_ERROR_MESSAGE_EXTRA -> displayError(
-                            DETAILS_REQUEST_ERROR_MESSAGE_EXTRA
-                        )
-                        DETAILS_URL_MALFORMED_EXTRA -> displayError(DETAILS_URL_MALFORMED_EXTRA)
-                        DETAILS_RESPONSE_SUCCESS_EXTRA -> {
-                            it.getParcelableExtra<WeatherDTO>(KEY_WEATHER_DTO)?.let { weather ->
-                                displayWeather(weather)
-                            } ?: run {
-                                displayError("EMPTY weather")
+            if (it.action.equals(BROADCAST_OBSERVER)) {
+                listener?.let { listener ->
+                    listener.apply {
+                        when (it.getStringExtra(DETAILS_LOAD_RESULT_EXTRA)) {
+                            DETAILS_INTENT_EMPTY_EXTRA -> displayError(DETAILS_INTENT_EMPTY_EXTRA)
+                            DETAILS_DATA_EMPTY_EXTRA -> displayError(DETAILS_DATA_EMPTY_EXTRA)
+                            DETAILS_RESPONSE_EMPTY_EXTRA -> displayError(
+                                DETAILS_RESPONSE_EMPTY_EXTRA
+                            )
+                            DETAILS_REQUEST_ERROR_EXTRA -> displayError(DETAILS_REQUEST_ERROR_EXTRA)
+                            DETAILS_REQUEST_ERROR_MESSAGE_EXTRA -> displayError(
+                                DETAILS_REQUEST_ERROR_MESSAGE_EXTRA
+                            )
+                            DETAILS_URL_MALFORMED_EXTRA -> displayError(DETAILS_URL_MALFORMED_EXTRA)
+                            DETAILS_RESPONSE_SUCCESS_EXTRA -> {
+                                it.getParcelableExtra<WeatherDTO>(KEY_WEATHER_DTO)?.let { weather ->
+                                    displayWeather(weather)
+                                } ?: run {
+                                    displayError("EMPTY weather")
+                                }
                             }
+                            else -> {}
                         }
-                        else -> {}
+                    }
+                }
+            } else {
+                StringBuilder().apply {
+                    append("Message from system:\n")
+                    append("Connection change")
+                    toString().also { message ->
+                        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                     }
                 }
             }
         }
-    }
-
-    private fun showToast(context: Context?) {
-        StringBuilder().apply {
-            append("Message from system:\n")
-            append("Connection change")
-            toString().also { message ->
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-            }
-        }
-        return
     }
 }
