@@ -184,6 +184,7 @@ class DetailsFragment : Fragment() {
         override fun onReceive(context: Context, intent: Intent) {
             if (intent.action.toString().equals(CONNECTIVITY_ACTION)) {
                 binding.mainView.showSnackBarError(intent.action.toString(), "", {})
+
             }
             with(binding.mainFrame)
             {
