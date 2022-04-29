@@ -21,9 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentDetailsBinding
 import ru.gb.veber.kotlinmvvm.model.*
-import ru.gb.veber.kotlinmvvm.view.LATITUDE_EXTRA
-import ru.gb.veber.kotlinmvvm.view.LONGITUDE_EXTRA
-import ru.gb.veber.kotlinmvvm.view.SelectService
+import ru.gb.veber.kotlinmvvm.view.*
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterHour
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterWeek
 import ru.gb.veber.kotlinmvvm.view_model.SelectState
@@ -41,13 +39,15 @@ const val DETAILS_REQUEST_ERROR_MESSAGE_EXTRA = "REQUEST ERROR MESSAGE"
 const val DETAILS_URL_MALFORMED_EXTRA = "URL MALFORMED"
 const val DETAILS_RESPONSE_SUCCESS_EXTRA = "RESPONSE SUCCESS"
 
-class DetailsFragment : Fragment() {
+class DetailsFragment : Fragment(), showWeather {
 
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
     private val adapterHour = AdapterHour()
     private val adapterWeek = AdapterWeek()
     private lateinit var weatherBundle: Weather
+
+    private val loadResultsReceiver = LoadResultsReceiver(this)
 
     private val viewModel: ViewModelWeatherServer by lazy {
         ViewModelProvider(this).get(ViewModelWeatherServer::class.java)
@@ -83,16 +83,24 @@ class DetailsFragment : Fragment() {
             findViewById<RecyclerView>(R.id.list_hour).layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
-
+        startService()
 //        viewModel.apply {
 //            getLiveData().observe(viewLifecycleOwner) { displayWeather(it) }
 //            getServerWeather(weatherBundle.city.lat, weatherBundle.city.lon)
 //        }
-        getWeather()
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    private fun displayWeather(selectState: SelectState) {
+    override fun displayWeather(weatherDTO: WeatherDTO) {
+        displayWeatherLoc(SelectState.Success(weatherDTO))
+    }
+
+    override fun displayError(string: String) {
+        binding.mainView.showSnackBarError(string, "", {})
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun displayWeatherLoc(selectState: SelectState) {
         with(binding)
         {
             when (selectState) {
@@ -130,16 +138,6 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.findItem(R.id.menu_item_update).isVisible = false
-        menu.findItem(R.id.menu_item_search).isVisible = false
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -147,10 +145,6 @@ class DetailsFragment : Fragment() {
             LocalBroadcastManager.getInstance(it).registerReceiver(
                 loadResultsReceiver,
                 IntentFilter(BROADCAST_OBSERVER)
-            )
-            it.registerReceiver(
-                loadResultsReceiver,
-                IntentFilter(CONNECTIVITY_ACTION)
             )
         }
     }
@@ -162,7 +156,7 @@ class DetailsFragment : Fragment() {
         super.onDestroy()
     }
 
-    private fun getWeather() {
+    private fun startService() {
         binding.mainView.visibility = View.GONE
         binding.loadingLayout.visibility = View.VISIBLE
         context?.let {
@@ -179,46 +173,14 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    private val loadResultsReceiver: BroadcastReceiver = object :
-        BroadcastReceiver() {
-        @RequiresApi(Build.VERSION_CODES.N)
-        override fun onReceive(context: Context, intent: Intent) {
-            if (intent.action.toString() == CONNECTIVITY_ACTION) {
-                Toast.makeText(requireContext(), "Message", Toast.LENGTH_LONG).show()
-            }
-            with(binding.mainFrame)
-            {
-                when (intent.getStringExtra(DETAILS_LOAD_RESULT_EXTRA)) {
-                    DETAILS_INTENT_EMPTY_EXTRA -> showSnackBarError(
-                        DETAILS_INTENT_EMPTY_EXTRA,
-                        "",
-                        {})
-                    DETAILS_DATA_EMPTY_EXTRA -> showSnackBarError(DETAILS_DATA_EMPTY_EXTRA, "", {})
-                    DETAILS_RESPONSE_EMPTY_EXTRA -> showSnackBarError(
-                        DETAILS_RESPONSE_EMPTY_EXTRA,
-                        "",
-                        {})
-                    DETAILS_REQUEST_ERROR_EXTRA -> showSnackBarError(
-                        DETAILS_REQUEST_ERROR_EXTRA,
-                        "",
-                        {})
-                    DETAILS_REQUEST_ERROR_MESSAGE_EXTRA -> showSnackBarError(
-                        DETAILS_REQUEST_ERROR_MESSAGE_EXTRA,
-                        "",
-                        {})
-                    DETAILS_URL_MALFORMED_EXTRA -> showSnackBarError(
-                        DETAILS_URL_MALFORMED_EXTRA,
-                        "",
-                        {})
-                    DETAILS_RESPONSE_SUCCESS_EXTRA -> {
-                        intent.getParcelableExtra<WeatherDTO>(KEY_WEATHER_DTO)?.let {
-                            displayWeather(SelectState.Success(it))
-                        } ?: run {
-                            showSnackBarError("EMPTY weather", "", {})
-                        }
-                    }
-                }
-            }
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.findItem(R.id.menu_item_update).isVisible = false
+        menu.findItem(R.id.menu_item_search).isVisible = false
+        super.onCreateOptionsMenu(menu, inflater)
     }
 }
