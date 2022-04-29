@@ -15,7 +15,8 @@ fun Date.formatDate(): String = SimpleDateFormat(FORMAT_DATE, Locale.getDefault(
 fun Date.formatHour(): String = SimpleDateFormat(FORMAT_HOUR, Locale.getDefault()).format(this)
 fun Date.formatWeek(): String = SimpleDateFormat(FORMAT_WEEK, Locale.getDefault()).format(this)
 
-fun dayWeekFromString(dateString: String) = SimpleDateFormat(FORMAT_DATE_DTO,Locale.getDefault()).parse(dateString)
+fun dayWeekFromString(dateString: String) =
+    SimpleDateFormat(FORMAT_DATE_DTO, Locale.getDefault()).parse(dateString)
 
 fun String.addDegree(): String = this + "\u00B0"
 
@@ -30,11 +31,12 @@ fun View.showSnackBarResources(
     Snackbar.make(this, resources.getString(text), length)
         .setAction(resources.getString(actionText), action).show()
 }
+
 fun View.showSnackBarError(
     text: String,
     actionText: String,
     action: (View) -> Unit,
-    length: Int = Snackbar.LENGTH_INDEFINITE
+    length: Int = Snackbar.LENGTH_LONG
 ) {
     Snackbar.make(this, text, length)
         .setAction(actionText, action).show()

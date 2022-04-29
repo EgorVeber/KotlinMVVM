@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
+import android.net.ConnectivityManager.CONNECTIVITY_ACTION
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -38,9 +39,6 @@ const val DETAILS_REQUEST_ERROR_EXTRA = "REQUEST ERROR"
 const val DETAILS_REQUEST_ERROR_MESSAGE_EXTRA = "REQUEST ERROR MESSAGE"
 const val DETAILS_URL_MALFORMED_EXTRA = "URL MALFORMED"
 const val DETAILS_RESPONSE_SUCCESS_EXTRA = "RESPONSE SUCCESS"
-private const val TEMP_INVALID = -100
-private const val FEELS_LIKE_INVALID = -100
-private const val PROCESS_ERROR = "Обработка ошибки"
 
 class DetailsFragment : Fragment() {
 
@@ -145,11 +143,14 @@ class DetailsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context?.let {
-            LocalBroadcastManager.getInstance(it)
-                .registerReceiver(
-                    loadResultsReceiver,
-                    IntentFilter(BROADCAST_OBSERVER)
-                )
+            LocalBroadcastManager.getInstance(it).registerReceiver(
+                loadResultsReceiver,
+                IntentFilter(BROADCAST_OBSERVER)
+            )
+            it.registerReceiver(
+                loadResultsReceiver,
+                IntentFilter(CONNECTIVITY_ACTION)
+            )
         }
     }
 
@@ -181,18 +182,39 @@ class DetailsFragment : Fragment() {
         BroadcastReceiver() {
         @RequiresApi(Build.VERSION_CODES.N)
         override fun onReceive(context: Context, intent: Intent) {
-            when (intent.getStringExtra(DETAILS_LOAD_RESULT_EXTRA)) {
-                DETAILS_INTENT_EMPTY_EXTRA -> TODO(PROCESS_ERROR)
-                DETAILS_DATA_EMPTY_EXTRA -> TODO(PROCESS_ERROR)
-                DETAILS_RESPONSE_EMPTY_EXTRA -> TODO(PROCESS_ERROR)
-                DETAILS_REQUEST_ERROR_EXTRA -> TODO(PROCESS_ERROR)
-                DETAILS_REQUEST_ERROR_MESSAGE_EXTRA -> TODO(PROCESS_ERROR)
-                DETAILS_URL_MALFORMED_EXTRA -> TODO(PROCESS_ERROR)
-                DETAILS_RESPONSE_SUCCESS_EXTRA -> {
-                    intent.getParcelableExtra<WeatherDTO>(KEY_WEATHER_DTO)?.let {
-                        displayWeather(SelectState.Success(it))
-                    } ?: run {
-                        binding.mainFrame.showSnackBarError("EMPTY weather", "", {})
+            if (intent.action.toString().equals(CONNECTIVITY_ACTION)) {
+                binding.mainView.showSnackBarError(intent.action.toString(), "", {})
+            }
+            with(binding.mainFrame)
+            {
+                when (intent.getStringExtra(DETAILS_LOAD_RESULT_EXTRA)) {
+                    DETAILS_INTENT_EMPTY_EXTRA -> showSnackBarError(
+                        DETAILS_INTENT_EMPTY_EXTRA,
+                        "",
+                        {})
+                    DETAILS_DATA_EMPTY_EXTRA -> showSnackBarError(DETAILS_DATA_EMPTY_EXTRA, "", {})
+                    DETAILS_RESPONSE_EMPTY_EXTRA -> showSnackBarError(
+                        DETAILS_RESPONSE_EMPTY_EXTRA,
+                        "",
+                        {})
+                    DETAILS_REQUEST_ERROR_EXTRA -> showSnackBarError(
+                        DETAILS_REQUEST_ERROR_EXTRA,
+                        "",
+                        {})
+                    DETAILS_REQUEST_ERROR_MESSAGE_EXTRA -> showSnackBarError(
+                        DETAILS_REQUEST_ERROR_MESSAGE_EXTRA,
+                        "",
+                        {})
+                    DETAILS_URL_MALFORMED_EXTRA -> showSnackBarError(
+                        DETAILS_URL_MALFORMED_EXTRA,
+                        "",
+                        {})
+                    DETAILS_RESPONSE_SUCCESS_EXTRA -> {
+                        intent.getParcelableExtra<WeatherDTO>(KEY_WEATHER_DTO)?.let {
+                            displayWeather(SelectState.Success(it))
+                        } ?: run {
+                            showSnackBarError("EMPTY weather", "", {})
+                        }
                     }
                 }
             }
