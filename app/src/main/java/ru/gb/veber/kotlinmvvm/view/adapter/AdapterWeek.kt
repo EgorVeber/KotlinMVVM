@@ -2,12 +2,10 @@ package ru.gb.veber.kotlinmvvm.view.adapter
 
 import android.view.*
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import ru.gb.veber.kotlinmvvm.R
-import ru.gb.veber.kotlinmvvm.model.Forecasts
-import ru.gb.veber.kotlinmvvm.model.dayWeekFromString
-import ru.gb.veber.kotlinmvvm.model.formatWeek
-import ru.gb.veber.kotlinmvvm.model.getSlash
+import ru.gb.veber.kotlinmvvm.model.*
 
 class AdapterWeek : RecyclerView.Adapter<HolderWeek>() {
 
@@ -42,6 +40,10 @@ class HolderWeek(itemView: View) : RecyclerView.ViewHolder(itemView) {
                     getSlash(day.temp_min, day.temp_max)
                 findViewById<TextView>(R.id.evening_temperature).text =
                     getSlash(evening.temp_min, evening.temp_max)
+                findViewById<AppCompatImageView>(R.id.night_icon).loadSvg(night.icon!!)
+                findViewById<AppCompatImageView>(R.id.morning_icon).loadSvg(morning.icon!!)
+                findViewById<AppCompatImageView>(R.id.day_icon).loadSvg(day.icon!!)
+                findViewById<AppCompatImageView>(R.id.evening_icon).loadSvg(evening.icon!!)
             }
         }
     }
