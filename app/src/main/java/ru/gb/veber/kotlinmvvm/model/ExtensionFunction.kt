@@ -1,6 +1,7 @@
 package ru.gb.veber.kotlinmvvm.model
 
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import coil.ImageLoader
 import coil.decode.SvgDecoder
@@ -67,6 +68,8 @@ fun AppCompatImageView.loadSvg(keyIcon: String) {
         .componentRegistry { add(SvgDecoder(this@loadSvg.context)) }
         .build()
     val request = ImageRequest.Builder(this.context)
+        .crossfade(true)
+        .crossfade(500)
         .data("$WEATHER_URL_ICON$keyIcon.svg")
         .target(this)
         .build()

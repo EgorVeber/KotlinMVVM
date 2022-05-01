@@ -4,7 +4,7 @@
     <dimen name="radius_card_view">10dp</dimen>
     <dimen name="text_size_city">40sp</dimen>
     <dimen name="margin_base">20dp</dimen>
-    <dimen name="text_size_info">18sp</dimen>
+    <dimen name="text_size_info">20sp</dimen>
     <dimen name="text_size_info2">20sp</dimen>
     <dimen name="text_size_weather">52sp</dimen>
     <dimen name="margin_info">10dp</dimen>

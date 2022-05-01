@@ -16,6 +16,10 @@ data class FactDTO(
     val feels_like: Int?,
     val condition: String?,
     var icon: String?,
+    var wind_speed:Double,
+    var pressure_mm:Int,
+    var humidity:Int,
+    var season:String
 ) : Parcelable
 
 @Parcelize

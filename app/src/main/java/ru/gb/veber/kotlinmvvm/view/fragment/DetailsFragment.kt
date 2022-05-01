@@ -1,7 +1,9 @@
 package ru.gb.veber.kotlinmvvm.view.fragment
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -39,11 +41,12 @@ class DetailsFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
+    @SuppressLint("CutPasteId")
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -70,7 +73,7 @@ class DetailsFragment : Fragment() {
             is SelectState.Success -> {
                 binding.mainView.visibility = View.VISIBLE
                 binding.loadingLayout.visibility = View.GONE
-                sleep(2000)
+                sleep(1000)
                 setWeather(selectState.weatherDTO)
             }
             is SelectState.Error -> {
@@ -93,7 +96,8 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    fun setWeather(weatherDTO: WeatherDTO) {
+    private fun setWeather(weatherDTO: WeatherDTO) {
+        Log.d("TAG", "setWeather() called with: weatherDTO = $weatherDTO")
         with(binding)
         {
             mainView.show()
@@ -105,6 +109,10 @@ class DetailsFragment : Fragment() {
                 weatherText.text = temp.toString().addDegree()
                 dataText.text = Date().formatDate()
                 weatherIcon.loadSvg(icon!!)
+                windSpeed.text= windSpeed.text.toString()+wind_speed.toString()
+                PressureMm.text= PressureMm.text.toString()+pressure_mm.toString()
+                Humidity.text= Humidity.text.toString()+humidity.toString()
+                Season.text= Season.text.toString()+season
             }
             adapterHour.setWeather(weatherDTO.forecasts[0].hours)
             adapterWeek.setWeather(weatherDTO.forecasts)
