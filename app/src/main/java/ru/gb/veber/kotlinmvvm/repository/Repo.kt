@@ -7,8 +7,9 @@ interface Repo {
     fun getWeatherDetailsFromServer(
         lat: Double,
         lon: Double,
-        callback: retrofit2.Callback<WeatherDTO>
+        callback: Callback<WeatherDTO>
     )
+
     fun getWeatherFromLocalStorageRus(): List<Weather>
     fun getWeatherFromLocalStorageWorld(): List<Weather>
 }

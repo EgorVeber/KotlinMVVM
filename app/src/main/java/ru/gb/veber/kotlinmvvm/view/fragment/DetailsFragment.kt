@@ -68,12 +68,13 @@ class DetailsFragment : Fragment() {
         viewModel.detailsLiveData.observe(viewLifecycleOwner) { renderData(it) }
         viewModel.getWeatherFromRemoteSource(weatherBundle.city.lat, weatherBundle.city.lon)
     }
+
     private fun renderData(selectState: SelectState) {
         when (selectState) {
             is SelectState.Success -> {
                 binding.mainView.visibility = View.VISIBLE
                 binding.loadingLayout.visibility = View.GONE
-                displayLoadReceiverWeather(selectState.weatherDTO)
+                setViewWeather(selectState.weatherDTO)
             }
             is SelectState.Error -> {
                 binding.mainView.visibility = View.VISIBLE
@@ -95,8 +96,7 @@ class DetailsFragment : Fragment() {
         }
     }
 
-     fun displayLoadReceiverWeather(weatherDTO: WeatherDTO) {
-         Log.d("TAG", "displayLoadReceiverWeather() called with: weatherDTO = $weatherDTO")
+    fun setViewWeather(weatherDTO: WeatherDTO) {
         with(binding)
         {
             mainView.show()
