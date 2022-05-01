@@ -67,18 +67,7 @@ class DetailsFragment : Fragment(), LoadReceiver {
     private fun startService() {
         binding.mainView.visibility = View.GONE
         binding.loadingLayout.visibility = View.VISIBLE
-        context?.let {
-            it.startService(Intent(it, SelectService::class.java).apply {
-                putExtra(
-                    LATITUDE_EXTRA,
-                    weatherBundle.city.lat
-                )
-                putExtra(
-                    LONGITUDE_EXTRA,
-                    weatherBundle.city.lon
-                )
-            })
-        }
+
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
