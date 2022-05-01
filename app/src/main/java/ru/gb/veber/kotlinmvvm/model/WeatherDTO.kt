@@ -14,7 +14,8 @@ data class WeatherDTO(
 data class FactDTO(
     val temp: Int?,
     val feels_like: Int?,
-    val condition: String?
+    val condition: String?,
+    var icon: String?,
 ) : Parcelable
 
 @Parcelize
@@ -44,23 +45,27 @@ data class Parts(
 @Parcelize
 data class Day(
     val temp_min: Int,
-    val temp_max: Int
+    val temp_max: Int,
+    var icon: String?
 ) : Parcelable
 
 @Parcelize
 data class Night(
     var temp_min: Int,
-    var temp_max: Int
+    var temp_max: Int,
+    var icon: String?
 ) : Parcelable
 
 @Parcelize
 data class Morning(
     val temp_min: Int,
-    val temp_max: Int
+    val temp_max: Int,
+    var icon: String?
 ) : Parcelable
 
 @Parcelize
 data class Evening(
     val temp_min: Int,
-    val temp_max: Int
+    val temp_max: Int,
+    var icon: String?
 ) : Parcelable

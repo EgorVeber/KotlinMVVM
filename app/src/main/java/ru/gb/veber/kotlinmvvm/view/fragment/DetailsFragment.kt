@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -82,6 +83,7 @@ class DetailsFragment : Fragment(), LoadReceiver {
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun displayLoadReceiverWeather(weatherDTO: WeatherDTO) {
+        Log.d("TAG", "displayLoadReceiverWeather() called with: weatherDTO = ${weatherDTO}")
         with(binding)
         {
             mainView.show()

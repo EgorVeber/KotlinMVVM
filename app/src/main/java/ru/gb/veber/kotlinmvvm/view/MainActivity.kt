@@ -23,10 +23,6 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, CitysFragment()).commit()
         }
-        registerReceiver(
-            receiverConnectivity,
-            IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-        )
     }
 
     override fun onBackPressed() {

@@ -1,12 +1,10 @@
 package ru.gb.veber.kotlinmvvm.view_model
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.gb.veber.kotlinmvvm.model.Repo
 import ru.gb.veber.kotlinmvvm.model.RepoImpl
 import java.lang.Thread.sleep
-import java.util.*
 
 class ViewModelWeather(
     private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData(),
