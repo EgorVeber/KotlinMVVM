@@ -1,6 +1,5 @@
 package ru.gb.veber.kotlinmvvm.view.fragment
 
-import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
@@ -20,10 +19,8 @@ import ru.gb.veber.kotlinmvvm.view.adapter.AdapterHour
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterWeek
 import java.util.*
 
-const val BROADCAST_OBSERVER = "BROADCAST_OBSERVER"
-const val KEY_WEATHER_DTO = "KEY_WEATHER_DTO"
 
-class DetailsFragment : Fragment(), LoadReceiver {
+class DetailsFragment : Fragment() {
 
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
@@ -31,7 +28,6 @@ class DetailsFragment : Fragment(), LoadReceiver {
     private val adapterWeek = AdapterWeek()
     private lateinit var weatherBundle: Weather
 
-    private val loadResultsReceiver = LoadResultsReceiver(this)
 
     companion object {
         const val KEY_WEATHER = "KEY_WEATHER"
@@ -70,51 +66,24 @@ class DetailsFragment : Fragment(), LoadReceiver {
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    override fun displayLoadReceiverWeather(weatherDTO: WeatherDTO) {
-        Log.d("TAG", "displayLoadReceiverWeather() called with: weatherDTO = ${weatherDTO}")
-        with(binding)
-        {
-            mainView.show()
-            loadingLayout.hide()
-            weatherDTO.fact?.apply {
-                cityName.text = weatherBundle.city.cityName
-                feelsLikeText.text = feels_like.toString().addDegree()
-                conditionText.text = condition
-                weatherText.text = temp.toString().addDegree()
-                dataText.text = Date().formatDate()
-            }
-            adapterHour.setWeather(weatherDTO.forecasts[0].hours)
-            adapterWeek.setWeather(weatherDTO.forecasts)
-        }
-    }
-
-    override fun displayLoadReceiverError(string: String) {
-        binding.apply {
-            mainView.showSnackBarError(
-                string,
-                resources.getString(R.string.reload),
-                { startService() })
-            mainView.hide()
-            loadingLayout.hide()
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        context?.let {
-            LocalBroadcastManager.getInstance(it).registerReceiver(
-                loadResultsReceiver, IntentFilter(BROADCAST_OBSERVER)
-            )
-        }
-    }
-
-    override fun onDestroy() {
-        context?.let {
-            LocalBroadcastManager.getInstance(it).unregisterReceiver(loadResultsReceiver)
-        }
-        super.onDestroy()
-    }
+//    @RequiresApi(Build.VERSION_CODES.N)
+//    override fun displayLoadReceiverWeather(weatherDTO: WeatherDTO) {
+//        Log.d("TAG", "displayLoadReceiverWeather() called with: weatherDTO = ${weatherDTO}")
+//        with(binding)
+//        {
+//            mainView.show()
+//            loadingLayout.hide()
+//            weatherDTO.fact?.apply {
+//                cityName.text = weatherBundle.city.cityName
+//                feelsLikeText.text = feels_like.toString().addDegree()
+//                conditionText.text = condition
+//                weatherText.text = temp.toString().addDegree()
+//                dataText.text = Date().formatDate()
+//            }
+//            adapterHour.setWeather(weatherDTO.forecasts[0].hours)
+//            adapterWeek.setWeather(weatherDTO.forecasts)
+//        }
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

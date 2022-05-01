@@ -12,7 +12,6 @@ import java.text.SimpleDateFormat
 
 class MainActivity : AppCompatActivity() {
 
-    private val receiverConnectivity = LoadResultsReceiver(null)
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,10 +34,5 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        unregisterReceiver(receiverConnectivity)
     }
 }
