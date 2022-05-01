@@ -10,7 +10,8 @@ import java.util.*
 
 class ViewModelWeather(
     private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData(),
-    private val repositoryImpl: Repo = RepoImpl()) : ViewModel() {
+    private val repositoryImpl: Repo = RepoImpl()
+) : ViewModel() {
 
     fun getLiveData() = liveDataToObserver
     fun getWeatherFromLocalSourceRus() = getDataFromLocalSource(isRussian = true)
