@@ -8,6 +8,7 @@ import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +18,10 @@ import ru.gb.veber.kotlinmvvm.model.*
 import ru.gb.veber.kotlinmvvm.view.*
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterHour
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterWeek
+import ru.gb.veber.kotlinmvvm.view_model.SelectState
+import ru.gb.veber.kotlinmvvm.view_model.ViewModelWeatherServer
 import java.util.*
+import kotlin.math.log
 
 
 class DetailsFragment : Fragment() {
@@ -28,6 +32,9 @@ class DetailsFragment : Fragment() {
     private val adapterWeek = AdapterWeek()
     private lateinit var weatherBundle: Weather
 
+    private val viewModel: ViewModelWeatherServer by lazy {
+        ViewModelProvider(this).get(ViewModelWeatherServer::class.java)
+    }
 
     companion object {
         const val KEY_WEATHER = "KEY_WEATHER"
@@ -57,33 +64,54 @@ class DetailsFragment : Fragment() {
             findViewById<RecyclerView>(R.id.list_hour).layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
-        startService()
+
+        viewModel.detailsLiveData.observe(viewLifecycleOwner) { renderData(it) }
+        viewModel.getWeatherFromRemoteSource(weatherBundle.city.lat, weatherBundle.city.lon)
+    }
+    private fun renderData(selectState: SelectState) {
+        when (selectState) {
+            is SelectState.Success -> {
+                binding.mainView.visibility = View.VISIBLE
+                binding.loadingLayout.visibility = View.GONE
+                displayLoadReceiverWeather(selectState.weatherDTO)
+            }
+            is SelectState.Error -> {
+                binding.mainView.visibility = View.VISIBLE
+                binding.loadingLayout.visibility = View.GONE
+                binding.mainView.showSnackBarError(
+                    getString(R.string.error),
+                    getString(R.string.reload),
+                    {
+                        viewModel.getWeatherFromRemoteSource(
+                            weatherBundle.city.lat,
+                            weatherBundle.city.lon
+                        )
+                    })
+            }
+            is SelectState.Loading -> {
+                binding.mainView.visibility = View.GONE
+                binding.loadingLayout.visibility = View.VISIBLE
+            }
+        }
     }
 
-    private fun startService() {
-        binding.mainView.visibility = View.GONE
-        binding.loadingLayout.visibility = View.VISIBLE
-
+     fun displayLoadReceiverWeather(weatherDTO: WeatherDTO) {
+         Log.d("TAG", "displayLoadReceiverWeather() called with: weatherDTO = $weatherDTO")
+        with(binding)
+        {
+            mainView.show()
+            loadingLayout.hide()
+            weatherDTO.fact?.apply {
+                cityName.text = weatherBundle.city.cityName
+                feelsLikeText.text = feels_like.toString().addDegree()
+                conditionText.text = condition
+                weatherText.text = temp.toString().addDegree()
+                dataText.text = Date().formatDate()
+            }
+            adapterHour.setWeather(weatherDTO.forecasts[0].hours)
+            adapterWeek.setWeather(weatherDTO.forecasts)
+        }
     }
-
-//    @RequiresApi(Build.VERSION_CODES.N)
-//    override fun displayLoadReceiverWeather(weatherDTO: WeatherDTO) {
-//        Log.d("TAG", "displayLoadReceiverWeather() called with: weatherDTO = ${weatherDTO}")
-//        with(binding)
-//        {
-//            mainView.show()
-//            loadingLayout.hide()
-//            weatherDTO.fact?.apply {
-//                cityName.text = weatherBundle.city.cityName
-//                feelsLikeText.text = feels_like.toString().addDegree()
-//                conditionText.text = condition
-//                weatherText.text = temp.toString().addDegree()
-//                dataText.text = Date().formatDate()
-//            }
-//            adapterHour.setWeather(weatherDTO.forecasts[0].hours)
-//            adapterWeek.setWeather(weatherDTO.forecasts)
-//        }
-//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

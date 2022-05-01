@@ -8,7 +8,7 @@ import java.lang.Thread.sleep
 
 class ViewModelWeather(
     private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData(),
-    private val repositoryImpl: Repo = RepoImpl()
+    private val repositoryImpl: Repo = RepoImpl(null)
 ) : ViewModel() {
 
     fun getLiveData() = liveDataToObserver
