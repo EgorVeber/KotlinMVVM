@@ -8,6 +8,7 @@ class ViewModelDialog(private val weatherData: MutableLiveData<Info> = MutableLi
     ViewModel() {
     fun setWeatherData(info: Info) {
         weatherData.postValue(info)
+
     }
 
     fun getWeatherData(): MutableLiveData<Info> {
