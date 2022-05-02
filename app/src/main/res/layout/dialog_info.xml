@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/liner_description"
+            style="@style/liner_layout_default"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Давление (в мм рт. ст.):"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_info" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Влажность воздуха (в процентах):"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_info" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Время года:"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_info" />
+        </LinearLayout>
+</LinearLayout>

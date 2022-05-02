@@ -3,7 +3,6 @@ package ru.gb.veber.kotlinmvvm.view.fragment
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentDetailsBinding
 import ru.gb.veber.kotlinmvvm.model.*
+import ru.gb.veber.kotlinmvvm.view.DialogInfo
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterHour
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterWeek
 import ru.gb.veber.kotlinmvvm.view_model.SelectState
@@ -97,7 +97,6 @@ class DetailsFragment : Fragment() {
     }
 
     private fun setWeather(weatherDTO: WeatherDTO) {
-        Log.d("TAG", "setWeather() called with: weatherDTO = $weatherDTO")
         with(binding)
         {
             mainView.show()
@@ -117,6 +116,8 @@ class DetailsFragment : Fragment() {
             adapterHour.setWeather(weatherDTO.forecasts[0].hours)
             adapterWeek.setWeather(weatherDTO.forecasts)
         }
+
+        DialogInfo().show(requireActivity().supportFragmentManager, null)
     }
 
     override fun onDestroyView() {
