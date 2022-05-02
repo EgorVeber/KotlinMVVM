@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_details.*
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentDetailsBinding
 import ru.gb.veber.kotlinmvvm.model.*
@@ -18,9 +19,11 @@ import ru.gb.veber.kotlinmvvm.view.DialogInfo
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterHour
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterWeek
 import ru.gb.veber.kotlinmvvm.view_model.SelectState
+import ru.gb.veber.kotlinmvvm.view_model.ViewModelDialog
 import ru.gb.veber.kotlinmvvm.view_model.ViewModelWeatherServer
 import java.lang.Thread.sleep
 import java.util.*
+import kotlin.math.log
 
 
 class DetailsFragment : Fragment() {
@@ -30,9 +33,13 @@ class DetailsFragment : Fragment() {
     private val adapterHour = AdapterHour()
     private val adapterWeek = AdapterWeek()
     private lateinit var weatherBundle: Weather
+    private lateinit var weatherInfo: Info
 
     private val viewModel: ViewModelWeatherServer by lazy {
         ViewModelProvider(this).get(ViewModelWeatherServer::class.java)
+    }
+    private val viewModelDialog: ViewModelDialog by lazy {
+        ViewModelProvider(requireActivity()).get(ViewModelDialog::class.java)
     }
 
     companion object {
@@ -55,6 +62,7 @@ class DetailsFragment : Fragment() {
         (requireActivity() as AppCompatActivity).supportActionBar?.let { SAB ->
             SAB.subtitle = resources.getString(R.string.city)
         }
+        info_icon.setOnClickListener { infoClick() }
 
         weatherBundle = arguments?.getParcelable(KEY_WEATHER) ?: Weather()
 
@@ -67,6 +75,12 @@ class DetailsFragment : Fragment() {
 
         viewModel.detailsLiveData.observe(viewLifecycleOwner) { renderData(it) }
         viewModel.getWeatherFromRemoteSource(weatherBundle.city.lat, weatherBundle.city.lon)
+    }
+
+    private fun infoClick() {
+        viewModelDialog.setWeatherData(weatherInfo)
+        Log.d("TAG", weatherInfo.toString())
+        DialogInfo().show(requireActivity().supportFragmentManager, null)
     }
 
     private fun renderData(selectState: SelectState) {
@@ -98,7 +112,7 @@ class DetailsFragment : Fragment() {
     }
 
     private fun setWeather(weatherDTO: WeatherDTO) {
-        Log.d("TAG", "setWeather() called with: weatherDTO = $weatherDTO")
+        weatherInfo = weatherDTO.info!!
         with(binding)
         {
             mainView.show()
@@ -123,7 +137,6 @@ class DetailsFragment : Fragment() {
             adapterWeek.setWeather(weatherDTO.forecasts)
         }
 
-        DialogInfo().show(requireActivity().supportFragmentManager, null)
     }
 
     override fun onDestroyView() {

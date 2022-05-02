@@ -65,6 +65,17 @@
                             android:layout_height="match_parent"
                             android:layout_marginTop="@dimen/margin_info">
 
+                            <ImageView
+                                android:id="@+id/info_icon"
+                                android:layout_width="wrap_content"
+                                android:background="?selectableItemBackground"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                android:clickable="true"
+                                android:focusable="true"
+                                app:layout_constraintStart_toStartOf="@+id/feelsLike_info"
+                                android:src="@drawable/info_black"/>
+
                             <TextView
                                 android:id="@+id/condition_text"
                                 android:layout_width="wrap_content"
@@ -336,6 +347,7 @@
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_size_info" />
                     </LinearLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/recycler_item_line_height"

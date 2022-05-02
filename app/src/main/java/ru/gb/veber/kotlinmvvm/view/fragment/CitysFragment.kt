@@ -5,6 +5,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import kotlinx.android.synthetic.main.fragment_details.*
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentCitysBinding
 import ru.gb.veber.kotlinmvvm.model.Weather
@@ -51,6 +52,7 @@ class CitysFragment : Fragment(), OnCityClickListener {
             mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
         }
     }
+
 
     override fun onCityClick(weather: Weather) {
         activity?.supportFragmentManager?.let {
