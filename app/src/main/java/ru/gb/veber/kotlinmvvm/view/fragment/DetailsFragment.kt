@@ -3,7 +3,6 @@ package ru.gb.veber.kotlinmvvm.view.fragment
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -23,7 +22,6 @@ import ru.gb.veber.kotlinmvvm.view_model.ViewModelDialog
 import ru.gb.veber.kotlinmvvm.view_model.ViewModelWeatherServer
 import java.lang.Thread.sleep
 import java.util.*
-import kotlin.math.log
 
 
 class DetailsFragment : Fragment() {
@@ -62,7 +60,6 @@ class DetailsFragment : Fragment() {
         (requireActivity() as AppCompatActivity).supportActionBar?.let { SAB ->
             SAB.subtitle = resources.getString(R.string.city)
         }
-        info_icon.setOnClickListener { infoClick() }
 
         weatherBundle = arguments?.getParcelable(KEY_WEATHER) ?: Weather()
 
@@ -73,13 +70,16 @@ class DetailsFragment : Fragment() {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
 
-        viewModel.detailsLiveData.observe(viewLifecycleOwner) { renderData(it) }
-        viewModel.getWeatherFromRemoteSource(weatherBundle.city.lat, weatherBundle.city.lon)
+        viewModel.apply {
+            detailsLiveData.observe(viewLifecycleOwner) { renderData(it) }
+            getWeatherFromRemoteSource(weatherBundle.city.lat, weatherBundle.city.lon)
+        }
+
+        info_icon.setOnClickListener { infoClick() }
     }
 
     private fun infoClick() {
         viewModelDialog.setWeatherData(weatherInfo)
-        Log.d("TAG", weatherInfo.toString())
         DialogInfo().show(requireActivity().supportFragmentManager, null)
     }
 
@@ -136,7 +136,6 @@ class DetailsFragment : Fragment() {
             adapterHour.setWeather(weatherDTO.forecasts[0].hours)
             adapterWeek.setWeather(weatherDTO.forecasts)
         }
-
     }
 
     override fun onDestroyView() {

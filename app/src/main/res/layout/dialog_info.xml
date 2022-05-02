@@ -1,59 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    style="@style/liner_layout_default"
+    android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:gravity="center"
-        android:text="Координаты"
-        android:textSize="@dimen/text_size_info" />
+        style="@style/dialog_title"
+        android:text="@string/Coordinates" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/recycler_item_line_height"
-        android:background="@android:color/darker_gray" />
+    <View style="@style/separator_view" />
 
     <LinearLayout
         android:id="@+id/liner_description"
-        style="@style/liner_layout_default"
-        android:layout_height="wrap_content">
+        style="@style/liner_layout_default">
 
         <TextView
             android:id="@+id/lat_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:textColor="@color/black"
-            android:text="Широта:"
-            android:textSize="@dimen/text_size_info" />
+            style="@style/dialog_text" />
 
         <TextView
             android:id="@+id/lon_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="Долгота:"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_info" />
+            style="@style/dialog_text" />
     </LinearLayout>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:gravity="center"
-        android:text="Часовой пояс"
-        android:textSize="@dimen/text_size_info" />
+        style="@style/dialog_title"
+        android:text="@string/timezone" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/recycler_item_line_height"
-        android:background="@android:color/darker_gray" />
+    <View style="@style/separator_view" />
 
     <LinearLayout
         style="@style/liner_layout_default"
@@ -61,25 +35,15 @@
 
         <TextView
             android:id="@+id/timezone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_info" />
+            style="@style/dialog_title"
+            android:textColor="@color/black" />
     </LinearLayout>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:gravity="center"
-        android:text="Норма давления "
-        android:textSize="@dimen/text_size_info" />
+        style="@style/dialog_title"
+        android:text="@string/Pressure_rate" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/recycler_item_line_height"
-        android:background="@android:color/darker_gray" />
+    <View style="@style/separator_view" />
 
     <LinearLayout
         style="@style/liner_layout_default"
@@ -87,11 +51,7 @@
 
         <TextView
             android:id="@+id/pressure_tv"
-            android:layout_width="match_parent"
-            android:textColor="@color/black"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:textSize="@dimen/text_size_info" />
+            style="@style/dialog_title"
+            android:textColor="@color/black" />
     </LinearLayout>
 </LinearLayout>

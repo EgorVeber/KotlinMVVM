@@ -30,7 +30,8 @@ class HolderWeek(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(forecasts: Forecasts) {
         with(itemView)
         {
-            findViewById<TextView>(R.id.week_day).text = dayWeekFromString(forecasts.date).formatWeek()
+            findViewById<TextView>(R.id.week_day).text =
+                dayWeekFromString(forecasts.date).formatWeek()
             forecasts.parts.apply {
                 findViewById<TextView>(R.id.night_temperature).text =
                     getSlash(night.temp_min, night.temp_max)

@@ -13,7 +13,7 @@ private const val REQUEST_ERROR = "Ошибка запроса на сервер
 private const val CORRUPTED_DATA = "Неполные данные"
 
 class ViewModelWeatherServer(
-     val detailsLiveData: MutableLiveData<SelectState> = MutableLiveData(),
+    val detailsLiveData: MutableLiveData<SelectState> = MutableLiveData(),
     private val repositoryImpl: Repo = RepoImpl(RemoteDataSource())
 ) : ViewModel() {
 

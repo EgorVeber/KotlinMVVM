@@ -1,7 +1,6 @@
 package ru.gb.veber.kotlinmvvm.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,16 +32,16 @@ class DialogInfo : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModelDialog.getWeatherData().observe(this) { initInfo(it) }
+        viewModelDialog.getWeatherData().observe(this) { initView(it) }
     }
 
-    fun initInfo(info: Info) {
+    private fun initView(info: Info) {
         info.let {
             it.apply {
                 lat_tv.text = lat.toString().addDegree()
                 lon_tv.text = lon.toString().addDegree()
                 timezone.text = tzinfo?.name
-                pressure_tv.text = def_pressure_mm.toString() + "мм рт"
+                pressure_tv.text = def_pressure_mm.toString() + " мм рт"
             }
         }
     }
