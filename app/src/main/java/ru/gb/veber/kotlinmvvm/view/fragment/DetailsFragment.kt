@@ -3,6 +3,7 @@ package ru.gb.veber.kotlinmvvm.view.fragment
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -97,6 +98,7 @@ class DetailsFragment : Fragment() {
     }
 
     private fun setWeather(weatherDTO: WeatherDTO) {
+        Log.d("TAG", "setWeather() called with: weatherDTO = $weatherDTO")
         with(binding)
         {
             mainView.show()
@@ -108,10 +110,14 @@ class DetailsFragment : Fragment() {
                 weatherText.text = temp.toString().addDegree()
                 dataText.text = Date().formatDate()
                 weatherIcon.loadSvg(icon!!)
-                windSpeed.text= windSpeed.text.toString()+wind_speed.toString()
-                PressureMm.text= PressureMm.text.toString()+pressure_mm.toString()
-                Humidity.text= Humidity.text.toString()+humidity.toString()
-                Season.text= Season.text.toString()+season
+                windSpeed.text = "$wind_speed м/с"
+                PressureMm.text = "$pressure_mm мм рт"
+                Humidity.text = "$humidity%"
+                Season.text = season
+            }
+            weatherDTO.forecasts[0].apply {
+                binding.sunrise.text = sunrise
+                binding.sunset.text = sunset
             }
             adapterHour.setWeather(weatherDTO.forecasts[0].hours)
             adapterWeek.setWeather(weatherDTO.forecasts)
