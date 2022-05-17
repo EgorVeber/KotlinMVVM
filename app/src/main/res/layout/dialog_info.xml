@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/liner_layout_default"
+    android:layout_height="match_parent">
+
+    <TextView
+        style="@style/dialog_title"
+        android:text="@string/Coordinates" />
+
+    <View style="@style/separator_view" />
+
+    <LinearLayout
+        android:id="@+id/liner_description"
+        style="@style/liner_layout_default">
+
+        <TextView
+            android:id="@+id/lat_tv"
+            style="@style/dialog_text" />
+
+        <TextView
+            android:id="@+id/lon_tv"
+            style="@style/dialog_text" />
+    </LinearLayout>
+
+    <TextView
+        style="@style/dialog_title"
+        android:text="@string/timezone" />
+
+    <View style="@style/separator_view" />
+
+    <LinearLayout
+        style="@style/liner_layout_default"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/timezone"
+            style="@style/dialog_title"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <TextView
+        style="@style/dialog_title"
+        android:text="@string/Pressure_rate" />
+
+    <View style="@style/separator_view" />
+
+    <LinearLayout
+        style="@style/liner_layout_default"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/pressure_tv"
+            style="@style/dialog_title"
+            android:textColor="@color/black" />
+    </LinearLayout>
+</LinearLayout>

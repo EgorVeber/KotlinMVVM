@@ -1,6 +1,11 @@
 package ru.gb.veber.kotlinmvvm.model
 
 import android.view.View
+import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
+import coil.ImageLoader
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.google.android.material.snackbar.Snackbar
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -10,6 +15,8 @@ const val FORMAT_DATE = "E, dd MMMM H:m"
 const val FORMAT_DATE_DTO = "yyyy-MM-dd"
 const val FORMAT_HOUR = "H:m"
 const val FORMAT_WEEK = "EEEE"
+const val WEATHER_URL_ICON = "https://yastatic.net/weather/i/icons/funky/dark/"
+
 
 fun Date.formatDate(): String = SimpleDateFormat(FORMAT_DATE, Locale.getDefault()).format(this)
 fun Date.formatHour(): String = SimpleDateFormat(FORMAT_HOUR, Locale.getDefault()).format(this)
@@ -55,5 +62,19 @@ fun View.show(): View {
     }
     return this
 }
+
+fun AppCompatImageView.loadSvg(keyIcon: String) {
+    val imageLoader = ImageLoader.Builder(this.context)
+        .componentRegistry { add(SvgDecoder(this@loadSvg.context)) }
+        .build()
+    val request = ImageRequest.Builder(this.context)
+        .crossfade(true)
+        .crossfade(500)
+        .data("$WEATHER_URL_ICON$keyIcon.svg")
+        .target(this)
+        .build()
+    imageLoader.enqueue(request)
+}
+
 
 

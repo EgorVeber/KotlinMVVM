@@ -13,4 +13,17 @@
     <string name="city">Город</string>
     <string name="list_citys">Список городов</string>
     <string name="feelsLikeText">Ощущается как</string>
+    <string name="Coordinates">Координаты</string>
+    <string name="timezone">Часовой пояс</string>
+    <string name="Pressure_rate">Норма давления</string>
+    <string name="night">Ночь</string>
+    <string name="morning">Утро</string>
+    <string name="day">День</string>
+    <string name="evening">Вечер</string>
+    <string name="Sunrise">Восход</string>
+    <string name="Sunset">Закат</string>
+    <string name="wind">Ветер</string>
+    <string name="Pressure">Давление</string>
+    <string name="Humidity">Влажность</string>
+    <string name="Season">Время года</string>
 </resources>

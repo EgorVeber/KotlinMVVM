@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     android:layout_marginBottom="10dp"
@@ -9,17 +10,19 @@
 
     <TextView
         android:id="@+id/hour_time"
+        tools:text = "15:00"
         style="@style/recycler_item_style" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/hour_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_gravity="center"
         android:src="@drawable/sun2" />
 
     <TextView
         android:id="@+id/hour_weather"
+        tools:text = "10"
         style="@style/recycler_item_style"
         android:textColor="@color/black" />
 </LinearLayout>

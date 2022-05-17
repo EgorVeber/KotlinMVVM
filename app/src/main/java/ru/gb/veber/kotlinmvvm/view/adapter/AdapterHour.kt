@@ -1,12 +1,13 @@
 package ru.gb.veber.kotlinmvvm.view.adapter
+
 import android.view.*
-import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.model.Hours
 import ru.gb.veber.kotlinmvvm.model.addDegree
-import ru.gb.veber.kotlinmvvm.model.formatHour
+import ru.gb.veber.kotlinmvvm.model.*
 
 class AdapterHour : RecyclerView.Adapter<HolderHour>() {
 
@@ -31,8 +32,8 @@ class HolderHour(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(hours: Hours) {
         with(itemView)
         {
-            findViewById<TextView>(R.id.hour_time).text = hours.hour+":00"
-            //findViewById<ImageView>(R.id.hour_icon).background=resources.getDrawable(R.drawable.clouds1)
+            findViewById<TextView>(R.id.hour_time).text = hours.hour + ":00"
+            findViewById<AppCompatImageView>(R.id.hour_icon).loadSvg(hours.icon!!)
             findViewById<TextView>(R.id.hour_weather).text = hours.temp.toString().addDegree()
         }
     }

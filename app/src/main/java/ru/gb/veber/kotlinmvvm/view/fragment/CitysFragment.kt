@@ -52,6 +52,7 @@ class CitysFragment : Fragment(), OnCityClickListener {
         }
     }
 
+
     override fun onCityClick(weather: Weather) {
         activity?.supportFragmentManager?.let {
             it.beginTransaction()

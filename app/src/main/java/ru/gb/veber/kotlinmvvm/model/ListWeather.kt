@@ -32,6 +32,7 @@ fun getRussianCities(): List<Weather> {
         Weather(City("Челябинск", 55.1644419, 61.4368432), getTemp()),
         Weather(City("Омск", 54.9884804, 73.32423610000001), getTemp()),
         Weather(City("Ростов-на-Дону", 47.2357137, 39.701505), getTemp()),
-        Weather(City("Уфа", 54.7387621, 55.972055400000045), getTemp())
+        Weather(City("Уфа", 54.7387621, 55.972055400000045), getTemp()),
+        Weather(City("Сочи", 43.60028, 39.73789), getTemp())
     )
 }

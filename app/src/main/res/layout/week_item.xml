@@ -1,153 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     android:id="@+id/card_view_item"
     style="@style/card_style_base">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:padding="5dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        style="@style/liner_layout_default.height"
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/week_day"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Понедельник"
-            android:textColor="@color/black"
-            android:textSize="22sp" />
+            style="@style/week_title" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/night"
-                android:layout_marginLeft="20dp"
-                android:layout_width="wrap_content"
+                style="@style/week_text"
+                android:text="@string/night"
                 app:layout_constraintBottom_toBottomOf="@+id/night_icon"
-                android:layout_height="wrap_content"
-                android:text="Ночь"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/night_icon"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/sun2"
+                style="@style/week_icon_size"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/night"
-                />
-
-            <TextView
-                android:id="@+id/night_temperature"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:text="12/15"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@+id/night_icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/night_icon"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/night_temperature"
+                style="@style/week_text_temp"
+                android:layout_marginRight="10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/night_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/night_icon" />
+
+            <TextView
                 android:id="@+id/morning"
-                android:layout_width="wrap_content"
-                android:layout_marginLeft="20dp"
+                style="@style/week_text"
+                android:text="@string/morning"
                 app:layout_constraintBottom_toBottomOf="@id/morning_icon"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/night"
-                android:text="Утро"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/morning_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/sun2"
-                app:layout_constraintTop_toBottomOf="@+id/night_icon"
-                app:layout_constraintStart_toStartOf="@+id/night_icon" />
+                style="@style/week_icon_size"
+                app:layout_constraintStart_toStartOf="@+id/night_icon"
+                app:layout_constraintTop_toBottomOf="@+id/night_icon" />
+
             <TextView
                 android:id="@+id/morning_temperature"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/week_text_temp"
                 app:layout_constraintBottom_toBottomOf="@+id/morning_icon"
-                app:layout_constraintStart_toStartOf="@+id/night_temperature"
-                app:layout_constraintTop_toBottomOf="@+id/night_temperature"
-                android:text="12/15"
+                app:layout_constraintStart_toStartOf="@+id/night_temperature" />
 
-                android:textColor="@color/black"
-                android:textSize="18sp" />
             <TextView
                 android:id="@+id/day"
-                android:layout_width="wrap_content"
-                android:layout_marginLeft="20dp"
+                style="@style/week_text"
+                android:text="@string/day"
                 app:layout_constraintBottom_toBottomOf="@id/day_icon"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/morning"
-                android:text="День"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/day_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/sun2"
-                app:layout_constraintTop_toBottomOf="@+id/morning_icon"
-                app:layout_constraintStart_toStartOf="@+id/morning_icon" />
+                style="@style/week_icon_size"
+                app:layout_constraintStart_toStartOf="@+id/morning_icon"
+                app:layout_constraintTop_toBottomOf="@+id/morning_icon" />
+
             <TextView
                 android:id="@+id/day_temperature"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/week_text_temp"
                 app:layout_constraintBottom_toBottomOf="@+id/day_icon"
-                app:layout_constraintStart_toStartOf="@+id/morning_temperature"
-                app:layout_constraintTop_toBottomOf="@+id/morning_temperature"
-                android:text="12/15"
+                app:layout_constraintStart_toStartOf="@+id/morning_temperature" />
 
-                android:textColor="@color/black"
-                android:textSize="18sp" />
             <TextView
                 android:id="@+id/evening"
-                android:layout_width="wrap_content"
+                style="@style/week_text"
+                android:text="@string/evening"
                 app:layout_constraintBottom_toBottomOf="@id/evening_icon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/day"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="Вечер"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/evening_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/sun2"
-                app:layout_constraintTop_toBottomOf="@+id/day_icon"
-                app:layout_constraintStart_toStartOf="@+id/day_icon" />
+                style="@style/week_icon_size"
+                app:layout_constraintStart_toStartOf="@+id/day_icon"
+                app:layout_constraintTop_toBottomOf="@+id/day_icon" />
+
             <TextView
                 android:id="@+id/evening_temperature"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/week_text_temp"
                 app:layout_constraintBottom_toBottomOf="@+id/evening_icon"
-                app:layout_constraintStart_toStartOf="@+id/day_temperature"
-                app:layout_constraintTop_toBottomOf="@+id/day_temperature"
-                android:text="12/15"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                app:layout_constraintStart_toStartOf="@+id/day_temperature" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
