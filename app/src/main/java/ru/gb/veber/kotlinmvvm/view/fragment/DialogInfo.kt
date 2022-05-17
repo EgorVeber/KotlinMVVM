@@ -1,4 +1,4 @@
-package ru.gb.veber.kotlinmvvm.view
+package ru.gb.veber.kotlinmvvm.view.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater

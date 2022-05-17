@@ -22,7 +22,6 @@ class ViewModelWeatherServer(
         repositoryImpl.getWeatherDetailsFromServer(lat, lon, callback)
     }
 
-
     private val callback = object : retrofit2.Callback<WeatherDTO> {
         override fun onResponse(
             call: retrofit2.Call<WeatherDTO>,

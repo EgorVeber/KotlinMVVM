@@ -14,7 +14,6 @@ import kotlinx.android.synthetic.main.fragment_details.*
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentDetailsBinding
 import ru.gb.veber.kotlinmvvm.model.*
-import ru.gb.veber.kotlinmvvm.view.DialogInfo
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterHour
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterWeek
 import ru.gb.veber.kotlinmvvm.view_model.SelectState
