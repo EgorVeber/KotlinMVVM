@@ -15,4 +15,5 @@
     <color name="drawer_text_color">#338a3e</color>
     <color name="back_main">#eeeeee</color>
     <color name="loadingBackground">#80FFFFFF</color>
+    <color name="fragmentBackground">#FFFFFF</color>
 </resources>

@@ -7,6 +7,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import ru.gb.kotlinapp.view.history.HistoryFragment
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentCitysBinding
 import ru.gb.veber.kotlinmvvm.model.Weather
@@ -97,7 +98,17 @@ class CitysFragment : Fragment(), OnCityClickListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menu_item_update) changeWeatherDataSet()
+
+        when (item.itemId) {
+            R.id.menu_item_update -> changeWeatherDataSet()
+            R.id.menu_history -> {
+                activity?.let {
+                    it.supportFragmentManager.beginTransaction()
+                        .add(R.id.fragment_container, HistoryFragment.newInstance())
+                        .addToBackStack(null).commitAllowingStateLoss()
+                }
+            }
+        }
         return super.onOptionsItemSelected(item)
     }
 

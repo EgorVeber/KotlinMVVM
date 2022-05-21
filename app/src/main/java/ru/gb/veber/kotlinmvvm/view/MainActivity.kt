@@ -1,11 +1,14 @@
 package ru.gb.veber.kotlinmvvm.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.ActivityMainBinding
 import ru.gb.veber.kotlinmvvm.view.fragment.CitysFragment
+import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
 
