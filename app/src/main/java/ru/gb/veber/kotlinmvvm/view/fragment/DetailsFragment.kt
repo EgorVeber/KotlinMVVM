@@ -3,6 +3,7 @@ package ru.gb.veber.kotlinmvvm.view.fragment
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -116,11 +117,12 @@ class DetailsFragment : Fragment() {
 
     private fun setWeather(weatherDTO: WeatherDTO) {
         weatherInfo = weatherDTO.info
+        saveCity(weatherBundle.city, factToWeather(weatherDTO.fact!!))
         with(binding)
         {
             mainView.show()
             loadingLayout.hide()
-            weatherDTO.fact?.apply {
+            weatherDTO.fact.apply {
                 cityName.text = weatherBundle.city.cityName
                 feelsLikeText.text = feels_like.toString().addDegree()
                 conditionText.text = condition
@@ -138,6 +140,13 @@ class DetailsFragment : Fragment() {
             }
             adapterHour.setWeather(weatherDTO.forecasts[0].hours)
             adapterWeek.setWeather(weatherDTO.forecasts)
+        }
+    }
+
+    private fun saveCity(city: City, weather: Weather) {
+        with(weather)
+        {
+            viewModel.saveCityToDB(Weather(city, temperature, feelsLike, condition))
         }
     }
 
