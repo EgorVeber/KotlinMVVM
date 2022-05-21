@@ -50,6 +50,7 @@ class HistoryFragment : Fragment(), ClickHistory {
     }
 
     override fun deleteHistoryId(id: Int) {
+
     }
 
     override fun deleteHistory() {
@@ -99,9 +100,16 @@ class HistoryFragment : Fragment(), ClickHistory {
         fun newInstance() =
             HistoryFragment()
     }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_history_toolbar, menu)
         menu.findItem(R.id.menu_item_update).isVisible = false
         menu.findItem(R.id.menu_item_search).isVisible = false
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        viewModel.deleteHistory()
+        return super.onOptionsItemSelected(item)
     }
 }

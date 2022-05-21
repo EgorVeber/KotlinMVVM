@@ -14,13 +14,12 @@ import ru.gb.veber.kotlinmvvm.view.adapter.vpAdapter
 class FragmentMain : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
-    private val listFragment = listOf(CitysFragment(), HistoryFragment())
-    private val listTitle = listOf("Cits", "History")
+    private val listFragment = listOf(CitysFragment(), HistoryFragment(), SettingsFragment())
+    private val listTitle = listOf("Cits", "History", "Settings")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
     }

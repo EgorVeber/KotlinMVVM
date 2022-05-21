@@ -26,14 +26,6 @@ class MainActivity : AppCompatActivity() {
                 .replace(R.id.fragment_container, FragmentMain()).commit()
         }
     }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        supportActionBar?.let {
-            it.subtitle = resources.getString(R.string.list_citys)
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return super.onCreateOptionsMenu(menu)
