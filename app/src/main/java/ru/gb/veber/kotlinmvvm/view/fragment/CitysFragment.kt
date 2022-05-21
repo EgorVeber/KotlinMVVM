@@ -1,6 +1,8 @@
 package ru.gb.veber.kotlinmvvm.view.fragment
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -27,10 +29,12 @@ class CitysFragment : Fragment(), OnCityClickListener {
     private val adapter = CitysFragmentAdapter()
     private var isDataSetRus: Boolean = true
 
+    companion object {
+        const val KEY_CITS = "KEY_CITS"
+    }
+
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentCitysBinding.inflate(inflater, container, false)
         return binding.root
@@ -41,9 +45,19 @@ class CitysFragment : Fragment(), OnCityClickListener {
         setHasOptionsMenu(true)
         adapter.setOnCityClickListener(this)
 
+        activity?.let {
+            isDataSetRus = it.getPreferences(Context.MODE_PRIVATE).getBoolean(KEY_CITS, true)
+        }
+
         viewModel.apply {
             getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
-            getWeatherFromLocalSourceRus()
+            if (isDataSetRus) {
+                getWeatherFromLocalSourceRus()
+                binding.mainFragmentFAB.setImageResource(R.drawable.ic_russia)
+            } else {
+                binding.mainFragmentFAB.setImageResource(R.drawable.ic_earth)
+                getWeatherFromLocalSourceWorld()
+            }
         }
 
         binding.apply {
@@ -51,7 +65,6 @@ class CitysFragment : Fragment(), OnCityClickListener {
             mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
         }
     }
-
 
     override fun onCityClick(weather: Weather) {
         activity?.supportFragmentManager?.let {
@@ -99,5 +112,11 @@ class CitysFragment : Fragment(), OnCityClickListener {
                     mainFragmentFAB.setImageResource(R.drawable.ic_russia)
                 }
             }
-        }.also { isDataSetRus = !isDataSetRus }
+        }.also {
+            isDataSetRus = !isDataSetRus
+            activity?.let {
+                it.getPreferences(Context.MODE_PRIVATE).edit().putBoolean(KEY_CITS, isDataSetRus)
+                    .apply()
+            }
+        }
 }

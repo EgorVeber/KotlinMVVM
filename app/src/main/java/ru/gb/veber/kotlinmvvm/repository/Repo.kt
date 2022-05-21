@@ -4,22 +4,13 @@ import retrofit2.Callback
 import ru.gb.veber.kotlinmvvm.repository.RemoteDataSource
 
 interface Repo {
-    fun getWeatherDetailsFromServer(
-        lat: Double,
-        lon: Double,
-        callback: Callback<WeatherDTO>
-    )
-
+    fun getWeatherFromServer(lat: Double, lon: Double, callback: Callback<WeatherDTO>)
     fun getWeatherFromLocalStorageRus(): List<Weather>
     fun getWeatherFromLocalStorageWorld(): List<Weather>
 }
 
 class RepoImpl(private val remoteDataSource: RemoteDataSource?) : Repo {
-    override fun getWeatherDetailsFromServer(
-        lat: Double,
-        lon: Double,
-        callback: Callback<WeatherDTO>
-    ) {
+    override fun getWeatherFromServer(lat: Double, lon: Double, callback: Callback<WeatherDTO>) {
         remoteDataSource?.getWeatherDetails(lat, lon, callback)
     }
 

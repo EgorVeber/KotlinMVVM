@@ -30,7 +30,7 @@ class DetailsFragment : Fragment() {
     private val adapterHour = AdapterHour()
     private val adapterWeek = AdapterWeek()
     private lateinit var weatherBundle: Weather
-    private lateinit var weatherInfo: Info
+    private var weatherInfo: Info? = null
 
     private val viewModel: ViewModelWeatherServer by lazy {
         ViewModelProvider(this).get(ViewModelWeatherServer::class.java)
@@ -63,10 +63,12 @@ class DetailsFragment : Fragment() {
         weatherBundle = arguments?.getParcelable(KEY_WEATHER) ?: Weather()
 
         view.apply {
-            findViewById<RecyclerView>(R.id.list_hour).adapter = adapterHour
+            findViewById<RecyclerView>(R.id.list_hour).apply {
+                adapter = adapterHour
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            }
             findViewById<RecyclerView>(R.id.list_week).adapter = adapterWeek
-            findViewById<RecyclerView>(R.id.list_hour).layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
 
         viewModel.apply {
@@ -78,7 +80,9 @@ class DetailsFragment : Fragment() {
     }
 
     private fun infoClick() {
-        viewModelDialog.setWeatherData(weatherInfo)
+        weatherInfo?.let {
+            viewModelDialog.setWeatherData(it)
+        }
         DialogInfo().show(requireActivity().supportFragmentManager, null)
     }
 
@@ -91,7 +95,7 @@ class DetailsFragment : Fragment() {
                 setWeather(selectState.weatherDTO)
             }
             is SelectState.Error -> {
-                binding.mainView.visibility = View.VISIBLE
+                //binding.mainView.visibility = View.VISIBLE
                 binding.loadingLayout.visibility = View.GONE
                 binding.mainView.showSnackBarError(
                     getString(R.string.error),
@@ -111,7 +115,7 @@ class DetailsFragment : Fragment() {
     }
 
     private fun setWeather(weatherDTO: WeatherDTO) {
-        weatherInfo = weatherDTO.info!!
+        weatherInfo = weatherDTO.info
         with(binding)
         {
             mainView.show()

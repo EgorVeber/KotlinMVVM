@@ -1,14 +1,11 @@
 package ru.gb.veber.kotlinmvvm.view
 
-import android.content.IntentFilter
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.ActivityMainBinding
 import ru.gb.veber.kotlinmvvm.view.fragment.CitysFragment
-import java.text.SimpleDateFormat
 
 class MainActivity : AppCompatActivity() {
 

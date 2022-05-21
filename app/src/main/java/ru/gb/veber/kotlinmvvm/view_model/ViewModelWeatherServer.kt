@@ -2,12 +2,14 @@ package ru.gb.veber.kotlinmvvm.view_model
 
 
 import android.util.Log
+import android.view.KeyEvent
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.gb.veber.kotlinmvvm.model.Repo
 import ru.gb.veber.kotlinmvvm.model.RepoImpl
 import ru.gb.veber.kotlinmvvm.model.WeatherDTO
 import ru.gb.veber.kotlinmvvm.repository.RemoteDataSource
+import javax.security.auth.callback.Callback
 
 private const val REQUEST_ERROR = "Ошибка запроса на сервер"
 private const val CORRUPTED_DATA = "Неполные данные"
@@ -19,7 +21,7 @@ class ViewModelWeatherServer(
 
     fun getWeatherFromRemoteSource(lat: Double, lon: Double) {
         detailsLiveData.value = SelectState.Loading
-        repositoryImpl.getWeatherDetailsFromServer(lat, lon, callback)
+        repositoryImpl.getWeatherFromServer(lat, lon, callback)
     }
 
     private val callback = object : retrofit2.Callback<WeatherDTO> {
