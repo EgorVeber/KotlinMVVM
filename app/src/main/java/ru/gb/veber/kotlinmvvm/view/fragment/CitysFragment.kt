@@ -101,13 +101,6 @@ class CitysFragment : Fragment(), OnCityClickListener {
 
         when (item.itemId) {
             R.id.menu_item_update -> changeWeatherDataSet()
-            R.id.menu_history -> {
-                activity?.let {
-                    it.supportFragmentManager.beginTransaction()
-                        .add(R.id.fragment_container, HistoryFragment.newInstance())
-                        .addToBackStack(null).commitAllowingStateLoss()
-                }
-            }
         }
         return super.onOptionsItemSelected(item)
     }

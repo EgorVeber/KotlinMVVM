@@ -8,6 +8,7 @@ import ru.gb.veber.kotlinmvvm.room.HistoryDao
 interface LocalRepository {
     fun getAllHistory(): List<Weather>
     fun saveEntity(weather: Weather)
+    fun deleteHistory()
 }
 
 class LocalRepositoryImp(private val localDataSource: HistoryDao) : LocalRepository {
@@ -17,5 +18,9 @@ class LocalRepositoryImp(private val localDataSource: HistoryDao) : LocalReposit
 
     override fun saveEntity(weather: Weather) {
         localDataSource.insert(convertWeatherToEntity(weather))
+    }
+
+    override fun deleteHistory() {
+        localDataSource.deleteAll()
     }
 }

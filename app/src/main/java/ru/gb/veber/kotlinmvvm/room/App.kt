@@ -1,6 +1,7 @@
 package ru.gb.veber.kotlinmvvm.room
 
 import android.app.Application
+import android.util.Log
 import androidx.room.Room
 import java.lang.IllegalStateException
 
@@ -13,6 +14,7 @@ class App : Application() {
 
         fun getHistoryDao(): HistoryDao {
             if (weatherDB == null) {
+
                 synchronized(WeatherDataBase::class.java)
                 {
                     if (weatherDB == null) {

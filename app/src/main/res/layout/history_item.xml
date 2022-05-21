@@ -6,17 +6,13 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/recyclerViewItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        tools:text="Header" />
+        style="@style/recycler_citys_text_view"
+        tools:text="Москва" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/hairline"
-        android:layout_marginTop="5dp"
-        android:background="@color/design_default_color_primary_dark" />
+        android:layout_height="@dimen/recycler_item_line_height"
+        android:background="@android:color/darker_gray" />
 </LinearLayout>

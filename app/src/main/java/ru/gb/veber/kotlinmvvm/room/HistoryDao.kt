@@ -19,4 +19,11 @@ interface HistoryDao {
 
     @Delete
     fun delete(entity: HistorySelect)
+
+    @Query("Delete from HistorySelect where id = :id")
+    fun deleteById(id: Int)
+
+    @Query("Delete from HistorySelect")
+    fun deleteAll()
+
 }

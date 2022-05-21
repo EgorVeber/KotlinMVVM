@@ -5,9 +5,11 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import ru.gb.kotlinapp.view.history.HistoryFragment
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.ActivityMainBinding
 import ru.gb.veber.kotlinmvvm.view.fragment.CitysFragment
+import ru.gb.veber.kotlinmvvm.view.fragment.FragmentMain
 import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
@@ -18,9 +20,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbarMain)
+
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, CitysFragment()).commit()
+                .replace(R.id.fragment_container, FragmentMain()).commit()
         }
     }
 
