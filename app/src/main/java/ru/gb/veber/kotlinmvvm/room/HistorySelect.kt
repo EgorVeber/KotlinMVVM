@@ -9,5 +9,8 @@ data class HistorySelect(
     var id: Int,
     val city: String,
     val temperature: Int,
-    val condition: String
+    val condition: String,
+    val lat: Double,
+    val lot: Double,
+    val date: String
 )

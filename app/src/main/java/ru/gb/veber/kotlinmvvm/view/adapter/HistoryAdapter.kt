@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.history_item.view.*
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.model.Weather
+import ru.gb.veber.kotlinmvvm.model.addDegree
+import ru.gb.veber.kotlinmvvm.model.formatHistory
+import java.util.*
 
 class HistoryAdapter : RecyclerView.Adapter<HistoryHolder>() {
     private var data: List<Weather> = arrayListOf()
@@ -38,7 +41,7 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryHolder>() {
 }
 
 interface ClickHistory {
-    fun deleteHistoryId(id: Int)
+    fun selectWeather(weather: Weather)
     fun deleteHistory()
 }
 
@@ -55,7 +58,13 @@ class HistoryHolder(view: View, var listner: ClickHistory) : RecyclerView.ViewHo
         this.weather = data
         if (layoutPosition != RecyclerView.NO_POSITION) {
             itemView.recyclerViewItem.text =
-                String.format("%s %d %s", data.city.cityName, data.temperature, data.condition)
+                String.format(
+                    "%s %s %s %8s",
+                    data.city.cityName,
+                    data.temperature.toString().addDegree(),
+                    data.condition,
+                    Date().formatHistory()
+                )
             itemView.setOnClickListener {
                 popupMenu.show()
             }
@@ -66,7 +75,7 @@ class HistoryHolder(view: View, var listner: ClickHistory) : RecyclerView.ViewHo
         Log.d("TAG", "onMenuItemClick() called with: menuItem = $menuItem")
         when (menuItem.itemId) {
             R.id.menu_history_delete -> {
-                listner.deleteHistoryId(adapterPosition)
+                listner.selectWeather(weather)
             }
             R.id.menu_history_delete_all -> {
                 listner.deleteHistory()

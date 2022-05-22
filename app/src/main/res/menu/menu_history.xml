@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_history_delete"
-        android:title="Удалить"
+        android:title="Weather now"
  />
     <item
         android:id="@+id/menu_history_delete_all"
-        android:title="Удалить все"
+        android:title="Delete all"
        />
 </menu>
