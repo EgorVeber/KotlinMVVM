@@ -23,7 +23,7 @@ class App : Application() {
                             appInstance!!.applicationContext,
                             WeatherDataBase::class.java,
                             DB_NAME
-                        ).allowMainThreadQueries().build()
+                        ).build()
                     }
                 }
             }

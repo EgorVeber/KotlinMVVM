@@ -13,11 +13,15 @@ class ViewModelHistory(
 
     fun getAllHistory() {
         historyLiveData.value = AppState.Loading
-        historyLiveData.value = AppState.Success(historyRepo.getAllHistory())
+        Thread {
+            historyLiveData.postValue(AppState.Success(historyRepo.getAllHistory()))
+        }.start()
     }
 
     fun deleteHistory() {
-        historyRepo.deleteHistory()
-        historyLiveData.value = AppState.Success(historyRepo.getAllHistory())
+        Thread {
+            historyRepo.deleteHistory()
+            historyLiveData.postValue(AppState.Success(historyRepo.getAllHistory()))
+        }.start()
     }
 }

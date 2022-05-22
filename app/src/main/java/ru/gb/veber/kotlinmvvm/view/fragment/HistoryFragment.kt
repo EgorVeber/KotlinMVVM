@@ -16,6 +16,7 @@ import ru.gb.veber.kotlinmvvm.view_model.ViewModelHistory
 
 
 class HistoryFragment : Fragment(), ClickHistory {
+
     private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
 
@@ -25,7 +26,6 @@ class HistoryFragment : Fragment(), ClickHistory {
     private val adapter: HistoryAdapter by lazy {
         HistoryAdapter()
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,10 +47,6 @@ class HistoryFragment : Fragment(), ClickHistory {
     override fun onResume() {
         super.onResume()
         viewModel.getAllHistory()
-    }
-
-    override fun deleteHistoryId(id: Int) {
-
     }
 
     override fun deleteHistory() {
@@ -93,6 +89,10 @@ class HistoryFragment : Fragment(), ClickHistory {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun deleteHistoryId(id: Int) {
+
     }
 
     companion object {

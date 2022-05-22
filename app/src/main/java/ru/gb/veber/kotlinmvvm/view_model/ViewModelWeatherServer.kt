@@ -23,7 +23,9 @@ class ViewModelWeatherServer(
 ) : ViewModel() {
 
     fun saveCityToDB(weather: Weather) {
-        historyRepo.saveEntity(weather)
+        Thread {
+            historyRepo.saveEntity(weather)
+        }.start()
     }
 
     fun getWeatherFromRemoteSource(lat: Double, lon: Double) {
