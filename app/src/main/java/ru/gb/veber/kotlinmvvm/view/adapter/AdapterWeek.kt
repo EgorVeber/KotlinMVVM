@@ -1,5 +1,6 @@
 package ru.gb.veber.kotlinmvvm.view.adapter
 
+import android.util.Log
 import android.view.*
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView

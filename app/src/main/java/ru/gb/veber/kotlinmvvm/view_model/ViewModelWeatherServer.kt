@@ -6,22 +6,32 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.gb.veber.kotlinmvvm.model.Repo
 import ru.gb.veber.kotlinmvvm.model.RepoImpl
+import ru.gb.veber.kotlinmvvm.model.Weather
 import ru.gb.veber.kotlinmvvm.model.WeatherDTO
+import ru.gb.veber.kotlinmvvm.repository.LocalRepository
+import ru.gb.veber.kotlinmvvm.repository.LocalRepositoryImp
 import ru.gb.veber.kotlinmvvm.repository.RemoteDataSource
+import ru.gb.veber.kotlinmvvm.room.App.CreateDB.getHistoryDao
 
 private const val REQUEST_ERROR = "Ошибка запроса на сервер"
 private const val CORRUPTED_DATA = "Неполные данные"
 
 class ViewModelWeatherServer(
     val detailsLiveData: MutableLiveData<SelectState> = MutableLiveData(),
-    private val repositoryImpl: Repo = RepoImpl(RemoteDataSource())
+    private val repositoryImpl: Repo = RepoImpl(RemoteDataSource()),
+    private val historyRepo: LocalRepository = LocalRepositoryImp(getHistoryDao())
 ) : ViewModel() {
+
+    fun saveCityToDB(weather: Weather) {
+        Thread {
+            historyRepo.saveEntity(weather)
+        }.start()
+    }
 
     fun getWeatherFromRemoteSource(lat: Double, lon: Double) {
         detailsLiveData.value = SelectState.Loading
-        repositoryImpl.getWeatherDetailsFromServer(lat, lon, callback)
+        repositoryImpl.getWeatherFromServer(lat, lon, callback)
     }
-
 
     private val callback = object : retrofit2.Callback<WeatherDTO> {
         override fun onResponse(

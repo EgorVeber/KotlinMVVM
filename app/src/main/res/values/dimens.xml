@@ -20,4 +20,12 @@
     <dimen name="recycler_item_line_height">1dp</dimen>
     <dimen name="recycler_item_line_margin_end">20dp</dimen>
     <dimen name="week_size_icon">40dp</dimen>
+    <dimen name="city_name_text_size">35sp</dimen>
+    <dimen name="main_container_text_size">10sp</dimen>
+    <dimen name="threads_text_size">25sp</dimen>
+    <dimen name="town_header_height">100dp</dimen>
+    <dimen name="weather_icon_width">150dp</dimen>
+    <dimen name="weather_icon_height">150dp</dimen>
+    <dimen name="weather_icon_margin">110dp</dimen>
+    <dimen name="hairline">1dp</dimen>
 </resources>
