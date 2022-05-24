@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.android.synthetic.main.fragment_main.*
 import ru.gb.kotlinapp.view.history.HistoryFragment
 import ru.gb.veber.kotlinmvvm.databinding.FragmentMainBinding
 import ru.gb.veber.kotlinmvvm.view.adapter.vpAdapter
@@ -29,6 +30,7 @@ class FragmentMain : Fragment() {
 
         val adapterV = vpAdapter(requireActivity(), listFragment)
         binding.placeholder.adapter = adapterV
+        //binding.tabLayout.setupWithViewPager(placeholder,true)
         TabLayoutMediator(binding.tabLayout, binding.placeholder) { tab, pos ->
             tab.text = listTitle[pos]
         }.attach()
