@@ -14,7 +14,7 @@
         app:showAsAction="always|collapseActionView" />
     <item
         android:id="@+id/menu_content_provider"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/contact_icon"
         android:title="content_provider"
         app:showAsAction="always" />
 </menu>
