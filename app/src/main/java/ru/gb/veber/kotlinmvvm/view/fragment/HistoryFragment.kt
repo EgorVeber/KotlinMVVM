@@ -1,5 +1,6 @@
 package ru.gb.kotlinapp.view.history
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -10,13 +11,11 @@ import androidx.lifecycle.ViewModelProvider
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentHistoryBinding
 import ru.gb.veber.kotlinmvvm.model.City
+import ru.gb.veber.kotlinmvvm.model.Info
 import ru.gb.veber.kotlinmvvm.model.Weather
 import ru.gb.veber.kotlinmvvm.model.showSnackBarError
 import ru.gb.veber.kotlinmvvm.view.fragment.DetailsFragment
-import ru.gb.veber.kotlinmvvm.view_model.AppState
-import ru.gb.veber.kotlinmvvm.view_model.SelectState
-import ru.gb.veber.kotlinmvvm.view_model.ViewModelHistory
-import ru.gb.veber.kotlinmvvm.view_model.ViewModelWeatherServer
+import ru.gb.veber.kotlinmvvm.view_model.*
 
 
 class HistoryFragment : Fragment(), ClickHistory {
