@@ -1,21 +1,22 @@
 package ru.gb.kotlinapp.view.history
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentHistoryBinding
-import ru.gb.veber.kotlinmvvm.model.City
-import ru.gb.veber.kotlinmvvm.model.Info
 import ru.gb.veber.kotlinmvvm.model.Weather
+import ru.gb.veber.kotlinmvvm.model.convertHistoryEntityToWeather
 import ru.gb.veber.kotlinmvvm.model.showSnackBarError
 import ru.gb.veber.kotlinmvvm.view.fragment.DetailsFragment
-import ru.gb.veber.kotlinmvvm.view_model.*
+import ru.gb.veber.kotlinmvvm.view_model.AppState
+import ru.gb.veber.kotlinmvvm.view_model.ViewModelHistory
 
 
 class HistoryFragment : Fragment(), ClickHistory {
@@ -79,6 +80,9 @@ class HistoryFragment : Fragment(), ClickHistory {
                 }
                 adapter.setData(appState.weatherList)
             }
+            is AppState.SuccessHistory -> {
+                adapter.setData(convertHistoryEntityToWeather(appState.weatherList))
+            }
             is AppState.Loading -> {
                 with(binding) {
                     historyFragmentRecyclerview.visibility = View.GONE
@@ -111,14 +115,54 @@ class HistoryFragment : Fragment(), ClickHistory {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        var searchItem: MenuItem? = null
+        var searchView: SearchView? = null
+
+
         inflater.inflate(R.menu.menu_history_toolbar, menu)
         menu.findItem(R.id.menu_item_update).isVisible = false
-        menu.findItem(R.id.menu_item_search).isVisible = false
+        menu.findItem(R.id.menu_content_provider).isVisible = false
+
+
+        searchItem = menu.findItem(R.id.menu_item_search)
+        searchView = searchItem.getActionView() as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                viewModel.filterHistory("%$query%")
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                viewModel.filterHistory("%$newText%")
+                return false
+            }
+        })
+
+
+        MenuItemCompat.setOnActionExpandListener(
+            searchItem,
+            object : MenuItemCompat.OnActionExpandListener {
+                override fun onMenuItemActionExpand(item: MenuItem): Boolean {
+                    return true
+                }
+
+                override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
+                    viewModel.getAllHistory()
+                    return true
+                }
+            })
+
+
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        viewModel.deleteHistory()
+        when (item.itemId) {
+            R.id.menu_item_delete ->
+                viewModel.deleteHistory()
+
+        }
         return super.onOptionsItemSelected(item)
     }
 }

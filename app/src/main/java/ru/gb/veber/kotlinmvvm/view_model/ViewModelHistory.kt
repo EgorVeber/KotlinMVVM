@@ -24,4 +24,10 @@ class ViewModelHistory(
             historyLiveData.postValue(AppState.Success(historyRepo.getAllHistory()))
         }.start()
     }
+
+    fun filterHistory(string: String) {
+        Thread {
+            historyLiveData.postValue(AppState.SuccessHistory(historyRepo.filterName(string)))
+        }.start()
+    }
 }

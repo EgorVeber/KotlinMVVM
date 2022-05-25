@@ -2,17 +2,10 @@ package ru.gb.veber.kotlinmvvm.view.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
-import com.google.android.material.tabs.TabLayoutMediator
-import ru.gb.kotlinapp.view.history.HistoryFragment
 import ru.gb.veber.kotlinmvvm.R
-import ru.gb.veber.kotlinmvvm.databinding.FragmentMainBinding
 import ru.gb.veber.kotlinmvvm.databinding.FragmentSettingsBinding
-import ru.gb.veber.kotlinmvvm.model.Weather
-import ru.gb.veber.kotlinmvvm.view.adapter.vpAdapter
-import kotlin.math.log
 
 
 class SettingsFragment : Fragment() {
