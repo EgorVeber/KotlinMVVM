@@ -2,12 +2,10 @@ package ru.gb.veber.kotlinmvvm.view.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import ru.gb.kotlinapp.view.history.HistoryFragment
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentCitysBinding
 import ru.gb.veber.kotlinmvvm.model.Weather
@@ -19,7 +17,7 @@ import ru.gb.veber.kotlinmvvm.view.adapter.OnCityClickListener
 import ru.gb.veber.kotlinmvvm.view_model.AppState
 import ru.gb.veber.kotlinmvvm.view_model.ViewModelWeather
 
-class CitysFragment : Fragment(), OnCityClickListener {
+class FragmentCitys : Fragment(), OnCityClickListener {
 
     private var _binding: FragmentCitysBinding? = null
     private val binding get() = _binding!!
@@ -70,8 +68,8 @@ class CitysFragment : Fragment(), OnCityClickListener {
     override fun onCityClick(weather: Weather) {
         activity?.supportFragmentManager?.let {
             it.beginTransaction()
-                .add(R.id.fragment_container, DetailsFragment.newInstance(Bundle().apply {
-                    putParcelable(DetailsFragment.KEY_WEATHER, weather)
+                .add(R.id.fragment_container, FragmentDetails.newInstance(Bundle().apply {
+                    putParcelable(FragmentDetails.KEY_WEATHER, weather)
                 })).addToBackStack("").commitAllowingStateLoss()
         }
     }

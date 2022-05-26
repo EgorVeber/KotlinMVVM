@@ -3,7 +3,6 @@ package ru.gb.kotlinapp.view.history
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.Fragment
@@ -12,12 +11,12 @@ import androidx.lifecycle.ViewModelProvider
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentHistoryBinding
 import ru.gb.veber.kotlinmvvm.model.*
-import ru.gb.veber.kotlinmvvm.view.fragment.DetailsFragment
+import ru.gb.veber.kotlinmvvm.view.fragment.FragmentDetails
 import ru.gb.veber.kotlinmvvm.view_model.AppState
 import ru.gb.veber.kotlinmvvm.view_model.ViewModelHistory
 
 
-class HistoryFragment : Fragment(), ClickHistory {
+class FragmentHistory : Fragment(), ClickHistory {
 
     private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
@@ -56,8 +55,8 @@ class HistoryFragment : Fragment(), ClickHistory {
     override fun selectWeather(weather: Weather) {
         activity?.supportFragmentManager?.let {
             it.beginTransaction()
-                .replace(R.id.fragment_container, DetailsFragment.newInstance(Bundle().apply {
-                    putParcelable(DetailsFragment.KEY_WEATHER, weather)
+                .replace(R.id.fragment_container, FragmentDetails.newInstance(Bundle().apply {
+                    putParcelable(FragmentDetails.KEY_WEATHER, weather)
                 })).addToBackStack("").commitAllowingStateLoss()
         }
     }
@@ -112,7 +111,7 @@ class HistoryFragment : Fragment(), ClickHistory {
     companion object {
         @JvmStatic
         fun newInstance() =
-            HistoryFragment()
+            FragmentHistory()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -161,7 +160,6 @@ class HistoryFragment : Fragment(), ClickHistory {
         when (item.itemId) {
             R.id.menu_item_delete ->
                 viewModel.deleteHistory()
-
         }
         return super.onOptionsItemSelected(item)
     }

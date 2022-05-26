@@ -54,7 +54,7 @@ class ContentProviderFragment : Fragment(), OnContactsClickListener {
         checkPermission()
     }
 
-    override fun onCityClick(contacts: MyContacts) {
+    override fun onContactsClick(contacts: MyContacts) {
         val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", contacts.phone, null))
         startActivity(intent)
     }

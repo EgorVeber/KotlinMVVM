@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
-import ru.gb.kotlinapp.view.history.HistoryFragment
+import ru.gb.kotlinapp.view.history.FragmentHistory
 import ru.gb.veber.kotlinmvvm.databinding.FragmentMainBinding
 import ru.gb.veber.kotlinmvvm.view.adapter.vpAdapter
 
@@ -15,11 +15,11 @@ class FragmentMain : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
     private val listFragment = listOf(
-        CitysFragment(),
-        HistoryFragment(),
-        SettingsFragment()
+        FragmentCitys(),
+        FragmentHistory(),
+        FragmentSettings()
     )
-    private val listTitle = listOf("Cits", "History", "Settings")
+    private val listTitle = listOf("Citis", "History", "Settings")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

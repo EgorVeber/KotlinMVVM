@@ -8,7 +8,7 @@ import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentSettingsBinding
 
 
-class SettingsFragment : Fragment() {
+class FragmentSettings : Fragment() {
 
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!

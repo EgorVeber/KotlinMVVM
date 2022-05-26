@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -24,7 +23,7 @@ import ru.gb.veber.kotlinmvvm.view_model.ViewModelWeatherServer
 import java.util.*
 
 
-class DetailsFragment : Fragment() {
+class FragmentDetails : Fragment() {
 
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
@@ -43,7 +42,7 @@ class DetailsFragment : Fragment() {
 
     companion object {
         const val KEY_WEATHER = "KEY_WEATHER"
-        fun newInstance(bundle: Bundle) = DetailsFragment().apply { arguments = bundle }
+        fun newInstance(bundle: Bundle) = FragmentDetails().apply { arguments = bundle }
     }
 
     override fun onCreateView(
@@ -84,7 +83,7 @@ class DetailsFragment : Fragment() {
         weatherInfo?.let {
             viewModelDialog.setWeatherData(it)
         }
-        DialogInfo().show(requireActivity().supportFragmentManager, null)
+        FragmentDialog().show(requireActivity().supportFragmentManager, null)
     }
 
     private fun renderData(selectState: SelectState) {
@@ -118,8 +117,8 @@ class DetailsFragment : Fragment() {
         weatherInfo = weatherDTO.info
 
         activity?.let {
-            if (it.getSharedPreferences(SettingsFragment.FILE_SETTINGS, Context.MODE_PRIVATE)
-                    .getBoolean(SettingsFragment.KEY_HISTORY, false)
+            if (it.getSharedPreferences(FragmentSettings.FILE_SETTINGS, Context.MODE_PRIVATE)
+                    .getBoolean(FragmentSettings.KEY_HISTORY, false)
             ) {
                 saveCity(weatherBundle.city, factToWeather(weatherDTO.fact!!))
             }

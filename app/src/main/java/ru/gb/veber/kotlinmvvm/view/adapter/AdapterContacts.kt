@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.gb.veber.kotlinmvvm.R
-import ru.gb.veber.kotlinmvvm.model.Weather
 import ru.gb.veber.kotlinmvvm.view.fragment.MyContacts
 
 class AdapterContacts() : RecyclerView.Adapter<ContactsHolder>() {
@@ -44,7 +43,7 @@ class ContactsHolder(view: View, private var cityClick: OnContactsClickListener)
                 findViewById<TextView>(R.id.phone_number).text =
                     myContacts.phone
                 setOnClickListener {
-                    cityClick.onCityClick(this)
+                    cityClick.onContactsClick(this)
                 }
             }
         }
@@ -52,5 +51,5 @@ class ContactsHolder(view: View, private var cityClick: OnContactsClickListener)
 }
 
 interface OnContactsClickListener {
-    fun onCityClick(contacts: MyContacts)
+    fun onContactsClick(contacts: MyContacts)
 }
