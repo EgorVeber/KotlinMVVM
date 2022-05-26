@@ -79,6 +79,7 @@ class HistoryFragment : Fragment(), ClickHistory {
                     Toast.makeText(context, "Empty", Toast.LENGTH_LONG).show()
                 }
                 adapter.setData(appState.weatherList)
+                Log.d("TAG", "renderData() called with: appState = $appState")
             }
             is AppState.SuccessHistory -> {
                 adapter.setData(convertHistoryEntityToWeather(appState.weatherList))
@@ -90,6 +91,7 @@ class HistoryFragment : Fragment(), ClickHistory {
                 }
             }
             is AppState.Error -> {
+                Log.d("TAG", "renderData() called with: appState = $appState")
                 with(binding) {
                     historyFragmentRecyclerview.visibility = View.VISIBLE
                     loadingLayout.visibility = View.GONE
@@ -148,11 +150,10 @@ class HistoryFragment : Fragment(), ClickHistory {
                 }
 
                 override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
-                    viewModel.getAllHistory()
+                    //  viewModel.getAllHistory()
                     return true
                 }
             })
-
 
         super.onCreateOptionsMenu(menu, inflater)
     }

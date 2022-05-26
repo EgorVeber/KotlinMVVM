@@ -97,6 +97,10 @@ class CitysFragment : Fragment(), OnCityClickListener {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.findItem(R.id.menu_item_search).isVisible = false
+        super.onCreateOptionsMenu(menu, inflater)
+    }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {

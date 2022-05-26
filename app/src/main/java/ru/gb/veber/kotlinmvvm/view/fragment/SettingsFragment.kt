@@ -55,5 +55,6 @@ class SettingsFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
         menu.findItem(R.id.menu_item_update).isVisible = false
         menu.findItem(R.id.menu_item_search).isVisible = false
+        menu.findItem(R.id.menu_content_provider).isVisible = false
     }
 }

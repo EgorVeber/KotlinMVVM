@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import kotlinx.android.synthetic.main.fragment_details.*
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentDetailsBinding
 import ru.gb.veber.kotlinmvvm.model.*
+import ru.gb.veber.kotlinmvvm.view.MainActivity
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterHour
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterWeek
 import ru.gb.veber.kotlinmvvm.view_model.SelectState
@@ -56,6 +58,7 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
+        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
         weatherBundle = arguments?.getParcelable(KEY_WEATHER) ?: Weather()
@@ -162,9 +165,20 @@ class DetailsFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.findItem(R.id.menu_item_update).isVisible = false
         menu.findItem(R.id.menu_item_search).isVisible = false
+        menu.findItem(R.id.menu_content_provider).isVisible = false
         if (menu.findItem(R.id.menu_item_delete) != null) {
             menu.findItem(R.id.menu_item_delete).isVisible = false
         }
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                activity?.supportFragmentManager?.popBackStack()
+                (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
