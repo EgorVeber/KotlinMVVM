@@ -1,12 +1,5 @@
 package ru.gb.veber.kotlinmvvm.model
 
-import android.view.View
-import androidx.appcompat.widget.AppCompatImageView
-import coil.ImageLoader
-import coil.decode.SvgDecoder
-import coil.request.ImageRequest
-import com.google.android.material.snackbar.Snackbar
-import ru.gb.veber.kotlinmvvm.room.HistorySelect
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -16,7 +9,6 @@ const val FORMAT_DATE_HISTORY = "MM-dd"
 const val FORMAT_HOUR = "H:m"
 const val FORMAT_WEEK = "EEEE"
 const val WEATHER_URL_ICON = "https://yastatic.net/weather/i/icons/funky/dark/"
-
 
 fun Date.formatDate(): String = SimpleDateFormat(FORMAT_DATE, Locale.getDefault()).format(this)
 fun Date.formatHour(): String = SimpleDateFormat(FORMAT_HOUR, Locale.getDefault()).format(this)

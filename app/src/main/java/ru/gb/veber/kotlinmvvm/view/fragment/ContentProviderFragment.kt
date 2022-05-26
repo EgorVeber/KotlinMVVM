@@ -16,6 +16,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentContentProviderBinding
+import ru.gb.veber.kotlinmvvm.model.hide
+import ru.gb.veber.kotlinmvvm.model.show
 import ru.gb.veber.kotlinmvvm.view.MainActivity
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterContacts
 import ru.gb.veber.kotlinmvvm.view.adapter.OnContactsClickListener
@@ -62,10 +64,7 @@ class ContentProviderFragment : Fragment(), OnContactsClickListener {
             when {
                 ContextCompat.checkSelfPermission(it, Manifest.permission.READ_CONTACTS) ==
                         PackageManager.PERMISSION_GRANTED -> {
-                    Log.d("TAG", "getContacts()")
-
                     getContacts()
-
                 }
                 shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS) -> {
                     Log.d("TAG", "shouldShowRequestPermissionRationale")
@@ -98,10 +97,10 @@ class ContentProviderFragment : Fragment(), OnContactsClickListener {
         when (requestCode) {
             REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
                     getContacts()
-
                 } else {
+                    binding.listContacts.hide()
+                    binding.emptyView.show()
                     context?.let {
                         androidx.appcompat.app.AlertDialog.Builder(it)
                             .setTitle("Доступ к контактам")
@@ -115,7 +114,6 @@ class ContentProviderFragment : Fragment(), OnContactsClickListener {
         }
     }
 
-    @SuppressLint("Range")
     private fun getContacts() {
 
         var listContacts: MutableList<MyContacts> = mutableListOf()
@@ -166,7 +164,6 @@ class ContentProviderFragment : Fragment(), OnContactsClickListener {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-
         menu.findItem(R.id.menu_item_update).isVisible = false
         menu.findItem(R.id.menu_content_provider).isVisible = false
         super.onCreateOptionsMenu(menu, inflater)

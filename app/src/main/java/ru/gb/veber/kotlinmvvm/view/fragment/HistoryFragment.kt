@@ -11,9 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentHistoryBinding
-import ru.gb.veber.kotlinmvvm.model.Weather
-import ru.gb.veber.kotlinmvvm.model.convertHistoryEntityToWeather
-import ru.gb.veber.kotlinmvvm.model.showSnackBarError
+import ru.gb.veber.kotlinmvvm.model.*
 import ru.gb.veber.kotlinmvvm.view.fragment.DetailsFragment
 import ru.gb.veber.kotlinmvvm.view_model.AppState
 import ru.gb.veber.kotlinmvvm.view_model.ViewModelHistory
@@ -74,20 +72,21 @@ class HistoryFragment : Fragment(), ClickHistory {
                 with(binding) {
                     historyFragmentRecyclerview.visibility = View.VISIBLE
                     loadingLayout.visibility = View.GONE
+                    binding.emptyView.hide()
                 }
                 if (appState.weatherList.isEmpty()) {
-                    Toast.makeText(context, "Empty", Toast.LENGTH_LONG).show()
+                    binding.historyFragmentRecyclerview.hide()
+                    binding.emptyView.show()
                 }
                 adapter.setData(appState.weatherList)
-                Log.d("TAG", "renderData() called with: appState = $appState")
             }
             is AppState.SuccessHistory -> {
                 adapter.setData(convertHistoryEntityToWeather(appState.weatherList))
             }
             is AppState.Loading -> {
                 with(binding) {
-                    historyFragmentRecyclerview.visibility = View.GONE
-                    loadingLayout.visibility = View.VISIBLE
+                    historyFragmentRecyclerview.hide()
+                    loadingLayout.show()
                 }
             }
             is AppState.Error -> {

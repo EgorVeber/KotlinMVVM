@@ -31,7 +31,6 @@ class FragmentMain : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.placeholder.adapter = vpAdapter(requireActivity(), listFragment)
         TabLayoutMediator(binding.tabLayout, binding.placeholder) { tab, pos ->
             tab.text = listTitle[pos]
