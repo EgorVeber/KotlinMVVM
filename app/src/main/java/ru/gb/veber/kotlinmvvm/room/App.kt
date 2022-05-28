@@ -14,7 +14,6 @@ class App : Application() {
 
         fun getHistoryDao(): HistoryDao {
             if (weatherDB == null) {
-
                 synchronized(WeatherDataBase::class.java)
                 {
                     if (weatherDB == null) {

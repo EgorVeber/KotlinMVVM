@@ -6,7 +6,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.ActivityMainBinding
-import ru.gb.veber.kotlinmvvm.view.fragment.ContentProviderFragment
+import ru.gb.veber.kotlinmvvm.view.fragment.FragmentContacts
 
 import ru.gb.veber.kotlinmvvm.view.fragment.FragmentMain
 
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             item.itemId == R.id.menu_content_provider -> {
                 supportFragmentManager.apply {
                     beginTransaction()
-                        .add(R.id.fragment_container, ContentProviderFragment.newInstance())
+                        .add(R.id.fragment_container, FragmentContacts.newInstance())
                         .addToBackStack("")
                         .commitAllowingStateLoss()
                 }

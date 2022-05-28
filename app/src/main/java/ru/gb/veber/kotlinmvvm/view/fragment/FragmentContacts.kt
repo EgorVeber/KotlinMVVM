@@ -1,7 +1,6 @@
 package ru.gb.veber.kotlinmvvm.view.fragment
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -30,7 +29,7 @@ private const val HAS_PHONE_NUMBER = ContactsContract.Contacts.HAS_PHONE_NUMBER
 private const val PHONE_NUMBER = ContactsContract.CommonDataKinds.Phone.NUMBER
 private const val PHONE_CONTACT_ID = ContactsContract.CommonDataKinds.Phone.CONTACT_ID
 
-class ContentProviderFragment : Fragment(), OnContactsClickListener {
+class FragmentContacts : Fragment(), OnContactsClickListener {
     private var _binding: FragmentContentProviderBinding? = null
     private val binding get() = _binding!!
 
@@ -187,7 +186,7 @@ class ContentProviderFragment : Fragment(), OnContactsClickListener {
     companion object {
         @JvmStatic
         fun newInstance() =
-            ContentProviderFragment()
+            FragmentContacts()
     }
 }
 
