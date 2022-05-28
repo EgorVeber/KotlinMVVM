@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.fragment_details.*
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentDetailsBinding
 import ru.gb.veber.kotlinmvvm.model.*
+import ru.gb.veber.kotlinmvvm.view.MainActivity
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterHour
 import ru.gb.veber.kotlinmvvm.view.adapter.AdapterWeek
 import ru.gb.veber.kotlinmvvm.view_model.SelectState
@@ -22,7 +23,7 @@ import ru.gb.veber.kotlinmvvm.view_model.ViewModelWeatherServer
 import java.util.*
 
 
-class DetailsFragment : Fragment() {
+class FragmentDetails : Fragment() {
 
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
@@ -41,7 +42,7 @@ class DetailsFragment : Fragment() {
 
     companion object {
         const val KEY_WEATHER = "KEY_WEATHER"
-        fun newInstance(bundle: Bundle) = DetailsFragment().apply { arguments = bundle }
+        fun newInstance(bundle: Bundle) = FragmentDetails().apply { arguments = bundle }
     }
 
     override fun onCreateView(
@@ -56,6 +57,7 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
+        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
         weatherBundle = arguments?.getParcelable(KEY_WEATHER) ?: Weather()
@@ -81,7 +83,7 @@ class DetailsFragment : Fragment() {
         weatherInfo?.let {
             viewModelDialog.setWeatherData(it)
         }
-        DialogInfo().show(requireActivity().supportFragmentManager, null)
+        FragmentDialog().show(requireActivity().supportFragmentManager, null)
     }
 
     private fun renderData(selectState: SelectState) {
@@ -115,8 +117,8 @@ class DetailsFragment : Fragment() {
         weatherInfo = weatherDTO.info
 
         activity?.let {
-            if (it.getSharedPreferences(SettingsFragment.FILE_SETTINGS, Context.MODE_PRIVATE)
-                    .getBoolean(SettingsFragment.KEY_HISTORY, false)
+            if (it.getSharedPreferences(FragmentSettings.FILE_SETTINGS, Context.MODE_PRIVATE)
+                    .getBoolean(FragmentSettings.KEY_HISTORY, false)
             ) {
                 saveCity(weatherBundle.city, factToWeather(weatherDTO.fact!!))
             }
@@ -162,9 +164,20 @@ class DetailsFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.findItem(R.id.menu_item_update).isVisible = false
         menu.findItem(R.id.menu_item_search).isVisible = false
+        menu.findItem(R.id.menu_content_provider).isVisible = false
         if (menu.findItem(R.id.menu_item_delete) != null) {
             menu.findItem(R.id.menu_item_delete).isVisible = false
         }
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                activity?.supportFragmentManager?.popBackStack()
+                (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

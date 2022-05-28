@@ -3,23 +3,20 @@ package ru.gb.kotlinapp.view.history
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Toast
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.FragmentHistoryBinding
-import ru.gb.veber.kotlinmvvm.model.City
-import ru.gb.veber.kotlinmvvm.model.Weather
-import ru.gb.veber.kotlinmvvm.model.showSnackBarError
-import ru.gb.veber.kotlinmvvm.view.fragment.DetailsFragment
+import ru.gb.veber.kotlinmvvm.model.*
+import ru.gb.veber.kotlinmvvm.view.fragment.FragmentDetails
 import ru.gb.veber.kotlinmvvm.view_model.AppState
-import ru.gb.veber.kotlinmvvm.view_model.SelectState
 import ru.gb.veber.kotlinmvvm.view_model.ViewModelHistory
-import ru.gb.veber.kotlinmvvm.view_model.ViewModelWeatherServer
 
 
-class HistoryFragment : Fragment(), ClickHistory {
+class FragmentHistory : Fragment(), ClickHistory {
 
     private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
@@ -58,8 +55,8 @@ class HistoryFragment : Fragment(), ClickHistory {
     override fun selectWeather(weather: Weather) {
         activity?.supportFragmentManager?.let {
             it.beginTransaction()
-                .replace(R.id.fragment_container, DetailsFragment.newInstance(Bundle().apply {
-                    putParcelable(DetailsFragment.KEY_WEATHER, weather)
+                .replace(R.id.fragment_container, FragmentDetails.newInstance(Bundle().apply {
+                    putParcelable(FragmentDetails.KEY_WEATHER, weather)
                 })).addToBackStack("").commitAllowingStateLoss()
         }
     }
@@ -74,19 +71,25 @@ class HistoryFragment : Fragment(), ClickHistory {
                 with(binding) {
                     historyFragmentRecyclerview.visibility = View.VISIBLE
                     loadingLayout.visibility = View.GONE
+                    binding.emptyView.hide()
                 }
                 if (appState.weatherList.isEmpty()) {
-                    Toast.makeText(context, "Empty", Toast.LENGTH_LONG).show()
+                    binding.historyFragmentRecyclerview.hide()
+                    binding.emptyView.show()
                 }
                 adapter.setData(appState.weatherList)
             }
+            is AppState.SuccessHistory -> {
+                adapter.setData(convertHistoryEntityToWeather(appState.weatherList))
+            }
             is AppState.Loading -> {
                 with(binding) {
-                    historyFragmentRecyclerview.visibility = View.GONE
-                    loadingLayout.visibility = View.VISIBLE
+                    historyFragmentRecyclerview.hide()
+                    loadingLayout.show()
                 }
             }
             is AppState.Error -> {
+                Log.d("TAG", "renderData() called with: appState = $appState")
                 with(binding) {
                     historyFragmentRecyclerview.visibility = View.VISIBLE
                     loadingLayout.visibility = View.GONE
@@ -108,18 +111,56 @@ class HistoryFragment : Fragment(), ClickHistory {
     companion object {
         @JvmStatic
         fun newInstance() =
-            HistoryFragment()
+            FragmentHistory()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        var searchItem: MenuItem? = null
+        var searchView: SearchView? = null
+
+
         inflater.inflate(R.menu.menu_history_toolbar, menu)
         menu.findItem(R.id.menu_item_update).isVisible = false
-        menu.findItem(R.id.menu_item_search).isVisible = false
+        menu.findItem(R.id.menu_content_provider).isVisible = false
+
+
+        searchItem = menu.findItem(R.id.menu_item_search)
+        searchView = searchItem.getActionView() as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                viewModel.filterHistory("%$query%")
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                viewModel.filterHistory("%$newText%")
+                return false
+            }
+        })
+
+
+        MenuItemCompat.setOnActionExpandListener(
+            searchItem,
+            object : MenuItemCompat.OnActionExpandListener {
+                override fun onMenuItemActionExpand(item: MenuItem): Boolean {
+                    return true
+                }
+
+                override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
+                    //  viewModel.getAllHistory()
+                    return true
+                }
+            })
+
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        viewModel.deleteHistory()
+        when (item.itemId) {
+            R.id.menu_item_delete ->
+                viewModel.deleteHistory()
+        }
         return super.onOptionsItemSelected(item)
     }
 }

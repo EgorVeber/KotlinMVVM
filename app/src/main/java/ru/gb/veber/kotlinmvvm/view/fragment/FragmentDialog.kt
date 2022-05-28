@@ -12,7 +12,7 @@ import ru.gb.veber.kotlinmvvm.model.Info
 import ru.gb.veber.kotlinmvvm.model.addDegree
 import ru.gb.veber.kotlinmvvm.view_model.ViewModelDialog
 
-class DialogInfo : DialogFragment() {
+class FragmentDialog : DialogFragment() {
 
     private var _binding: DialogInfoBinding? = null
     private val binding get() = _binding!!
