@@ -28,4 +28,5 @@
     <string name="Season">Время года</string>
     <string name="no_data_available">List Empty</string>
     <string name="add_permissions">Add permissions</string>
+    <string name="authorities">ru.gb.veber.kotlinmvvm</string>
 </resources>

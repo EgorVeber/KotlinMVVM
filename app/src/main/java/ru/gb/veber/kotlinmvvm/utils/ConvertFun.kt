@@ -10,7 +10,6 @@ fun convertHistoryEntityToWeather(entityList: List<HistorySelect>): List<Weather
             it.condition
         )
     }
-
 }
 
 fun convertWeatherToEntity(weather: Weather): HistorySelect {

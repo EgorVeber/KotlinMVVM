@@ -1,5 +1,6 @@
 package ru.gb.veber.kotlinmvvm.room
 
+import android.database.Cursor
 import androidx.room.*
 
 @Dao
@@ -26,4 +27,10 @@ interface HistoryDao {
     @Query("Delete from HistorySelect")
     fun deleteAll()
 
+
+    @Query("SELECT id, city, temperature FROM HistorySelect")
+    fun getHistoryCursor(): Cursor
+
+    @Query("SELECT id, city, temperature FROM HistorySelect WHERE id = :id")
+    fun getHistoryCursor(id: Long): Cursor
 }

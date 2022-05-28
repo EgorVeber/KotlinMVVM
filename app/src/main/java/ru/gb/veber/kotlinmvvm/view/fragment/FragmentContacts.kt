@@ -66,7 +66,6 @@ class FragmentContacts : Fragment(), OnContactsClickListener {
                     getContacts()
                 }
                 shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS) -> {
-                    Log.d("TAG", "shouldShowRequestPermissionRationale")
                     androidx.appcompat.app.AlertDialog.Builder(it)
                         .setTitle("Доступ к контактам")
                         .setMessage("Bla bla Объяснение зачем")
