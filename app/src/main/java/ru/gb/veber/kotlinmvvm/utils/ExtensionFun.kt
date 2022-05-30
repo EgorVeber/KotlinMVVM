@@ -13,6 +13,7 @@ const val WEATHER_URL_ICON = "https://yastatic.net/weather/i/icons/funky/dark/"
 fun Date.formatDate(): String = SimpleDateFormat(FORMAT_DATE, Locale.getDefault()).format(this)
 fun Date.formatHour(): String = SimpleDateFormat(FORMAT_HOUR, Locale.getDefault()).format(this)
 fun Date.formatWeek(): String = SimpleDateFormat(FORMAT_WEEK, Locale.getDefault()).format(this)
+
 fun Date.formatHistory(): String =
     SimpleDateFormat(FORMAT_DATE_HISTORY, Locale.getDefault()).format(this)
 
