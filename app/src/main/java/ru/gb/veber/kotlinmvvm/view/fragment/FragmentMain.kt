@@ -51,8 +51,6 @@ class FragmentMain : Fragment() {
 
 
     private fun checkPermission() {
-        Log.d("TAG", "checkPermission() called")
-
         activity?.let {
             when {
                 ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) ==
@@ -71,7 +69,6 @@ class FragmentMain : Fragment() {
 
     private val onLocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-            Log.d("TAG", "onLocationChanged() called with: location = $location")
             context?.let {
                 getAddressAsync(it, location)
             }
@@ -79,8 +76,6 @@ class FragmentMain : Fragment() {
     }
 
     private fun getLocation() {
-        Log.d("TAG", "getLocation")
-
         activity?.let {
             if (ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED
@@ -122,10 +117,7 @@ class FragmentMain : Fragment() {
     }
 
     private fun getAddressAsync(context: Context?, location: Location) {
-        Log.d("TAG", "getAddressAsync() called")
-
         val geoCoder = Geocoder(context)
-
         Thread {
             try {
                 val address =
