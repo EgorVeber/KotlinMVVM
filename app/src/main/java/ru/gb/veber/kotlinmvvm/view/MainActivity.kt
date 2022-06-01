@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.messaging.FirebaseMessaging
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.ActivityMainBinding
 import ru.gb.veber.kotlinmvvm.view.fragment.ContentProviderFragment
@@ -24,6 +25,12 @@ class MainActivity : AppCompatActivity() {
                 .replace(R.id.fragment_container, FragmentMain()).commit()
         }
 
+//        FirebaseMessaging.getInstance().token.addOnCompleteListener{
+//            if(it.isSuccessful){
+//                return@addOnCompleteListener
+//            }
+//            val token = it.result
+//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
