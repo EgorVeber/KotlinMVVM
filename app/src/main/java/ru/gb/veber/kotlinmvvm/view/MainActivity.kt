@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, FragmentMain()).commit()
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
