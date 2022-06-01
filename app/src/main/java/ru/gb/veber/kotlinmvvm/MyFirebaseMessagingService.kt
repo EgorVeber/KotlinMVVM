@@ -4,13 +4,17 @@ package ru.gb.veber.kotlinmvvm
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import ru.gb.veber.kotlinmvvm.view.MainActivity
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -19,6 +23,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         private const val PUSH_KEY_MESSAGE = "message"
         private const val CHANNEL_ID = "channel_id"
         private const val NOTIFICATION_ID = 37
+        private const val TEST_BROADCAST_INTENT_FILTER = "TEST BROADCAST INTENT FILTER"
+        private const val KEY_BROADCAST = "KEY_BROADCAST"
     }
 
     @SuppressLint("LongLogTag")
@@ -46,15 +52,34 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val message = data[PUSH_KEY_MESSAGE]
         if (!title.isNullOrBlank() && !message.isNullOrBlank()) {
             showNotification(title, message)
+            sendBack(message)
         }
     }
 
+    private fun sendBack(result: String) {
+        val broadcastIntent = Intent(TEST_BROADCAST_INTENT_FILTER).apply {
+            putExtra(KEY_BROADCAST, result)
+        }
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent)
+    }
+
     private fun showNotification(title: String, message: String) {
+
+        //App.appInstance ???
+        val intent = Intent(applicationContext, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(
+            applicationContext,
+            123,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
 
         val notificationBuilder = NotificationCompat.Builder(applicationContext, CHANNEL_ID).apply {
             setSmallIcon(R.drawable.ic_kotlin_logo)
             setContentTitle(title)
             setContentText(message)
+            setContentIntent(pendingIntent)
+            setStyle(NotificationCompat.BigTextStyle().bigText(message))
             priority = NotificationCompat.PRIORITY_DEFAULT
         }
 
