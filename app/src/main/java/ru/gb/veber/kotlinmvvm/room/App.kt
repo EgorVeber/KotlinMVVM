@@ -8,7 +8,7 @@ import java.lang.IllegalStateException
 class App : Application() {
 
     companion object CreateDB {
-        private var appInstance: App? = null
+         var appInstance: App? = null
         private var weatherDB: WeatherDataBase? = null
         private const val DB_NAME = "WeatherDataBase.db"
 

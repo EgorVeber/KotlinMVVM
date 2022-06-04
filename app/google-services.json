@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "904663579925",
+    "project_id": "messageapp-ff301",
+    "storage_bucket": "messageapp-ff301.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:904663579925:android:da17949449ef24359dfd1c",
+        "android_client_info": {
+          "package_name": "ru.gb.veber.kotlinmvvm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "904663579925-ahtkrvdgdo0p5246fu5hkfehvebm87tq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2hBBMIdFec0HvtOV6kHi5i9LbOoN7D4U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "904663579925-ahtkrvdgdo0p5246fu5hkfehvebm87tq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
