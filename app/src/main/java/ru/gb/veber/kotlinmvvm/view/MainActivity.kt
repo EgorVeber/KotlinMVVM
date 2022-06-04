@@ -39,12 +39,6 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, FragmentMain()).commit()
         }
-//        FirebaseMessaging.getInstance().token.addOnCompleteListener{
-//            if(it.isSuccessful){
-//                return@addOnCompleteListener
-//            }
-//            val token = it.result
-//        }
         startService(Intent(this, MyFirebaseMessagingService::class.java))
 
         LocalBroadcastManager.getInstance(this)
