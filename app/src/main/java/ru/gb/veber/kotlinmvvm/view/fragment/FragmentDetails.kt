@@ -165,9 +165,11 @@ class FragmentDetails : Fragment() {
         menu.findItem(R.id.menu_item_update).isVisible = false
         menu.findItem(R.id.menu_item_search).isVisible = false
         menu.findItem(R.id.menu_content_provider).isVisible = false
-        menu.findItem(R.id.location_item).isVisible = false
         if (menu.findItem(R.id.menu_item_delete) != null) {
             menu.findItem(R.id.menu_item_delete).isVisible = false
+        }
+        if (menu.findItem(R.id.location_item) != null) {
+            menu.findItem(R.id.location_item).isVisible = false
         }
         super.onCreateOptionsMenu(menu, inflater)
     }
