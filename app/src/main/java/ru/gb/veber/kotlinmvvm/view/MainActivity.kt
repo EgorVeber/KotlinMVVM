@@ -10,7 +10,6 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.google.firebase.messaging.FirebaseMessaging
 import ru.gb.veber.kotlinmvvm.MyFirebaseMessagingService
 import ru.gb.veber.kotlinmvvm.R
 import ru.gb.veber.kotlinmvvm.databinding.ActivityMainBinding
@@ -39,12 +38,6 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, FragmentMain()).commit()
         }
-//        FirebaseMessaging.getInstance().token.addOnCompleteListener{
-//            if(it.isSuccessful){
-//                return@addOnCompleteListener
-//            }
-//            val token = it.result
-//        }
         startService(Intent(this, MyFirebaseMessagingService::class.java))
 
         LocalBroadcastManager.getInstance(this)

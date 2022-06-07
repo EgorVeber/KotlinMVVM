@@ -17,6 +17,19 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        Mrelease {
+            Properties properties = new Properties()
+            properties.load(project.rootProject.file("password.properties").newDataInputStream())
+            def password = properties.getProperty("password")
+            def keyAliasF = properties.getProperty("keyAlias")
+
+            storeFile file("keystore.jks")
+            storePassword = password
+            keyAlias = keyAliasF
+            keyPassword = password
+        }
+    }
 
     buildFeatures {
         viewBinding true
@@ -29,6 +42,7 @@ android {
     }
     buildTypes {
         release {
+            signingConfig signingConfigs.Mrelease
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -39,6 +53,17 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    flavorDimensions 'version'
+    productFlavors {
+        free {
+            dimension 'version'
+            versionNameSuffix '.free'
+        }
+        paid {
+            dimension 'version'
+            versionNameSuffix '.paid'
+        }
     }
 }
 

@@ -25,6 +25,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         private const val NOTIFICATION_ID = 37
         private const val TEST_BROADCAST_INTENT_FILTER = "TEST BROADCAST INTENT FILTER"
         private const val KEY_BROADCAST = "KEY_BROADCAST"
+        private const val REQUEST_CODE_PENDING = 123
     }
 
     @SuppressLint("LongLogTag")
@@ -65,11 +66,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     private fun showNotification(title: String, message: String) {
 
-        //App.appInstance ???
         val intent = Intent(applicationContext, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(
             applicationContext,
-            123,
+            REQUEST_CODE_PENDING,
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
